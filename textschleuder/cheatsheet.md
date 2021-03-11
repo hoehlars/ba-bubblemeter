@@ -1,16 +1,3 @@
----
-title: 'BA Bubble Meter'
-date: \today
-author: 'Author'
-link-citations: true
-urlcolor: 'blue'
-documentclass: scrreprt
-classoption:
-  - a4paper
-  - 11pt
-  - abstract=on
----
-
 # Cheatsheet
 
 ## Willkommen

@@ -1,0 +1,13 @@
+setup.md
+parts/admin.md
+parts/zusammenfassung.md
+parts/abstract.md
+parts/vorwort.md
+parts/inhaltsverzeichnis.md
+parts/einleitung.md
+parts/theoretische_grundlagen.md
+parts/vorgehen_methoden.md
+parts/resultate.md
+parts/diskussion_ausblick.md
+parts/verzeichnis.md
+cheatsheet.md
