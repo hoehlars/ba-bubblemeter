@@ -1,26 +1,65 @@
 module.exports = {
-    parser: "@typescript-eslint/parser", // Specifies the ESLint parser
-    parserOptions: {
-      ecmaVersion: 2020, // Allows for the parsing of modern ECMAScript features
-      sourceType: "module", // Allows for the use of imports
-      ecmaFeatures: {
-        jsx: true // Allows for the parsing of JSX
-      }
+  parser: '@typescript-eslint/parser',
+  extends: [
+    'airbnb',
+    'plugin:react/recommended',
+    'plugin:@typescript-eslint/recommended',
+    'prettier/react',
+    'prettier/@typescript-eslint',
+    'plugin:prettier/recommended',
+  ],
+  parserOptions: {
+    ecmaVersion: 2018,
+    ecmaFeatures: {
+      jsx: true,
     },
-    "extends": "airbnb-base",
-    settings: {
-      react: {
-        version: "detect" // Tells eslint-plugin-react to automatically detect the version of React to use
-      }
+    sourceType: 'module',
+  },
+  env: {
+    browser: true,
+    commonjs: true,
+    es6: true,
+    jest: true,
+    node: true,
+  },
+  globals: {
+    cy: 'readable',
+    Cypress: 'readable',
+  },
+  rules: {
+    'react/jsx-filename-extension': ['warn', { extensions: ['.js', '.jsx', '.tsx'] }],
+    'react/jsx-props-no-spreading': ['off'],
+    'react/state-in-constructor': ['off'],
+    'react/jsx-no-bind': ['off'],
+    'react/destructuring-assignment': ['off'],
+    'react/prop-types': ['off'],
+    'react/button-has-type': ['off'],
+    'react/no-array-index-key': ['off'],
+    'react/display-name': ['off'],
+    'react/no-did-update-set-state': ['off'],
+    'import/no-unresolved': ['off'],
+    'import/prefer-default-export': ['off'],
+    'import/no-extraneous-dependencies': ['off'],
+    'jsx-a11y/click-events-have-key-events': ['off'],
+    'jsx-a11y/no-static-element-interactions': ['off'],
+    'jsx-a11y/label-has-associated-control': ['off'],
+    '@typescript-eslint/camelcase': ['error', { allow: ['password_confirmation'] }],
+    '@typescript-eslint/no-explicit-any': ['off'],
+    'class-methods-use-this': ['off'],
+    'no-console': ['error', { 'allow': ['warn', 'error'] }],
+    'no-underscore-dangle': ['error', { 'allow': ['_id' ] }],
+  },
+  settings: {
+    react: {
+      version: 'detect',
     },
-    extends: [
-      "plugin:react/recommended", // Uses the recommended rules from @eslint-plugin-react
-      "plugin:@typescript-eslint/recommended", // Uses the recommended rules from the @typescript-eslint/eslint-plugin
-      "prettier",
-      "plugin:prettier/recommended" // Enables eslint-plugin-prettier and eslint-config-prettier. This will display prettier errors as ESLint errors. Make sure this is always the last configuration in the extends array.
-    ],
-    rules: {
-      // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
-      // e.g. "@typescript-eslint/explicit-function-return-type": "off",
+  },
+  overrides: [
+    {
+      files: ['*.test.tsx', '*.test.ts', '*setupTests.ts'],
+      rules: {
+        '@typescript-eslint/no-explicit-any': ['off'],
+      },
     },
-  };
+  ],
+};
