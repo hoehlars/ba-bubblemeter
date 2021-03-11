@@ -1,0 +1,49 @@
+name: Frontend Test CI
+
+on:
+  push:
+    paths:
+    - 'bubblemeter/frontend/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node.version: [12.x]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Dependency Cache
+      uses: actions/cache@v1.1.2
+      with:
+        path: frontend/node_modules
+        key: frontend_node_modules
+    - name: yarn install
+      run: cd frontend && yarn install
+    - name: yarn run test
+      run: cd frontend && yarn run test
+
+  lint:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node.version: [12.x]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Dependency Cache
+      uses: actions/cache@v1.1.2
+      with:
+        path: frontend/node_modules
+        key: frontend_node_modules
+    - name: yarn install
+      run: cd frontend && yarn install
+    - name: yarn run lint
+      run: cd frontend && yarn run lint
