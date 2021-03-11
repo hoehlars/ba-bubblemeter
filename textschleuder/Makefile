@@ -1,5 +1,4 @@
 BUILDDIR=build
-# FILENAME=cheatsheet.md
 FILENAME=`cat index.txt`
 
 pdf: 
