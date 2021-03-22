@@ -1,5 +1,7 @@
 import likeTweetFromOtherUser from './likeTweetsFromOtherUser'
 import followAccsFromOtherUser from './followAccsFromOtherUser'
+import twitterAPIService from './twitterAPIService'
+import getLikes from './geLikesAPI';
 
 const puppeteer = require('puppeteer');
 const readXlsxFile = require('read-excel-file/node');
@@ -18,6 +20,7 @@ readXlsxFile('Klone.xlsx').then((rows) => {
 })
 
 async function copyAccount(clone, passwordOfClone, accountToCopy) {
+    
     const browser = await puppeteer.launch({
         headless: false,
         args: [
@@ -26,14 +29,15 @@ async function copyAccount(clone, passwordOfClone, accountToCopy) {
     });
     const page = await browser.newPage();
 
-    const followers = ['HohenerLars', 'GabiSchmid81']
-    //TODO: const followers = getAllFollowers(accountToCopy);
+    //get userId of username
+    const accountToCopyId = await twitterAPIService.getUserId(accountToCopy);
+    
+    //get list of follower usernames
+    const followers = await twitterAPIService.getFollowersUsername(accountToCopyId)
 
-    const likedTweets = {TobiasInfortuna: '1372101756478447618'}
-    //TODO: const likedTweets = getAllLikedTweets(accountToCopy);
-        
-    //TODO: const passwordOfClone = getPassword(clone);
-
+    //get list of liked tweets with username and postId
+    const likedTweets = await twitterAPIService.getLikesIdWithName(accountToCopyId)
+    
     // open twitter
     await page.goto('https://twitter.com/login')
                 
@@ -57,7 +61,7 @@ async function copyAccount(clone, passwordOfClone, accountToCopy) {
         await likeTweetFromOtherUser(twitterer, tweetID, page)
         await delay(10000)
     }
-    await browser.close();
+    await browser.close();    
 }
 
 
