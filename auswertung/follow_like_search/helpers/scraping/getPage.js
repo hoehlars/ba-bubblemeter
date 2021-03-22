@@ -1,13 +1,11 @@
-
-export async function getBrowserPage() {
-    const browser = await puppeteer.launch({
-        headless: false,
-        args: [
-            'no-sandbox',
-        ]
-    });
-    
+export function getPage(browser) {
     const page = await browser.newPage();
+
+    await page.setViewport({
+        width: 1280,
+        height: 980,
+        deviceScaleFactor: 1,
+    })
     
     // set user agent
     page.setUserAgent(
