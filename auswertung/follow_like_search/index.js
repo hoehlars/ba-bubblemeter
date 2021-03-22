@@ -1,54 +1,72 @@
-import likeTweetFromOtherUser from './helpers/scraping/likeTweetsFromOtherUser'
-import followAccFromOtherUser from './helpers/scraping/followAccsFromOtherUser'
-import twitterAPIService from './helpers/twitter_api/twitterAPIService'
-import delay from './helpers/other/delay'
-import { getBrowserPage } from './helpers/scraping/getBrowserPage';
-
-const puppeteer = require('puppeteer');
 const readXlsxFile = require('read-excel-file/node');
+import copyAccount from './helpers/scraping/copyAccount'
+import getSearchResults from './helpers/scraping/getSearchResults'
+import randomDelay from './helpers/other/randomDelay'
+import { getBrowser } from './helpers/scraping/getBrowser';
+import { getPage } from './helpers/scraping/getPage';
+import { loginToTwitter } from './helpers/scraping/login';
 
-
-// Read in excel
+// Read in accounts from excel and copy these accounts (follow and like everyone)
 readXlsxFile('Klone.xlsx').then((rows) => {
+
+    //***********************************************/
+    // Copying account                              */
+    //***********************************************/
     for(const row of rows) {
         const clone = row[0]
         const passwordOfClone = row[1]
         const accountToCopy = row[2]
-        copyAccount(clone, passwordOfClone, accountToCopy).then(() => {
+        const passwordOfAccountToCopy = row[3]
+
+        const browser = await getBrowser();
+        const page = await getPage(browser);
+        await loginToTwitter(clone, passwordOfClone, page);
+
+        copyAccount(clone, passwordOfClone, accountToCopy, page).then(() => {
             console.log(`Liked and followed everyone of ${accountToCopy} for clone ${clone}`)
         })
+        await browser.close();
     }
+
+    //***********************************************/
+    // Save search results from clone               */
+    //***********************************************/
+    const browser = await getBrowser();
+    const page = await getPage(browser);
+    await loginToTwitter(clone, passwordOfClone, page)
+
+    for (const query of queries) {
+        // get search results
+        await getSearchResults(query, clone, page).then(() => {
+            console.log(`Saved results of query ${query} for user ${clone}`)
+        })
+        await randomDelay()
+        // go back home
+        await page.goto('https://twitter.com/home', { waitUntil: 'networkidle2' })
+    }
+    await browser.close();
+
+
+    //***********************************************/
+    // Save search results of account to copy       */
+    //***********************************************/
+    const browser = await getBrowser();
+    const page = await getPage(browser);
+    await loginToTwitter(accountToCopy, passwordOfAccountToCopy, page)
+
+    for (const query of queries) {
+        // get search results
+        await getSearchResults(query, accountToCopy, page).then(() => {
+            console.log(`Saved results of query ${query} for user ${accountToCopy}`)
+        })
+        await randomDelay()
+        // go back home
+        await page.goto('https://twitter.com/home', { waitUntil: 'networkidle2' })
+    }
+    await browser.close()
 })
 
-async function copyAccount(clone, passwordOfClone, accountToCopy) {
-    
-    const page = await getBrowserPage();
 
-    //get userId of username
-    const accountToCopyId = await twitterAPIService.getUserId(accountToCopy);
-    
-    //get list of follower usernames
-    const followers = await twitterAPIService.getFollowersUsername(accountToCopyId)
-
-    //get list of liked tweets with username and postId
-    const likedTweets = await twitterAPIService.getLikesIdWithName(accountToCopyId)
-    
-    await loginToTwitter(clone, passwordOfClone, page);
-                
-    // wait till page load
-    await page.waitForNavigation()
-
-    for(const follower of followers) {
-        await followAccFromOtherUser(follower, page)
-        await delay(15000)
-    }
-
-    for(const [twitterer, tweetID] of Object.entries(likedTweets)) {
-        await likeTweetFromOtherUser(twitterer, tweetID, page)
-        await delay(10000)
-    }
-    await browser.close();    
-}
 
 
 
