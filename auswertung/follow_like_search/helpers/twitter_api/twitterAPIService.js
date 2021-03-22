@@ -1,5 +1,5 @@
 import getUser from "./getUserAPI"
-import getLikes from './geLikesAPI'
+import getLikes from './getLikesAPI'
 import getFollowers from "./getFollowersAPI"
 
 //returns the userId of an accountname

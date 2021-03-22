@@ -1,6 +1,6 @@
 
 
-export default async function followAccsFromOtherUser(accountNameToFollow, page) {
+export default async function followAccFromOtherUser(accountNameToFollow, page) {
   await page.goto('https://twitter.com/home')
   await page.goto(`https://twitter.com/${accountNameToFollow}`)
   await page.waitForSelector('div[data-testid*="follow"]')

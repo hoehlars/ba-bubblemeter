@@ -1,7 +1,8 @@
-import likeTweetFromOtherUser from './likeTweetsFromOtherUser'
-import followAccsFromOtherUser from './followAccsFromOtherUser'
-import twitterAPIService from './twitterAPIService'
-import getLikes from './geLikesAPI';
+import likeTweetFromOtherUser from './helpers/scraping/likeTweetsFromOtherUser'
+import followAccFromOtherUser from './helpers/scraping/followAccsFromOtherUser'
+import twitterAPIService from './helpers/twitter_api/twitterAPIService'
+import delay from './helpers/other/delay'
+import { getBrowserPage } from './helpers/scraping/getBrowserPage';
 
 const puppeteer = require('puppeteer');
 const readXlsxFile = require('read-excel-file/node');
@@ -21,13 +22,7 @@ readXlsxFile('Klone.xlsx').then((rows) => {
 
 async function copyAccount(clone, passwordOfClone, accountToCopy) {
     
-    const browser = await puppeteer.launch({
-        headless: false,
-        args: [
-            'no-sandbox',
-        ]
-    });
-    const page = await browser.newPage();
+    const page = await getBrowserPage();
 
     //get userId of username
     const accountToCopyId = await twitterAPIService.getUserId(accountToCopy);
@@ -38,22 +33,13 @@ async function copyAccount(clone, passwordOfClone, accountToCopy) {
     //get list of liked tweets with username and postId
     const likedTweets = await twitterAPIService.getLikesIdWithName(accountToCopyId)
     
-    // open twitter
-    await page.goto('https://twitter.com/login')
-                
-    // Login
-    await page.waitForSelector('input[type="text"]')
-    await page.type('input[type="text"]', clone)
-    await page.waitForSelector('input[type="password"]')
-    await page.type('input[type="password"]', passwordOfClone)
-    await page.click('div[role="button"]')
-    console.log(`Logged in the clone ${clone}!`)
+    await loginToTwitter(clone, passwordOfClone, page);
                 
     // wait till page load
     await page.waitForNavigation()
 
     for(const follower of followers) {
-        await followAccsFromOtherUser(follower, page)
+        await followAccFromOtherUser(follower, page)
         await delay(15000)
     }
 
@@ -65,11 +51,7 @@ async function copyAccount(clone, passwordOfClone, accountToCopy) {
 }
 
 
-function delay(time) {
-    return new Promise(function(resolve) { 
-        setTimeout(resolve, time)
-    });
-}
+
 
 
 
