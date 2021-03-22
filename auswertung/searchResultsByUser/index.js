@@ -67,7 +67,10 @@ const { queries } = JSON.parse(data)
     ) {
       const text = await response.text()
       console.log(text)
-      fs.writeFileSync(`./results/${userName}.json`, JSON.stringify(text))
+      fs.writeFileSync(
+        `./results/${queries[0].replace(/\s/g, '-')}_${userName}.json`,
+        JSON.stringify(text)
+      )
     }
   })
 })()
