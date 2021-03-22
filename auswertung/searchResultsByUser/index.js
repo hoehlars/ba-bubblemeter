@@ -1,5 +1,7 @@
 const puppeteer = require('puppeteer')
 const fs = require('fs')
+const { default: getSearchResults } = require('./getSearchResults')
+import randomDelay from './helpers/randomDelay'
 
 const userName = '@RealSchmid'
 const password = '6EStjCdBnMkxaLw'
@@ -28,7 +30,7 @@ const { queries } = JSON.parse(data)
   )
 
   //***********************************************/
-  // LOGIN TO TWITTER                             */
+  // LOGIN                                        */
   //***********************************************/
 
   // open twitter
@@ -52,25 +54,20 @@ const { queries } = JSON.parse(data)
   // Search tweets                                */
   //***********************************************/
 
-  // enter search query
-  const searchField = 'input[data-testid*="SearchBox_Search_Input"]'
-  await page.waitForSelector(searchField)
-  await page.focus(searchField)
-  await page.keyboard.type(queries[0], { delay: 5 })
-  await page.keyboard.press('Enter')
+  // single query for dev purposes:
+  // await getSearchResults(queries[0], userName, page)
 
-  // TODO: Try to intercept Response directly => free json tweets!
-  page.on('response', async (response) => {
-    const request = response.request()
-    if (
-      request.url().includes('https://twitter.com/i/api/2/search/adaptive.json')
-    ) {
-      const text = await response.text()
-      console.log(text)
-      fs.writeFileSync(
-        `./results/${queries[0].replace(/\s/g, '-')}_${userName}.json`,
-        JSON.stringify(text)
-      )
-    }
-  })
+  for (const query of queries) {
+    // get Search results
+    await getSearchResults(query, userName, page)
+    await randomDelay()
+    // go back home
+    await page.goto('https://twitter.com/home', { waitUntil: 'networkidle2' })
+  }
+
+  //***********************************************/
+  // goodbye                                      */
+  //***********************************************/
+
+  await browser.close()
 })()
