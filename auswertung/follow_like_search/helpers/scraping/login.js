@@ -1,12 +1,19 @@
 export async function loginToTwitter(username, password, page) {
     // open twitter
-    await page.goto('https://twitter.com/login')
+    await page.goto('https://twitter.com/login', { waitUntil: 'networkidle2' })
                 
-    // Login
+    // assure fields are loaded
     await page.waitForSelector('input[type="text"]')
-    await page.type('input[type="text"]', username)
     await page.waitForSelector('input[type="password"]')
-    await page.type('input[type="password"]', password)
+    await page.waitForSelector('div[role="button"]')
+
+    // login
+    await page.type('input[type="text"]', username, { delay: 5 })
+    await page.type('input[type="password"]', password, { delay: 4 })
     await page.click('div[role="button"]')
-    console.log(`Logged in the user ${clone}!`)
+
+    // wait till page load
+    await page.waitForNavigation()
+
+    console.log(`Logged in the user ${username}!`)
 }
