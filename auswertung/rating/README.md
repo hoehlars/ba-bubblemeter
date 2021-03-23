@@ -1,92 +1,70 @@
-# Punktesystem Klon-Qualität
+# Getting Started with Create React App
 
-Um zu prüfen, wie gut die Qualität unserer Klone ist, brauchen wir einen Algo.
-Dieser sollte folgendes tun / berücksichtigen:
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-- [ ] die X ersten Tweet-IDs von Original und Klon pro Suchabfrage vergleichen
-- [ ] wenn der richtige Tweet auf dem richtigen Rang ist, sollte es sehr viele Punkte geben
-- [ ] wenn der richtige Tweet auf einem ähnlichen Rang ist, sollte es viele Punkte geben
-- [ ] wenn der richtige Tweet auf einem komplett unpassenden Rang ist, sollte es wenig Punkte geben
-- [ ] die oben beschriebene Abstufung sollte evtl in den höheren Rängen (Tweets 1 - 3 ?) grosszügiger Punkte verteilen, hinten raus weniger
+## Available Scripts
 
-## Input
+In the project directory, you can run:
 
-X-Dateien mit Suchresultaten des Originals  
-X-Dateien mit Suchresultaten des Klons
+### `yarn start`
 
-Zu importieren in neues Array:
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-```json
-{
-  "data": [
-    {
-      "original": [
-        {
-          "query1results": ["tweetId", "tweetId", "tweetId"]
-        },
-        {
-          "query2results": ["tweetId", "tweetId", "tweetId"]
-        },
-        {
-          "query3results": ["tweetId", "tweetId", "tweetId"]
-        }
-      ]
-    },
-    {
-      "klon": [
-        {
-          "query1results": ["tweetId", "tweetId", "tweetId"]
-        },
-        {
-          "query2results": ["tweetId", "tweetId", "tweetId"]
-        },
-        {
-          "query3results": ["tweetId", "tweetId", "tweetId"]
-        }
-      ]
-    }
-  ]
-}
-```
+The page will reload if you make edits.\
+You will also see any lint errors in the console.
 
-## Output:
+### `yarn test`
 
-- Meta: @Handles der Verglichenen
-- Gesamtscore
-- Anz Volltreffer
-- Anz Hits
-- Pro Suchbegriff: Score, Volltreffer, Hits
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-## Berechnung Score
+### `yarn build`
 
-### twitNum
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-Anz zu vergleichende Tweets  
-_default: 15_
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-### base
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-Basis-Punkteeinheit, vergrössern um eindeutigere Resultate zu erhalten  
-_default: 2_
+### `yarn eject`
 
-### bonus
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-Höhere Gewichtung der oberen Resultate  
-_default (1 - 3): 3_  
-_default (3 - 8): 2_  
-_default (8 - 15): 1_
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-### vtScore
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-Volltreffer Punkte (gleicher Tweet auf gleichem Rang)  
-3 \* bonus \* base
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-### hitScore
+## Learn More
 
-Hit Punkte (gleicher Tweet auf falschem Rang)  
-2 \* bonus \* base
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-### Score
+To learn React, check out the [React documentation](https://reactjs.org/).
 
-Gesamt Score
-vtScore + hitScore
+### Code Splitting
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+
+### Analyzing the Bundle Size
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+
+### Making a Progressive Web App
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+
+### Advanced Configuration
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `yarn build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
