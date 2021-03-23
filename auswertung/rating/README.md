@@ -9,10 +9,12 @@ Dieser sollte folgendes tun / berücksichtigen:
 - [ ] wenn der richtige Tweet auf einem komplett unpassenden Rang ist, sollte es wenig Punkte geben
 - [ ] die oben beschriebene Abstufung sollte evtl in den höheren Rängen (Tweets 1 - 3 ?) grosszügiger Punkte verteilen, hinten raus weniger
 
-## Datenstruktur
+## Input
 
-Input: X-Dateien mit Suchresultaten des Originals, X-Dateien mit Suchresultaten des Klons,
-importieren in neues Array:
+X-Dateien mit Suchresultaten des Originals  
+X-Dateien mit Suchresultaten des Klons
+
+Zu importieren in neues Array:
 
 ```json
 {
@@ -47,7 +49,7 @@ importieren in neues Array:
 }
 ```
 
-Output:
+## Output:
 
 - Meta: @Handles der Verglichenen
 - Gesamtscore
@@ -57,26 +59,34 @@ Output:
 
 ## Berechnung Score
 
-Variabeln:
+### twitNum
 
-twitNum
-Anz zu vergleichende Tweets
-default: 15
+Anz zu vergleichende Tweets  
+_default: 15_
 
-base
-Basis-Punkteeinheit
-default: 2
+### base
 
-bonus
-TopRank Bonus
-default (1 - 3): 3
-default (3 - 8): 2
-default (8 - 15): 1
+Basis-Punkteeinheit, vergrössern um eindeutigere Resultate zu erhalten  
+_default: 2_
 
-vtScore
-Volltreffer Punkte (gleicher Tweet auf gleichem Rang)
-3 _ bonus _ base
+### bonus
 
-hitScore
-Hit Punkte (gleicher Tweet auf falschem Rang)
-2 _ bonus _ base
+Höhere Gewichtung der oberen Resultate  
+_default (1 - 3): 3_  
+_default (3 - 8): 2_  
+_default (8 - 15): 1_
+
+### vtScore
+
+Volltreffer Punkte (gleicher Tweet auf gleichem Rang)  
+3 \* bonus \* base
+
+### hitScore
+
+Hit Punkte (gleicher Tweet auf falschem Rang)  
+2 \* bonus \* base
+
+### Score
+
+Gesamt Score
+vtScore + hitScore
