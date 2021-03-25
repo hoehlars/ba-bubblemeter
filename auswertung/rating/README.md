@@ -3,8 +3,8 @@
 ## Anforderungen
 
 - [x] wenn der richtige Tweet auf dem richtigen Rang ist, sollte es sehr viele Punkte geben
-- [ ] wenn der richtige Tweet auf einem ähnlichen Rang ist, sollte es viele Punkte geben
-- [ ] wenn der richtige Tweet auf einem komplett unpassenden Rang ist, sollte es wenig Punkte geben
+- [x] wenn der richtige Tweet auf einem ähnlichen Rang ist, sollte es viele Punkte geben
+- [x] wenn der richtige Tweet auf einem komplett unpassenden Rang ist, sollte es weniger Punkte geben
 - [x] die oben beschriebene Abstufung sollte in den höheren Rängen (Tweets 1 - 3 ?) grosszügiger Punkte verteilen, hinten raus weniger
 
 ## Berechnung Score
@@ -31,6 +31,10 @@ _default (8 - 15): 1_
 Volltreffer Punkte (gleicher Tweet auf gleichem Rang)  
 bonus \* base
 
+### closeOnes
+gleicher Tweet auf ähnlichem Rang ()
+
+
 ### Hits
 
 Hit Punkte (gleicher Tweet auf falschem Rang)  
@@ -39,4 +43,4 @@ bonus \* base
 ### Score
 
 Gesamt Score
-MatchesScore + HitScore
+MatchesScore + closeOnesScore + HitScore
