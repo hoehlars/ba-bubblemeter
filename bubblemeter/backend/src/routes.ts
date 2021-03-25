@@ -10,10 +10,9 @@ export const registerRoutes = (api: Express): void => {
     api.get('/', HomeController.index);
 
     // search results
-    api.get('/api/searchResults', SearchResultController.getAllSearchResults);
+    api.get('/api/searchResult', SearchResultController.getAllSearchResults);
     api.post('api/searchResult', SearchResultController.saveSearchResultToDB);
 
     // additional functions
-    api.get('/api/searchResults/:twitterer', SearchResultController.getAllSearchResultsByUser);
-
+    api.get('/api/searchResults/:twittererID', SearchResultController.getAllSearchResultsByUser);
 };

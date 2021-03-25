@@ -1,4 +1,3 @@
-import BodyParser from 'body-parser';
 import cors from 'cors';
 import Express from 'express';
 import HTTP from 'http';
@@ -7,28 +6,31 @@ import mongoose from 'mongoose';
 import { logger } from './logger';
 import { registerRoutes } from './routes';
 
+const dburi: string = process.env.MONGODB_URI!;
 
-mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser: true, useUnifiedTopolog: true, useFindAndModify: false})
+mongoose.connect(dburi, {useNewUrlParser: true, useUnifiedTopology: true});
 
 const db = mongoose.connection;
 
 db.on('error', () => {
     logger.error('Failed to setup connection with DB');
-})
+});
 
 db.once('open', () => {
     logger.info('Connected successfully to DB!');
-})
-
-
+});
 
 const port = process.env.PORT || 5000;
 
 const express = Express();
 const server = new HTTP.Server(express);
 
-express.use(BodyParser.json());
-express.use(BodyParser.urlencoded({ extended: true }));
+express.use(Express.urlencoded({
+    extended: true
+}));
+
+express.use(Express.json());
+
 express.use(cors());
 
 registerRoutes(express);
