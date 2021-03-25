@@ -19,6 +19,7 @@
     "dotenv": "^8.2.0",
     "eslint-config-prettier": "^8.1.0",
     "express": "^4.17.1",
+    "mongoose": "^5.12.2",
     "pino": "^6.11.1",
     "pino-pretty": "^4.7.1"
   },
