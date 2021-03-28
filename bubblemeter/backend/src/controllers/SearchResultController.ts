@@ -47,13 +47,13 @@ export class SearchResultController {
     }
 
     public static async getAllSearchResultsByUser(req: Request, res: Response, next: NextFunction): Promise<void> {
-        logger.info('GET Request on /api/searchResults/:user');
+        logger.info('GET Request on /api/searchResults/searchByUser/:user');
 
         if (!req.params.user) {
             res.status(400);
             next(new Error('User missing!'));
         }
-        res.json(await SearchResult.find({ user: req.params.user }).exec());
+        res.json(await SearchResult.find({ user: req.params.user }));
     }
 
     public static async getAllSearchResultsBySearchterm(
@@ -61,13 +61,13 @@ export class SearchResultController {
         res: Response,
         next: NextFunction,
     ): Promise<void> {
-        logger.info('GET Request on /api/searchResults/:searchTerm');
+        logger.info('GET Request on /api/searchResults/searchByTerm/:searchTerm');
 
         if (!req.params.searchTerm) {
             res.status(400);
             next(new Error('Search term missing!'));
         }
 
-        res.json(await SearchResult.find({ searchTerm: req.params.searchTerm }).exec());
+        res.json(await SearchResult.find({ searchTerm: req.params.searchTerm }));
     }
 }

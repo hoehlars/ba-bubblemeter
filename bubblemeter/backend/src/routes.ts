@@ -11,9 +11,9 @@ export const registerRoutes = (api: Express): void => {
 
     // search results
     api.get('/api/searchResult', SearchResultController.getAllSearchResults);
-    api.post('api/searchResult', SearchResultController.saveSearchResultToDB);
+    api.post('/api/searchResult', SearchResultController.saveSearchResultToDB);
 
     // additional functions
-    api.get('/api/searchResults/:user', SearchResultController.getAllSearchResultsByUser);
-    api.get('/api/searchResults/:searchTerm', SearchResultController.getAllSearchResultsBySearchterm);
+    api.get('/api/searchResults/searchByUser/:user', SearchResultController.getAllSearchResultsByUser);
+    api.get('/api/searchResults/searchByTerm/:searchTerm', SearchResultController.getAllSearchResultsBySearchterm);
 };
