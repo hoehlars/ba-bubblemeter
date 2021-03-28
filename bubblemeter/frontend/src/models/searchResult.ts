@@ -2,9 +2,8 @@ interface SearchResult {
     tweetID: string;
     fullText: string;
     twittererID: string;
-    retweetCount: number;
-    favoriteCount: number;
-    replyCount: number;
+    searchTerm: string;
+    user: string;
 }
 
 export default SearchResult;
