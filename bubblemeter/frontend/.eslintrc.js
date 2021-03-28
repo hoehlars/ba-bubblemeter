@@ -42,11 +42,13 @@ module.exports = {
     'jsx-a11y/click-events-have-key-events': ['off'],
     'jsx-a11y/no-static-element-interactions': ['off'],
     'jsx-a11y/label-has-associated-control': ['off'],
-    '@typescript-eslint/camelcase': ['error', { allow: ['password_confirmation'] }],
     '@typescript-eslint/no-explicit-any': ['off'],
+    '@typescript-eslint/ban-types': ['off'],
     'class-methods-use-this': ['off'],
     'no-console': ['error', { 'allow': ['warn', 'error'] }],
     'no-underscore-dangle': ['error', { 'allow': ['_id' ] }],
+    'import/extensions': ['off'],
+    '@typescript-eslint/no-non-null-assertion': ['off']
   },
   settings: {
     react: {
