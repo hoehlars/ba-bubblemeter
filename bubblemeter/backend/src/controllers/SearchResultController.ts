@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { logger } from '../logger';
-import SearchResult, { ISearchResult } from '../models/SearchResult';
+import SearchResult from '../models/SearchResult';
 
 export class SearchResultController {
     public static async saveSearchResultToDB(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -18,51 +18,55 @@ export class SearchResultController {
             next(new Error('Missing twittererID!'));
         }
 
-        if (!req.body.retweetCount) {
-            next(new Error('Missing retweet count!'));
+        if (!req.body.searchTerm) {
+            next(new Error('Missing Search term!'));
         }
 
-        if (!req.body.favoriteCount) {
-            next(new Error('Missing favorite count!'));
+        if (!req.body.user) {
+            next(new Error('Missing user!'));
         }
 
-        if (!req.body.replyCount) {
-            next(new Error('Missing reply count!'));
-        }
+        const { tweetID, fullText, twittererID, searchTerm, user } = req.body;
 
-        const { tweetID, fullText, twittererID, retweetCount, favoriteCount, replyCount } = req.body;
-
-        const newSearchResult: ISearchResult = new SearchResult({
-            tweetID,
-            fullText,
-            twittererID,
-            retweetCount,
-            favoriteCount,
-            replyCount,
+        const newSearchResult = new SearchResult({
+            tweetID: tweetID,
+            fullText: fullText,
+            twittererID: twittererID,
+            searchTerm: searchTerm,
+            user: user
         });
 
-        newSearchResult.save((err) => {
-            if(err) {
-                next(new Error('Error while inserting into DB!'))
-            }
-            logger.info('Inserted new search result successfully!');
-        })
+        const searchResult = await newSearchResult.save();
 
-        res.json(newSearchResult);
+    
+
+        res.json(searchResult);
     }
 
     public static async getAllSearchResults(req: Request, res: Response): Promise<void> {
         logger.info('GET Request on /api/searchResults');
-        res.json(await SearchResult.find({}));
+        res.json(await SearchResult.find({}))
+        ;
     }
 
     public static async getAllSearchResultsByUser(req: Request, res: Response, next: NextFunction): Promise<void> {
-        logger.info('GET Request on /api/searchResults/:twitterer');
+        logger.info('GET Request on /api/searchResults/:user');
 
-        if (!req.params.twittererID) {
+        if (!req.params.user) {
             res.status(400);
-            next(new Error('TwittererID missing!'));
+            next(new Error('User missing!'));
         }
-        res.json(await SearchResult.find({ twittererID: req.params.twittererID }));
+        res.json(await SearchResult.find({ user: req.params.user }).exec());
+    }
+
+    public static async getAllSearchResultsBySearchterm(req: Request, res: Response, next: NextFunction): Promise<void> {
+        logger.info('GET Request on /api/searchResults/:searchTerm');
+
+        if (!req.params.searchTerm) {
+            res.status(400);
+            next(new Error('Search term missing!'));
+        }
+
+        res.json(await SearchResult.find({ searchTerm: req.params.searchTerm }).exec());
     }
 }

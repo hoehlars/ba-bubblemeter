@@ -5,9 +5,8 @@ export class SearchResultService {
         tweetID: string,
         fullText: string,
         twittererID: string,
-        retweetCount: number,
-        favoriteCount: number,
-        replyCount: number,
+        searchTerm: string,
+        user: string,
     ): Promise<Response> {
         const res = await fetch(`${process.env.REACT_APP_BACKEND_IP}/api/searchResult`, {
             method: 'POST',
@@ -19,9 +18,8 @@ export class SearchResultService {
                 tweetID,
                 fullText,
                 twittererID,
-                retweetCount,
-                favoriteCount,
-                replyCount,
+                searchTerm,
+                user,
             }),
         });
         return res;
