@@ -26,6 +26,8 @@ module.exports = {
     'no-plusplus': ['off'],
     'class-methods-use-this': ['off'],
     'no-param-reassign': ['off'],
+    "import/extensions": ['off'],
+    '@typescript-eslint/no-non-null-assertion': ['off']
   },
   overrides: [
     {

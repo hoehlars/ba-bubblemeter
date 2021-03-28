@@ -1,4 +1,3 @@
-
 import SearchResult from '../models/SearchResult';
 import MongoMemoryDatabaseProvider from './db';
 import { SearchResultController } from './SearchResultController';
@@ -12,8 +11,7 @@ const db = new MongoMemoryDatabaseProvider();
 jest.setTimeout(15000);
 
 describe('search result controller', () => {
-
-    beforeEach(async() =>{
+    beforeEach(async () => {
         await db.connect();
 
         // set up mock request & res
@@ -23,25 +21,25 @@ describe('search result controller', () => {
                 twittererID: '12345',
                 fullText: 'Im a Tweet',
                 searchTerm: 'Burkaverbot',
-                user: 'TestUser'
+                user: 'TestUser',
             },
             params: {
                 user: 'TestUser2',
-                searchTerm: 'Burkaverbot'
-            }
+                searchTerm: 'Burkaverbot',
+            },
         };
         mockRes = {
             json: jest.fn(),
             status: jest.fn(),
         };
         mockNext = jest.fn();
-    })
+    });
 
-    afterEach(async() => {
+    afterEach(async () => {
         await db.disconnect();
-    })
+    });
 
-    it('insert search result', async() => {
+    it('insert search result', async () => {
         await SearchResultController.saveSearchResultToDB(mockReq, mockRes, mockNext);
         expect(mockRes.json.mock.calls.length).toBe(1);
         expect(mockRes.json.mock.calls[0][0]).toHaveProperty('_id');
@@ -49,7 +47,7 @@ describe('search result controller', () => {
         expect(searchResult).toBeTruthy();
     });
 
-    it('should find all search results', async() => {
+    it('should find all search results', async () => {
         // insert 2 search results
         await SearchResultController.saveSearchResultToDB(mockReq, mockRes, mockNext);
         mockReq.body.tweetID = '12345';
@@ -58,7 +56,7 @@ describe('search result controller', () => {
         expect(mockRes.json.mock.calls[2][0].length).toBe(2);
     });
 
-    it('should find search results by user', async() => {
+    it('should find search results by user', async () => {
         // insert 2 search results
         await SearchResultController.saveSearchResultToDB(mockReq, mockRes, mockNext);
         mockReq.body.user = 'TestUser2';
@@ -68,7 +66,7 @@ describe('search result controller', () => {
         expect(mockRes.json.mock.calls[2][0][0].user).toBe('TestUser2');
     });
 
-    it('should find search results by searchTerm', async() => {
+    it('should find search results by searchTerm', async () => {
         // insert 2 search results
         await SearchResultController.saveSearchResultToDB(mockReq, mockRes, mockNext);
         mockReq.body.searchTerm = 'Covid-19-Gesetz';

@@ -29,24 +29,21 @@ export class SearchResultController {
         const { tweetID, fullText, twittererID, searchTerm, user } = req.body;
 
         const newSearchResult = new SearchResult({
-            tweetID: tweetID,
-            fullText: fullText,
-            twittererID: twittererID,
-            searchTerm: searchTerm,
-            user: user
+            tweetID,
+            fullText,
+            twittererID,
+            searchTerm,
+            user,
         });
 
         const searchResult = await newSearchResult.save();
-
-    
 
         res.json(searchResult);
     }
 
     public static async getAllSearchResults(req: Request, res: Response): Promise<void> {
         logger.info('GET Request on /api/searchResults');
-        res.json(await SearchResult.find({}))
-        ;
+        res.json(await SearchResult.find({}));
     }
 
     public static async getAllSearchResultsByUser(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -59,7 +56,11 @@ export class SearchResultController {
         res.json(await SearchResult.find({ user: req.params.user }).exec());
     }
 
-    public static async getAllSearchResultsBySearchterm(req: Request, res: Response, next: NextFunction): Promise<void> {
+    public static async getAllSearchResultsBySearchterm(
+        req: Request,
+        res: Response,
+        next: NextFunction,
+    ): Promise<void> {
         logger.info('GET Request on /api/searchResults/:searchTerm');
 
         if (!req.params.searchTerm) {
