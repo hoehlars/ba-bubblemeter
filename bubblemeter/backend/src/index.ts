@@ -8,7 +8,7 @@ import { registerRoutes } from './routes';
 
 const dburi: string = process.env.MONGODB_URI!;
 
-mongoose.connect(dburi, {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(dburi, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const db = mongoose.connection;
 
@@ -25,9 +25,11 @@ const port = process.env.PORT || 5000;
 const express = Express();
 const server = new HTTP.Server(express);
 
-express.use(Express.urlencoded({
-    extended: true
-}));
+express.use(
+    Express.urlencoded({
+        extended: true,
+    }),
+);
 
 express.use(Express.json());
 

@@ -14,5 +14,6 @@ export const registerRoutes = (api: Express): void => {
     api.post('api/searchResult', SearchResultController.saveSearchResultToDB);
 
     // additional functions
-    api.get('/api/searchResults/:twittererID', SearchResultController.getAllSearchResultsByUser);
+    api.get('/api/searchResults/:user', SearchResultController.getAllSearchResultsByUser);
+    api.get('/api/searchResults/:searchTerm', SearchResultController.getAllSearchResultsBySearchterm);
 };
