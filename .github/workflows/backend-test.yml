@@ -22,10 +22,10 @@ jobs:
       with:
         path: backend/node_modules
         key: backend_node_modules
-    - name: yarn install
-      run: cd backend && yarn install
-    - name: yarn test
-      run: cd backend && yarn test
+    - name: npm install
+      run: cd backend && npm install
+    - name: npm run test
+      run: cd backend && npm run test
 
   lint:
     runs-on: ubuntu-latest
