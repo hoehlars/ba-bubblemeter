@@ -10,4 +10,5 @@ class BubblemeterPage extends React.Component<{}, {}> {
     }
 }
 
+
 export default BubblemeterPage;
