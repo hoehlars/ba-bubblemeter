@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node.version: [node:15.0.0-slim]
+        node.version: [15.x]
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
@@ -23,7 +23,7 @@ jobs:
         path: bubblemeter/frontend/node_modules
         key: frontend_node_modules
     - name: npm install
-      run: cd bubblemeter/frontend && npm run install
+      run: cd bubblemeter/frontend && npm install
     - name: npm run test
       run: cd bubblemeter/frontend && npm run test
 
@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node.version: [node:15.0.0-slim]
+        node.version: [15.x]
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
