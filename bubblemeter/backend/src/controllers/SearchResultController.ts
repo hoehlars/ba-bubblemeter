@@ -28,6 +28,7 @@ export class SearchResultController {
 
         const { tweetID, fullText, twittererID, searchTerm, user } = req.body;
 
+        console.log('hello');
 
         const newSearchResult = new SearchResult({
             tweetID,
