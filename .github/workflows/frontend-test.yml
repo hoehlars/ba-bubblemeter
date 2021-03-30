@@ -20,12 +20,12 @@ jobs:
     - name: Dependency Cache
       uses: actions/cache@v1.1.2
       with:
-        path: frontend/node_modules
+        path: bubblemeter/frontend/node_modules
         key: frontend_node_modules
-    - name: yarn install
-      run: cd frontend && yarn install
-    - name: yarn run test
-      run: cd frontend && yarn run test
+    - name: npm install
+      run: cd bubblemeter/frontend && npm run install
+    - name: npm run test
+      run: cd bubblemeter/frontend && npm run test
 
   lint:
     runs-on: ubuntu-latest
@@ -41,9 +41,9 @@ jobs:
     - name: Dependency Cache
       uses: actions/cache@v1.1.2
       with:
-        path: frontend/node_modules
+        path: bubblemeter/frontend/node_modules
         key: frontend_node_modules
-    - name: yarn install
-      run: cd frontend && yarn install
-    - name: yarn run lint
-      run: cd frontend && yarn run lint
+    - name: npm install
+      run: cd bubblemeter/frontend && npm install
+    - name: npm run lint
+      run: cd bubblemeter/frontend && npm run lint
