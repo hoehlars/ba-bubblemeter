@@ -15,8 +15,6 @@ twitterNetworkDb = client["twitterNetworkDb"]
 edgeCol = twitterNetworkDb["twitterEdges"]
 
 
-
-
 def insert_edge(twitterHandleFrom, idFrom, twitterHandleTo, idTo, edgeCol):
     datetime_now = datetime.now()
     edge = { "date": datetime_now, "twitterHandleFrom": twitterHandleFrom, "IDFrom": idFrom, "twitterHandleTo": twitterHandleTo, "IDTo": idTo}
@@ -51,9 +49,19 @@ def delete_all_entries_before_certain_date(day, month, year, edgeCol):
     query = {"date": {"$lt": d}}
     edgeCol.delete_many(query)
     
+def get_all_friends(twitterID, edgeCol):
+    query = {"IDFrom": twitterID}
+    
+    # project to IDTo
+    allEntries = edgeCol.find(query, {"IDTo": 1, "_id": 0})
+    id_list = []
+    for entry in allEntries:
+        id_list.append(entry["IDTo"])
+    
+    return id_list
+    
+    
 
 insert_edge("@Ilbien", "1234", "Lars", "12345", edgeCol)
-print(is_twitterId_in_db("123456", edgeCol))
-print(count_amount_of_friends_in_db("123456", edgeCol))
-print(get_date_of_entries("1234", edgeCol))
+print(get_all_friends("1234", edgeCol))
 
