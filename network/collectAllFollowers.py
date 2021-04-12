@@ -8,17 +8,17 @@ Created on Tue Apr  6 12:23:01 2021
 import tweepy
 import pandas as pd
 
-consumer_key = ''
-consumer_secret = ''
-access_token = ''
-access_token_secret = ''
+consumer_key = '4q03dfQkt8eq9d5uuoz8kApHN'
+consumer_secret = 'KZUkua50rJt6hJpNgqWRg31HRDHSVtfrBMLW6VdjRcRAu7vXwx'
+access_token = '1366297874900930560-BLc9QTyrm74Rm8WZC8FV41Q5JWZCxC'
+access_token_secret = '37zdXF1PEoHk7Fo7Scb0DFai7TM9siTMBeAOH3pE22xKg'
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True, compression=True)
 
 # start with this user
-userStart = api.get_user(screen_name = '')
+userStart = api.get_user(screen_name = 'elbueno paulo')
 user_list = [userStart.id]
 
 
