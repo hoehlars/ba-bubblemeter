@@ -37,7 +37,11 @@ for user in user_list:
         print("error")
         continue
     firends_list.append(friends)
-    
+
+#split into two lists friends and friends in DB
+
+#check if friends_count is diefferent or if friend is older than 10 days in DB need to be updated
+
 df = pd.DataFrame(columns=['source','target'])
 
 # Set the list of friends as the target column
