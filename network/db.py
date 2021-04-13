@@ -15,7 +15,7 @@ twitterNetworkDb = client["twitterNetworkDb"]
 edgeCol = twitterNetworkDb["twitterEdges"]
 
 
-def insert_edge(twitterHandleFrom, idFrom, twitterHandleTo, idTo, edgeCol):
+def insert_edge( idFrom, idTo, edgeCol):
     datetime_now = datetime.now()
     edge = { "date": datetime_now, "twitterHandleFrom": twitterHandleFrom, "IDFrom": idFrom, "twitterHandleTo": twitterHandleTo, "IDTo": idTo}
     edgeCol.insert_one(edge)
