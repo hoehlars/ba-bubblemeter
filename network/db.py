@@ -17,13 +17,13 @@ edgeCol = twitterNetworkDb["twitterEdges"]
 
 def insert_edge( idFrom, idTo, edgeCol):
     datetime_now = datetime.now()
-    edge = { "date": datetime_now, "twitterHandleFrom": twitterHandleFrom, "IDFrom": idFrom, "twitterHandleTo": twitterHandleTo, "IDTo": idTo}
+    edge = { "date": datetime_now, "IDFrom": idFrom, "IDTo": idTo}
     edgeCol.insert_one(edge)
     
 
 def is_twitterId_in_db(twitterId, edgeCol):
-    query = {"$or":[ {"IDFrom": twitterId}, {"IDTo": twitterId}]}
-    allEntries = edgeCol.find(query)
+    query = {"IDFrom": twitterId}
+    allEntries = edgeCol.find(query)    
     return len(list(allEntries)) != 0
 
 def count_amount_of_friends_in_db(twitterID, edgeCol):

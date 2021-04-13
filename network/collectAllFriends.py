@@ -17,10 +17,6 @@ client = pymongo.MongoClient("mongodb://localhost:27017/")
 twitterNetworkDb = client["twitterNetworkDb"]
 edgeCol = twitterNetworkDb["twitterEdges"]
 
-consumer_key = 'Z1QD8RltemV1mcCLqRlCsQRgx'
-consumer_secret = 'xk3xWh1QoOei6rUZnpRV0V1m58P5p0zMkpaEmAn3BoQ7UDuyJy'
-access_token = '1367397576836845579-4rMj1q9XXLJDJTXpdrfJVdMUEGVSKO'
-access_token_secret = 'pWqLEJf1THgqkKTTQiHjYl2A7AqPhV6TUg2IJBjkQkBd0'
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
@@ -41,8 +37,7 @@ else:
         for page in tweepy.Cursor(api.friends_ids, user_id=userStart.id).pages():
             friends.extend(page)
         for friend_id in friends:
-            friend = api.get_user(user_id = friend_id)
-            insert_edge(userStart.id, friend.id, edgeCol)
+            insert_edge(userStart.id, friend_id, edgeCol)
         friends_list.append(friends)
     except tweepy.TweepError:
         print("error")
@@ -65,7 +60,7 @@ for userID in friends_list:
     friendCount = friendCount + 1
     print('Friend {:d} of {:d}'.format(friendCount, totalFriends))
     
-    if is_twitterId_in_db(userID, edgeCol):
+    if not is_twitterId_in_db(userID, edgeCol):
         friends = []
         # fetching the user
         user = api.get_user(userID)
@@ -77,7 +72,7 @@ for userID in friends_list:
                 if friends_count >= 5000: #Only take first 5000 friends
                     break
                 for friend_id in friends:
-                    insert_edge(user.id, friend.id, edgeCol)
+                    insert_edge(user.id, friend_id, edgeCol)
         except tweepy.TweepError:
             print("error")
             continue
