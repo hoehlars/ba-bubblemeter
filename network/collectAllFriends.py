@@ -6,7 +6,15 @@ Created on Tue Apr  6 12:23:01 2021
 """
 
 import tweepy
+import pymongo
 import pandas as pd
+from db import is_twitterId_in_db
+from db import insert_edge
+
+# relevant DB variables
+client = pymongo.MongoClient("mongodb://localhost:27017/")
+twitterNetworkDb = client["twitterNetworkDb"]
+edgeCol = twitterNetworkDb["twitterEdges"]
 
 consumer_key = ''
 consumer_secret = ''
@@ -19,49 +27,50 @@ api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True, 
 
 # start with this user
 userStart = api.get_user(screen_name = 'elbueno_paulo')
-user_list = [userStart.id]
-
+user_Id = [userStart.id]
 
 # get all friends of the userStart
-firends_list = []
-for user in user_list:
-    friends = []
+friends_list = []
+friends = []
+if not is_twitterId_in_db(user_Id, edgeCol):
+    # TODO get all friends of this id from DB
+    # friends_list = ...
+    print("User is in DB!")
+else:
     try:
-        for page in tweepy.Cursor(api.friends_ids, user_id=user).pages():
+        for page in tweepy.Cursor(api.friends_ids, user_id=user_Id).pages():
             friends.extend(page)
-            
-            
-            # TODO: add to database
-            
+            for friend_id in page:
+                friend = api.get_user(user_id = friend_id)
+                insert_edge(userStart.screen_name, user_Id, friend.screen_name, friend.id, edgeCol)
+        friends_list.append(friends)
     except tweepy.TweepError:
         print("error")
-        continue
-    firends_list.append(friends)
 
-#split into two lists friends and friends in DB
-
-#check if friends_count is diefferent or if friend is older than 10 days in DB need to be updated
+#check if friends_count is different or if friend is older than 10 days in DB need to be updated
 
 df = pd.DataFrame(columns=['source','target'])
 
 # Set the list of friends as the target column
-df['target'] = firends_list[0] 
+df['target'] = friends_list[0] 
 
 # Set my user ID as the source 
 df['source'] = userStart.id 
 
-
-firends_list = list(df['target'])
+friends_list = list(df['target'])
+# friendCount and totalFriends are only important for the prints
 friendCount = 0
-totalFollowers = userStart.friends_count
+totalFriends = userStart.friends_count
 
 # Iterate over all the friends and get their friends
-for userID in firends_list:
+for userID in friends_list:
     friendCount = friendCount + 1
-    print('Follower {:d} of {:d}'.format(friendCount, totalFollowers))
+    print('Friend {:d} of {:d}'.format(friendCount, totalFriends))
     
     friends = []
-    firends_list = []
+    friends_list = []
+
+    # TODO check if userID is in db
 
     # fetching the user
     user = api.get_user(userID)
@@ -80,9 +89,9 @@ for userID in firends_list:
     except tweepy.TweepError:
         print("error")
         continue
-    firends_list.append(friends)
+    friends_list.append(friends)
     temp = pd.DataFrame(columns=['source', 'target'])
-    temp['target'] = firends_list[0]
+    temp['target'] = friends_list[0]
     temp['source'] = userID
     df = df.append(temp)
     df.to_csv("networkOfFollowers.csv")
