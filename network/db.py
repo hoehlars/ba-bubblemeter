@@ -24,7 +24,7 @@ def insert_edge(twitterHandleFrom, idFrom, twitterHandleTo, idTo, edgeCol):
 def is_twitterId_in_db(twitterId, edgeCol):
     query = {"$or":[ {"IDFrom": twitterId}, {"IDTo": twitterId}]}
     allEntries = edgeCol.find(query)
-    return len(list(allEntries)) == 0
+    return len(list(allEntries)) != 0
 
 def count_amount_of_friends_in_db(twitterID, edgeCol):
     query = {"IDFrom": twitterID}
@@ -59,9 +59,3 @@ def get_all_friends(twitterID, edgeCol):
         id_list.append(entry["IDTo"])
     
     return id_list
-    
-    
-
-insert_edge("@Ilbien", "1234", "Lars", "12345", edgeCol)
-print(get_all_friends("1234", edgeCol))
-
