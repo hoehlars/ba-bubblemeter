@@ -7,11 +7,13 @@ Created on Tue Apr  6 16:56:25 2021
 
 
 import tweepy
+
+
+import pymongo
+from network import top_k_of_network_sorted_incoming_degree
 import pandas as pd
-import networkx as nx
-import matplotlib.pyplot as plt
-import math
-import numpy as np
+from db import get_edges_friends_of_friends
+from network import get_all_NR_and_SR_in_network
 
 consumer_key = ''
 consumer_secret = ''
@@ -22,66 +24,34 @@ auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True, compression=True)
 
+# relevant DB variables
+client = pymongo.MongoClient("")
+twitterNetworkDb = client["twitterNetworkDb"]
+edgeCol = twitterNetworkDb["twitterEdges"]
 
+percy_id = 3397339312
+
+edges = get_edges_friends_of_friends(percy_id, edgeCol)
+    
 # Read into a df
-df = pd.read_csv("networkOfFollowers.csv") 
+edges_df = pd.DataFrame(edges)
+
+# sort network by incoming degree of nodes 
+k = 10
+sorted_network_df = top_k_of_network_sorted_incoming_degree(k, edges_df)
 
 
-#  turn into a graph
-G = nx.from_pandas_edgelist(df, 'source', 'target')
+parlament_df = get_all_NR_and_SR_in_network(sorted_network_df)
 
 
-
-print("Number of nodes total: {:d}".format(G.number_of_nodes()))
-
-G_sorted = pd.DataFrame(sorted(G.degree, key=lambda x: x[1], reverse=True))
-G_sorted.columns = ['id','degree']
-
-print(G_sorted.head())
-
-
-# Exclude nodes with degree less than k
+"""
 k = 10
 G_filtered = nx.k_core(G, k) 
 
 print("Number of nodes filtered: {:d}".format(G_filtered.number_of_nodes()))
-
-
 G_sorted = pd.DataFrame(sorted(G_filtered.degree, key=lambda x: x[1], reverse=True))
 G_sorted.columns = ['id','degree']
+"""
 
-
-
-
-top100 = pd.DataFrame(G_sorted.head(100)["id"])
-
-# append usernames
-username_list = []
-count = 0
-total = 100
-id_list = top100['id']
-for id in id_list:
-    count = count + 1
-    print("{:d} of {:d}".format(count, total))
-    
-    formattedId = str(format(id, '.0f'))
-    
-    try:
-        u = api.get_user(formattedId)
-    except tweepy.TweepError:
-        username_list.append('')
-        continue
-    
-    username_list.append(u.screen_name)
-   
-# append user_name list to df
-top100['username'] = username_list
-
-print(top100.head(20))
     
 
-
-
-edges = nx.to_pandas_edgelist(G_filtered)
-
-edges.to_csv("edges.csv", index=False, columns=["source", "target"])
