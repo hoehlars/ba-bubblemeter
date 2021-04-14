@@ -6,7 +6,7 @@ Created on Sun Apr 11 15:10:19 2021
 """
 
 import pymongo
-from datetime import datetime
+from datetime import datetime, timedelta
 
 client = pymongo.MongoClient("mongodb://localhost:27017/")
 
@@ -74,3 +74,14 @@ def get_edges_friends_of_friends(twitterID, edgeCol):
     friends_of_friends.extend(friends)
     
     return friends_of_friends
+
+def delete_all_entries_older_than_10_days(edgeCol):
+    date_10_days_before = datetime.now() - timedelta(days = 10)
+    day = date_10_days_before.day
+    month = date_10_days_before.month
+    year = date_10_days_before.year
+    delete_all_entries_before_certain_date(day, month, year, edgeCol)
+    
+#insert_edge('1234', '12345', edgeCol)
+delete_all_entries_older_than_10_days(edgeCol)
+    
