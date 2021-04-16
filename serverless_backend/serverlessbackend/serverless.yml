@@ -1,0 +1,21 @@
+org: hoehlar
+app: serverlessbackend
+service: serverlessbackend
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: python3.8
+  lambdaHashingVersion: '20201221'
+  environment:
+    CONSUMER_KEY: '123456'
+
+functions:
+  hello:
+    handler: handler.collect_all_friends
+    events:
+      - http:
+          path: /collectAllFriends
+          method: get
+
