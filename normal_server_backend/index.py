@@ -14,7 +14,7 @@ import pymongo
 from datetime import datetime, timedelta
 import json
 
-client = pymongo.MongoClient("mongodb+srv://admin:bubblemeterToll@bubblemetercluster0.4djrb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+client = pymongo.MongoClient("")
 
 twitterNetworkDb = client["twitterNetworkDb"]
 
