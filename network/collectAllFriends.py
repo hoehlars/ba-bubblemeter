@@ -2,19 +2,13 @@
 """
 Created on Tue Apr  6 12:23:01 2021
 
-@author: larsh
+@author: larsh, paulilb1
 """
 
 import tweepy
-import pymongo
 from db import is_twitterId_in_db
 from db import insert_edge
-from db import get_all_friends
-
-# relevant DB variables
-client = pymongo.MongoClient("mongodb://localhost:27017/")
-twitterNetworkDb = client["twitterNetworkDb"]
-edgeCol = twitterNetworkDb["twitterEdges"]
+from db import get_friends
 
 consumer_key = ''
 consumer_secret = ''
@@ -28,10 +22,10 @@ api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True, 
 # pass user to start with as string
 # it willl automatically call process_friends_of_friends
 def process_friends(user_to_start_with):
-    userStart = api.get_user(screen_name = user_to_start_with)
-    if is_twitterId_in_db(userStart.id, edgeCol):
+    userStart = api.get_user(user_id = str(user_to_start_with))
+    if is_twitterId_in_db(userStart.id):
         print("User is in DB!")
-        process_friends_of_friends(userStart, get_all_friends(userStart.id, edgeCol))
+        process_friends_of_friends(userStart, get_friends(userStart.id))
     else:
         print("User is not in DB!")
         friends = []
@@ -39,7 +33,7 @@ def process_friends(user_to_start_with):
             for page in tweepy.Cursor(api.friends_ids, user_id=userStart.id).pages():
                 friends.extend(page)
             for friend_id in friends:
-                insert_edge(userStart.id, friend_id, edgeCol)
+                insert_edge(userStart.id, friend_id)
             process_friends_of_friends(userStart, friends)
         except tweepy.TweepError:
             print("error")
@@ -51,9 +45,10 @@ def process_friends_of_friends(user, friends):
         friend_of_friend_count = 0
         friendCount = friendCount + 1
         print('Friend {:d} of {:d}'.format(friendCount, user.friends_count))
-        if not is_twitterId_in_db(friend_id, edgeCol):
+        if not is_twitterId_in_db(friend_id):
             friends_of_friends = []
-            friend_object = api.get_user(friend_id)
+            print(friend_id)
+            friend_object = api.get_user(user_id = str(friend_id))
             try:
                 for page in tweepy.Cursor(api.friends_ids, user_id=friend_id).pages():
                     friends_of_friends.extend(page)
@@ -62,7 +57,7 @@ def process_friends_of_friends(user, friends):
                 for friend_of_friend_id in friends_of_friends:
                     friend_of_friend_count = friend_of_friend_count + 1
                     print('     Friend of Friend {:d} of {:d}'.format(friend_of_friend_count, friend_object.friends_count))
-                    insert_edge(friend_id, friend_of_friend_id, edgeCol)
+                    insert_edge(friend_id, friend_of_friend_id)
             except tweepy.TweepError:
                 print("error")
                 continue
