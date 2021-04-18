@@ -9,6 +9,7 @@ Created on Wed Apr 14 09:41:06 2021
 import networkx as nx
 import pandas as pd
 import tweepy
+from db import get_politicians
 
 consumer_key = ''
 consumer_secret = ''
@@ -46,12 +47,15 @@ def top_k_of_network_sorted_incoming_degree(k, edges_df):
     
     return top_k_df
 
-def get_all_NR_and_SR_in_network(sorted_network_df, politiciansCol):
+def get_all_NR_and_SR_in_network(edges_df):
     
-    allEntries = politiciansCol.find({}, {"_id": 0, "username": 0})
+    G = nx.from_pandas_edgelist(edges_df, 'IDFrom', 'IDTo', create_using=nx.DiGraph())
+
+    # sort by incoming degree
+    sorted_network_df = pd.DataFrame(sorted(G.in_degree, key=lambda x: x[1], reverse=True))
+    sorted_network_df.columns = ['twitter_id','in_degree']
     
-    # get NR and SR from db
-    politicians = list(allEntries)
+    politicians = get_politicians()
     
     # iterate over network
     politicians_df = pd.DataFrame(columns=["name", "party",  "twitter_handle", "twitter_id", "in_degree", "smartmap"])
