@@ -18,7 +18,7 @@ edgeCol = twitterNetworkDb["twitterEdges"]
 
 consumer_key = ''
 consumer_secret = ''
-access_token = '-BLc9QTyrm74Rm8WZC8FV41Q5JWZCxC'
+access_token = ''
 access_token_secret = ''
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
@@ -66,5 +66,3 @@ def process_friends_of_friends(user, friends):
             except tweepy.TweepError:
                 print("error")
                 continue
-            
-process_friends("ThomasPercy95")
