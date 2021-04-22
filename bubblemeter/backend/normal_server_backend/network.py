@@ -10,7 +10,6 @@ import pandas as pd
 from db import get_politicians
 from twitter_access import get_user_from_id
 
-
 def top_k_of_network_sorted_incoming_degree(k, G_sorted_df):
     # get top k
     G_top_k = G_sorted_df.head(k)
