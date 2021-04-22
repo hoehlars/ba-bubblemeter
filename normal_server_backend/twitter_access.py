@@ -11,6 +11,8 @@ from db import insert_edge
 from db import get_friends
 from dotenv import dotenv_values
 
+config = dotenv_values(".env")
+
 consumer_key = config['CONSUMER_KEY']
 consumer_secret = config['CONSUMER_SECRET']
 access_token = config['ACCESS_TOKEN']
@@ -62,3 +64,6 @@ def process_friends_of_friends(user, friends):
             except tweepy.TweepError:
                 print("error")
                 continue
+            
+def get_user_from_id(twitter_id):
+    return api.get_user(user_id = twitter_id)

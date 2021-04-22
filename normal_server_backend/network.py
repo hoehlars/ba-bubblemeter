@@ -7,17 +7,8 @@ Created on Wed Apr 14 09:41:06 2021
 
 
 import pandas as pd
-import tweepy
 from db import get_politicians
-
-consumer_key = ''
-consumer_secret = ''
-access_token = ''
-access_token_secret = ''
-
-auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-auth.set_access_token(access_token, access_token_secret)
-api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True, compression=True)
+from twitter_access import get_user_from_id
 
 
 def top_k_of_network_sorted_incoming_degree(k, G_sorted_df):
@@ -32,7 +23,7 @@ def top_k_of_network_sorted_incoming_degree(k, G_sorted_df):
         top_k_df = top_k_df.append(G_top_k[G_top_k['twitter_id'] == twitter_id], ignore_index=True)
         
         # insert name
-        u = api.get_user(user_id = twitter_id)
+        u = get_user_from_id(twitter_id)
         top_k_df.loc[idx, 'name'] = u.name
         top_k_df.loc[idx, 'twitter_handle'] = u.screen_name
     
