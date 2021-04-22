@@ -21,7 +21,7 @@ import pandas as pd
 import json
 
 import networkx as nx
-from collectAllFriends import process_friends
+from twitter_access import process_friends
 from db import get_edges_friends_of_friends
 from network import top_k_of_network_sorted_incoming_degree
 from network import get_all_NR_and_SR_in_network
@@ -42,13 +42,17 @@ def make_analysis(twitterID):
     G = nx.from_pandas_edgelist(edges_df, 'IDFrom', 'IDTo', create_using=nx.DiGraph())
 
     # sort by incoming degree
-    G_sorted = pd.DataFrame(sorted(G.in_degree, key=lambda x: x[1], reverse=True))
-    G_sorted.columns = ['twitter_id','in_degree']
+    G_sorted_df = pd.DataFrame(sorted(G.in_degree, key=lambda x: x[1], reverse=True))
+    G_sorted_df.columns = ['twitter_id','in_degree']
     
     
+    # get ten most influential nodes
     k = 10
-    ten_most_influential = top_k_of_network_sorted_incoming_degree(k, edges_df)
+    ten_most_influential = top_k_of_network_sorted_incoming_degree(k, G_sorted_df)
+    
+    # get all politicians in network
     politicians_in_network = get_all_NR_and_SR_in_network(edges_df)
+    
     result = ten_most_influential.to_json(orient="split")
     ten_most_influential_parsed = json.loads(result)
     result = politicians_in_network.to_json(orient="split")
