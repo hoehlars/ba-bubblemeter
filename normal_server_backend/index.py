@@ -51,13 +51,14 @@ def make_analysis(twitterID):
     ten_most_influential = top_k_of_network_sorted_incoming_degree(k, G_sorted_df)
     
     # get all politicians in network
-    politicians_in_network = get_all_NR_and_SR_in_network(edges_df)
+    politicians_in_network = get_all_NR_and_SR_in_network(G_sorted_df)
     
+    # convert to json
     result = ten_most_influential.to_json(orient="split")
-    ten_most_influential_parsed = json.loads(result)
+    ten_most_influential_json = json.loads(result)
     result = politicians_in_network.to_json(orient="split")
-    politicians_in_network_parsed = json.loads(result)
-    response = {"statusCode": 200, "body": {"politicians_in_network": json.dumps(politicians_in_network_parsed), "top_ten_most_influential": json.dumps(ten_most_influential_parsed) }}
+    politicians_in_network_json = json.loads(result)
+    response = {"statusCode": 200, "body": {"politicians_in_network": politicians_in_network_json, "top_ten_most_influential": ten_most_influential_json }}
     return response
 
 app.run()
