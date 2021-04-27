@@ -7,7 +7,6 @@ Created on Tue Apr  6 12:23:01 2021
 
 import tweepy
 import time
-from datetime import datetime
 from db import is_twitterId_in_db
 from db import insert_edge
 from db import get_friends
@@ -124,5 +123,3 @@ def process_friends_of_friends(user, friends):
             
 def get_user_from_id(twitter_id):
     return api.get_user(user_id = twitter_id)
-
-process_friends(190944081)
