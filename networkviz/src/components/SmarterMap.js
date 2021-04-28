@@ -13,12 +13,21 @@ function fixDecimal(value) {
 
 function SmarterMap({ politicians }) {
   // get all politicians with smartmap coordinates
-  const politiker = politicians.filter((politician) => politician[5][0])
 
-  const [dataset] = useState(politiker)
+  const getCoordinates = (politicians) => {
+    return politicians.filter((politician) => politician[5][0])
+  }
+
+  const politiker = getCoordinates(politicians)
+
+  const [dataset, setDataset] = useState(politiker)
   const [myCircle, setMyCircle] = useState([0, 0])
 
+
   useEffect(() => {
+    const politikerUpdate = getCoordinates(politicians)
+    setDataset(politikerUpdate)
+
     const xValues = dataset.map((entry) => {
       const x = entry[5][0]
       const fixedX = fixDecimal(x)
@@ -39,7 +48,7 @@ function SmarterMap({ politicians }) {
     ])
 
     return () => {}
-  }, [dataset])
+  }, [politicians])
 
   return (
     <div className='border-2 border-black max-w-2xl'>
