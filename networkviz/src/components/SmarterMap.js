@@ -19,13 +19,14 @@ function SmarterMap({ politicians }) {
   }
 
   const politiker = getCoordinates(politicians)
-
   const [dataset, setDataset] = useState(politiker)
   const [myCircle, setMyCircle] = useState([0, 0])
 
+  
+
 
   useEffect(() => {
-    const politikerUpdate = getCoordinates(politicians)
+    const politikerUpdate = getCoordinates(dataset)
     setDataset(politikerUpdate)
 
     const xValues = dataset.map((entry) => {
@@ -48,7 +49,7 @@ function SmarterMap({ politicians }) {
     ])
 
     return () => {}
-  }, [politicians])
+  }, [politicians, politiker.length])
 
   return (
     <div className='border-2 border-black max-w-2xl'>
