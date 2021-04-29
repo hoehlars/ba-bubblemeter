@@ -9,8 +9,12 @@ Connect: localhost:5000/
 
 #flask import
 import flask
+from flask_cors import CORS, cross_origin
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
+
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 #sys import, used so that files in other directories are found
 import sys
@@ -29,6 +33,7 @@ from network import get_all_NR_and_SR_in_network
 #call with twitter id
 #returns json object with politicians_in_network and top_ten_most_influential
 @app.route('/make_analysis/<twitterID>')
+@cross_origin()
 def make_analysis(twitterID):
     
     # get all friends of friends and check if they are in db or not
