@@ -1,0 +1,21 @@
+org: hoehlar
+app: delete-old-entries
+service: delete-old-entries
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: python3.8
+  lambdaHashingVersion: 20201221
+  environment:
+    DB_STRING: ''
+    DB_NAME: ''
+    DB_COL: ''
+
+functions:
+  rateHandler:
+    handler: handler.delete_old_entries
+    events:
+      # Invoke Lambda function every day
+      - schedule: rate(1 day)
