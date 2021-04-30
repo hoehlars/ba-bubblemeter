@@ -5,21 +5,53 @@ import { default as data } from './data.json'
 import { useEffect, useState } from 'react'
 
 function App() {
+
   const [politicians, setPoliticians] = useState(data.body.politicians_in_network.data);
   const [topten, setTopten] = useState(data.body.top_ten_most_influential.data);
+  const [currentId, setCurrentId] = useState()
 
-  const twitterIDSpielberger = 595346116 
-  // const twitterIDErichHess = 62798697
-  // const twitterIDAeschi = 731908201592045568
-  //const twitterIDRechsteiner = 529478391
-  //const twitterIDThilo =  1376558149
-  // const twitterIDpuck3000 = 181555601
-  // const twitterIDhedinger = 20201655
-  //const twitterIDThomasPercy = 3397339312
+  const usersInDB = [
+    {
+      name: "Jürgen Spielberger",
+      handle: "@Spielberger_J",
+      id: 595346116,
+    },
+    {
+      name: "Erich Hess",
+      handle: "@Erich_Hess",
+      id: 62798697,
+    },
+    {
+      name: "Thomas Aeschi",
+      handle: "@thomas_aeschi",
+      id: "731908201592045568",
+    },
+    {
+      name: "Paul Rechsteiner",
+      handle: "@PaulRechsteiner",
+      id: 529478391,
+    },
+    {
+      name: "Thilo Stadelmann",
+      handle: "@thilo_on_data",
+      id: 1376558149,
+    },
+    {
+      name: "Dani Lerch",
+      handle: "@puck3000",
+      id: 181555601,
+    },
+    {
+      name: "Thomas Percy",
+      handle: "@ThomasPercy95",
+      id: 3397339312
+    },
+  ]
 
   useEffect(() => {
     const fetchData = async() => {
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/${twitterIDSpielberger}`)
+      console.log('started')
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/${currentId}`)
       const resJson = await res.json()
       setTopten(resJson.body.top_ten_most_influential.data)
       setPoliticians(resJson.body.politicians_in_network.data)
@@ -27,7 +59,12 @@ function App() {
     }
     fetchData();
     
-  }, []);
+  }, [currentId]);
+
+  function changeCurrUser(twitterId) {
+    setCurrentId(twitterId)
+    console.log(twitterId)
+  }
 
   return (
     <div className='App min-h-screen flex flex-col p-2'>
@@ -40,8 +77,15 @@ function App() {
       <main className='flex-1'>
         <div className='mb-4 md:grid md:grid-cols-2 gap-6'>
           <div className='mb-4'>
-            <h2 className='text-2xl mb-2'>User Info</h2>
-            <UserInfo />
+            <h2 className='text-2xl mb-2'>Users in database</h2>
+            <div className="overflow-auto h-64 ...">
+            {usersInDB.map((entry, i) => (
+              <UserInfo key={i}  
+              userData={entry} 
+              changeCurrUser={changeCurrUser}
+              currentId={currentId} />
+            ))}
+            </div>
             <h2 className='text-2xl mb-2 mt-4 '>Top Ten Influencers</h2>
             <TopTen topten={topten} />
           </div>
