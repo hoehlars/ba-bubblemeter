@@ -19,7 +19,7 @@ politiciansCol = twitterNetworkDb[config['POLITICIANS_COL_NAME']]
 
 def get_politicians():
     allEntries = politiciansCol.find({}, {"_id": 0, "username": 0})
-    # get NR and SR from db
+    # get all politicans from db
     return list(allEntries)
 
 def insert_edge(idFrom, idTo):
