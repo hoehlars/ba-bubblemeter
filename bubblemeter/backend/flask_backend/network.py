@@ -58,10 +58,14 @@ def get_all_NR_and_SR_in_network(G_sorted_df):
             politicians_df.loc[idx, 'partyColor'] = politician["partyColor"]
             politicians_df.loc[idx, '__typename'] = politician["__typename"]
             politicians_df.loc[idx, 'twitterLink'] = politician["twitterLink"]
-            politicians_df.loc[idx, 'coordinates'] = {"x": politician['coordinates']["x"], "y": politician['coordinates']["y"] }      
+            politicians_df.loc[idx, 'x'] = politician["x"]  
+            politicians_df.loc[idx, 'y'] = politician["y"]      
             idx = idx + 1
     
     # sort after degree before returning
     politicians_df = politicians_df.sort_values('in_degree', ascending=False)
+    
+    # remove appended twitter_id column
+    politicians_df = politicians_df.drop('twitter_id', axis=1)
     
     return politicians_df
