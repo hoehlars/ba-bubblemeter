@@ -8,22 +8,34 @@ function fixDecimal(value) {
 function SmarterMap({ politicians }) {
   const [myCircle, setMyCircle] = useState([160, 160])
 
-  // function calculateMyCircle() {
-  //   const xSum = politicians.reduce((xTotal, currentX) => {
-  //     return xTotal + currentX.coordinates?.x
-  //   })
-  //   const ySum = politicians.reduce((yTotal, currentY) => {
-  //     return yTotal + currentY.coordinates?.y
-  //   })
+  const [politikerUpdate, setPolitikerUpdate] = useState(politicians)
 
-  //   const myCoordinates = [xSum, ySum]
-  //   console.log(myCoordinates)
-  //   return [myCoordinates]
-  // }
+  const FIRSTNAME_IDX = 1
+  const LASTNAME_IDX = 2
+  const SMARTMAP_ID_IDX = 0
+  const PARTYCOLOR_IDX = 10
+  const X_ID = 13
+  const Y_ID = 14
+  const PARTY_ABBREVIATION_ID = 9
 
-  // useEffect(() => {
-  //   setMyCircle(calculateMyCircle())
-  // }, [politicians])
+  function calculateMyCircle() {
+    const xSum = politikerUpdate.reduce((xTotal, currentX) => {
+        return xTotal + currentX[X_ID]
+     })
+     const ySum = politikerUpdate.reduce((yTotal, currentY) => {
+       return yTotal + currentY[Y_ID]
+     })
+
+     const myCoordinates = [xSum, ySum]
+     console.log(myCoordinates)
+     return [myCoordinates]
+   }
+
+  useEffect(() => {
+    setPolitikerUpdate(politicians)
+    const myCoordinates= calculateMyCircle()
+    setMyCircle(myCoordinates)
+  }, [politicians])
 
   return (
     <div className='border-2 border-black max-w-2xl'>
@@ -86,22 +98,22 @@ function SmarterMap({ politicians }) {
         </g>
 
         <g id='otherOnes'>
-          {politicians.map((politician, i) => (
+          {politikerUpdate.map((politician, i) => (
             <circle
-              key={politician.smarMapId}
-              cx={politician.coordinates?.x || 160}
-              cy={politician.coordinates?.y || 160}
+              key={politician[SMARTMAP_ID_IDX]}
+              cx={politician[X_ID] || 160}
+              cy={politician[Y_ID] || 160}
               r='3'
               strokeWidth='1'
               stroke='#6B7280'
-              fill={`#${politician.partyColor}`}
+              fill={`#${politician[PARTYCOLOR_IDX]}`}
               style={{ animationDelay: `${100 * (i + 1)}ms` }}
             >
-              <title>{`${politician.firstname} ${politician.lastname} | ${politician.partyAbbreviation}`}</title>
+              <title>{`${politician[FIRSTNAME_IDX]} ${politician[LASTNAME_IDX]} | ${politician[PARTY_ABBREVIATION_ID]}`}</title>
             </circle>
           ))}
         </g>
-        {/* <circle
+        { <circle
           id='myCircle'
           cx={myCircle[0]}
           cy={myCircle[1]}
@@ -109,7 +121,7 @@ function SmarterMap({ politicians }) {
           strokeWidth='1'
           stroke='#DB2777'
           fill='#EC4899'
-        /> */}
+        /> }
       </svg>
     </div>
   )
