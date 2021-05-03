@@ -67,7 +67,7 @@ function App() {
       console.log('finished')
     }
     fetchData()
-    console.log(politicians.candidates)
+    // console.log(politicians.candidates)
   }, [currentUser])
 
   function changeCurrUser(twitterId) {

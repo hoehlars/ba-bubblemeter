@@ -1,32 +1,24 @@
 import { useEffect, useState } from 'react'
 
 // HACK: kommastellen sind verrutscht, deswegen hier gefixt:
-// function fixDecimal(value) {
-//   return value >= 400000000000000 ? value / 10 ** 13 : value / 10 ** 12
-// }
+function fixDecimal(value) {
+  return value >= 400000000000000 ? value / 10 ** 13 : value / 10 ** 12
+}
 
 function SmarterMap({ politicians }) {
-  // const [myCircle, setMyCircle] = useState([160, 160])
+  const [myCircle, setMyCircle] = useState([160, 160])
 
   // function calculateMyCircle() {
-  //   // const xValues = politicians.map((politician) =>
-  //   //   fixDecimal(politician[5][0])
-  //   // )
-  //   const x =
-  //     politicians.coordinates.x.reduce(
-  //       (accumulator, currentValue) => accumulator + currentValue,
-  //       0
-  //     ) / politicians.length
-  //   // const yValues = politicians.map((politician) =>
-  //   //   fixDecimal(politician[5][1])
-  //   // )
-  //   // console.log(yValues)
-  //   const y =
-  //     politicians.coordinates.x.reduce(
-  //       (accumulator, currentValue) => accumulator + currentValue,
-  //       0
-  //     ) / politicians.length
-  //   return [x, y]
+  //   const xSum = politicians.reduce((xTotal, currentX) => {
+  //     return xTotal + currentX.coordinates?.x
+  //   })
+  //   const ySum = politicians.reduce((yTotal, currentY) => {
+  //     return yTotal + currentY.coordinates?.y
+  //   })
+
+  //   const myCoordinates = [xSum, ySum]
+  //   console.log(myCoordinates)
+  //   return [myCoordinates]
   // }
 
   // useEffect(() => {
