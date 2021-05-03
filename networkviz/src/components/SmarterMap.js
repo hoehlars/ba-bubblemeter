@@ -1,37 +1,37 @@
 import { useEffect, useState } from 'react'
 
 // HACK: kommastellen sind verrutscht, deswegen hier gefixt:
-function fixDecimal(value) {
-  return value >= 400000000000000 ? value / 10 ** 13 : value / 10 ** 12
-}
+// function fixDecimal(value) {
+//   return value >= 400000000000000 ? value / 10 ** 13 : value / 10 ** 12
+// }
 
 function SmarterMap({ politicians }) {
-  const [myCircle, setMyCircle] = useState([160, 160])
+  // const [myCircle, setMyCircle] = useState([160, 160])
 
-  function calculateMyCircle() {
-    const xValues = politicians.map((politician) =>
-      fixDecimal(politician[5][0])
-    )
-    const x =
-      xValues.reduce(
-        (accumulator, currentValue) => accumulator + currentValue,
-        0
-      ) / politicians.length
-    const yValues = politicians.map((politician) =>
-      fixDecimal(politician[5][1])
-    )
-    console.log(yValues)
-    const y =
-      yValues.reduce(
-        (accumulator, currentValue) => accumulator + currentValue,
-        0
-      ) / politicians.length
-    return [x, y]
-  }
+  // function calculateMyCircle() {
+  //   // const xValues = politicians.map((politician) =>
+  //   //   fixDecimal(politician[5][0])
+  //   // )
+  //   const x =
+  //     politicians.coordinates.x.reduce(
+  //       (accumulator, currentValue) => accumulator + currentValue,
+  //       0
+  //     ) / politicians.length
+  //   // const yValues = politicians.map((politician) =>
+  //   //   fixDecimal(politician[5][1])
+  //   // )
+  //   // console.log(yValues)
+  //   const y =
+  //     politicians.coordinates.x.reduce(
+  //       (accumulator, currentValue) => accumulator + currentValue,
+  //       0
+  //     ) / politicians.length
+  //   return [x, y]
+  // }
 
-  useEffect(() => {
-    setMyCircle(calculateMyCircle())
-  }, [politicians])
+  // useEffect(() => {
+  //   setMyCircle(calculateMyCircle())
+  // }, [politicians])
 
   return (
     <div className='border-2 border-black max-w-2xl'>
@@ -94,22 +94,22 @@ function SmarterMap({ politicians }) {
         </g>
 
         <g id='otherOnes'>
-          {politicians.map((entry, i) => (
+          {politicians.map((politician, i) => (
             <circle
-              key={entry[0]}
-              cx={fixDecimal(entry[5][0])}
-              cy={fixDecimal(entry[5][1])}
+              key={politician.smarMapId}
+              cx={politician.coordinates?.x || 160}
+              cy={politician.coordinates?.y || 160}
               r='3'
               strokeWidth='1'
               stroke='#6B7280'
-              fill='#D1D5DB'
+              fill={`#${politician.partyColor}`}
               style={{ animationDelay: `${100 * (i + 1)}ms` }}
             >
-              <title>{entry[0]}</title>
+              <title>{`${politician.firstname} ${politician.lastname} | ${politician.partyAbbreviation}`}</title>
             </circle>
           ))}
         </g>
-        <circle
+        {/* <circle
           id='myCircle'
           cx={myCircle[0]}
           cy={myCircle[1]}
@@ -117,7 +117,7 @@ function SmarterMap({ politicians }) {
           strokeWidth='1'
           stroke='#DB2777'
           fill='#EC4899'
-        />
+        /> */}
       </svg>
     </div>
   )
