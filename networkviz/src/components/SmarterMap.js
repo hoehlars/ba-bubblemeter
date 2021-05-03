@@ -1,55 +1,37 @@
 import { useEffect, useState } from 'react'
 
-// test data
-// const generateDataset = () =>
-//   Array(10)
-//     .fill(0)
-//     .map(() => [Math.random() * 170 + 30, Math.random() * 170 + 30])
-
 // HACK: kommastellen sind verrutscht, deswegen hier gefixt:
 function fixDecimal(value) {
   return value >= 400000000000000 ? value / 10 ** 13 : value / 10 ** 12
 }
 
 function SmarterMap({ politicians }) {
-  // get all politicians with smartmap coordinates
+  const [myCircle, setMyCircle] = useState([160, 160])
 
-  const getCoordinates = (politicians) => {
-    return politicians.filter((politician) => politician[5][0])
+  function calculateMyCircle() {
+    const xValues = politicians.map((politician) =>
+      fixDecimal(politician[5][0])
+    )
+    const x =
+      xValues.reduce(
+        (accumulator, currentValue) => accumulator + currentValue,
+        0
+      ) / politicians.length
+    const yValues = politicians.map((politician) =>
+      fixDecimal(politician[5][1])
+    )
+    console.log(yValues)
+    const y =
+      yValues.reduce(
+        (accumulator, currentValue) => accumulator + currentValue,
+        0
+      ) / politicians.length
+    return [x, y]
   }
 
-  const politiker = getCoordinates(politicians)
-  const [dataset, setDataset] = useState(politiker)
-  const [myCircle, setMyCircle] = useState([0, 0])
-
-  
-
-
   useEffect(() => {
-    const politikerUpdate = getCoordinates(dataset)
-    setDataset(politikerUpdate)
-
-    const xValues = dataset.map((entry) => {
-      const x = entry[5][0]
-      const fixedX = fixDecimal(x)
-      return fixedX
-    })
-    const yValues = dataset.map((yValue) => {
-      const y = yValue[5][1]
-      const fixedY = fixDecimal(y)
-      return fixedY
-    })
-
-    const reducer = (accumulator, currentValue) => accumulator + currentValue
-
-    console.log(xValues.reduce(reducer))
-    setMyCircle([
-      xValues.reduce(reducer) / politiker.length,
-      yValues.reduce(reducer) / politiker.length,
-    ])
-
-    return () => {}
-  }, [politicians, politiker.length])
+    setMyCircle(calculateMyCircle())
+  }, [politicians])
 
   return (
     <div className='border-2 border-black max-w-2xl'>
@@ -62,8 +44,9 @@ function SmarterMap({ politicians }) {
 
             #otherOnes circle {
               opacity: 0;
-              animation: dropIn 2s ease forwards;
+              animation: dropIn .5s ease forwards;
             } 
+
             #myCircle {
               opacity:0;
               animation:dropInLate 2s ease forwards;
@@ -111,7 +94,7 @@ function SmarterMap({ politicians }) {
         </g>
 
         <g id='otherOnes'>
-          {dataset.map((entry, i) => (
+          {politicians.map((entry, i) => (
             <circle
               key={entry[0]}
               cx={fixDecimal(entry[5][0])}
