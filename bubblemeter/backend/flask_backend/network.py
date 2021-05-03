@@ -33,7 +33,7 @@ def get_all_NR_and_SR_in_network(G_sorted_df):
     politicians = get_politicians()
     
     # iterate over network
-    politicians_df = pd.DataFrame(columns=["smartMapId", "firstname", "lastname","twitterHandle", "twitterId", "yearOfBirth", "profileImageUrl", "isIncumbent", "isElected", "partyAbbreviation", "partyColor", "__typename", "twitterLink", "coordinates", "in_degree"])
+    politicians_df = pd.DataFrame(columns=["smartMapId", "firstname", "lastname","twitterHandle", "twitterId", "yearOfBirth", "profileImageUrl", "isIncumbent", "isElected", "partyAbbreviation", "partyColor", "__typename", "twitterLink", "x", "y", "in_degree"])
     
     # find politicians in network and safe in df
     idx = 0
