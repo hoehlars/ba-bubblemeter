@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 
 function UserInfo({ userData, changeCurrUser, currentId }) {
-
   const [isActive, setIsActive] = useState()
 
   const data = userData || {
@@ -16,18 +15,19 @@ function UserInfo({ userData, changeCurrUser, currentId }) {
   }, [currentId, data.id])
 
   const user = (
-    <div className={`border-2 border-indigo-600" ${isActive ? "bg-green-100" : ""}`} >
-    <ul onClick={() => changeCurrUser(userData.id)}>
-      <li>
-        <span className='font-mono text-pink-600'>name:</span> {data.name}
-      </li>
-      <li>
-        <span className='font-mono text-pink-600'>@handle:</span> {data.handle}
-      </li>
-      <li>
-        <span className='font-mono text-pink-600'>id: </span> {data.id}
-      </li>
-    </ul>
+    <div>
+      <ul onClick={() => changeCurrUser(userData.id)}>
+        <li>
+          <span className='font-mono text-pink-600'>name:</span> {data.name}
+        </li>
+        <li>
+          <span className='font-mono text-pink-600'>@handle:</span>{' '}
+          {data.handle}
+        </li>
+        <li>
+          <span className='font-mono text-pink-600'>id: </span> {data.id}
+        </li>
+      </ul>
     </div>
   )
 
