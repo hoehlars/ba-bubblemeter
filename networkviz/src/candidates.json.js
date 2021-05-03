@@ -1,5 +1,4 @@
-export default {
-  candidates: [
+export default [
     {
       smartMapId: '44200002718',
       firstname: 'Mohamed',
@@ -12137,5 +12136,4 @@ export default {
       twitterLink: 'https://twitter.com/home',
       coordinates: { x: '99.86327986721314', y: '168.69549456168528' },
     },
-  ],
-}
+  ]
