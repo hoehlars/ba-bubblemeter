@@ -1,5 +1,0 @@
-{
-    "watch": ["./src/**/*.ts", ".env"],
-    "ignore": ["./src/**/*.test.ts"],
-    "exec": "ts-node -r dotenv/config ./src/index.ts"
-}

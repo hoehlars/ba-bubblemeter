@@ -9,4 +9,5 @@ classoption:
   - a4paper
   - 11pt
   - abstract=on
+lang: de
 ---
