@@ -97,4 +97,40 @@ def polit_score(twitterID):
     return response
     
 
+@app.route('/most_influential_party/<twitterID>')
+@cross_origin()
+def most_influential_party(twitterID):
+    # get all edges from the db
+    edges = get_edges_friends_of_friends(int(twitterID))
+    
+    # create dataframe and graph
+    edges_df = pd.DataFrame(edges)
+    G = nx.from_pandas_edgelist(edges_df, 'IDFrom', 'IDTo', create_using=nx.DiGraph())
+    
+    # sort by incoming degree
+    G_sorted_df = pd.DataFrame(sorted(G.in_degree, key=lambda x: x[1], reverse=True))
+    G_sorted_df.columns = ['twitter_id','in_degree']
+    
+     # get all politicians in network
+    politicians_in_network = get_all_NR_and_SR_in_network(G_sorted_df)
+    
+    # take top 100
+    politicians_in_network_top_100 = politicians_in_network.head(100)
+    
+    parties = {}
+    
+    # calculate score for each party with politicians in top 100 
+    for index, row in politicians_in_network_top_100.iterrows():
+        party = row["partyAbbreviation"]
+        in_degree = row["in_degree"]
+        
+        if not party in parties.keys():
+            parties[party] = in_degree
+        else:
+            parties[party] = parties[party] + in_degree
+            
+    
+    response = {"statusCode": 200, "body": {"parties": parties}}
+    return response
+
 app.run()
