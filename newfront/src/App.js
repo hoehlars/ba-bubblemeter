@@ -7,8 +7,8 @@ import { useEffect, useState } from 'react'
 
 function App() {
   const [politicians, setPoliticians] = useState(
-    //data.body.politicians_in_network.data
-    candidates
+    data.body.politicians_in_network.data
+    //candidates
   )
   const [topten, setTopten] = useState(data.body.top_ten_most_influential.data)
   const [currentUser, setCurrentUser] = useState({

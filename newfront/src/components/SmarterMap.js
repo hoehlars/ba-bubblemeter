@@ -18,23 +18,23 @@ function SmarterMap({ politicians }) {
   const Y_ID = 14
   const PARTY_ABBREVIATION_ID = 9
 
-  function calculateMyCircle() {
-    const xSum = politikerUpdate.reduce((xTotal, currentX) => {
-        return xTotal + currentX[X_ID]
-     })
-     const ySum = politikerUpdate.reduce((yTotal, currentY) => {
-       return yTotal + currentY[Y_ID]
-     })
+  // function calculateMyCircle() {
+  //   const xSum = politikerUpdate.reduce((xTotal, currentX) => {
+  //       return xTotal + currentX[X_ID]
+  //    })
+  //    const ySum = politikerUpdate.reduce((yTotal, currentY) => {
+  //      return yTotal + currentY[Y_ID]
+  //    })
 
-     const myCoordinates = [xSum, ySum]
-     console.log(myCoordinates)
-     return [myCoordinates]
-   }
+  //    const myCoordinates = [xSum, ySum]
+  //   //  console.log(myCoordinates)
+  //    return [myCoordinates]
+  //  }
 
   useEffect(() => {
     setPolitikerUpdate(politicians)
-    const myCoordinates= calculateMyCircle()
-    setMyCircle(myCoordinates)
+    // const myCoordinates= calculateMyCircle()
+    // setMyCircle(myCoordinates)
   }, [politicians])
 
   return (
@@ -113,15 +113,17 @@ function SmarterMap({ politicians }) {
             </circle>
           ))}
         </g>
-        { <circle
-          id='myCircle'
-          cx={myCircle[0]}
-          cy={myCircle[1]}
-          r='5'
-          strokeWidth='1'
-          stroke='#DB2777'
-          fill='#EC4899'
-        /> }
+        {
+          <circle
+            id='myCircle'
+            cx={myCircle[0]}
+            cy={myCircle[1]}
+            r='5'
+            strokeWidth='1'
+            stroke='#DB2777'
+            fill='#EC4899'
+          />
+        }
       </svg>
     </div>
   )
