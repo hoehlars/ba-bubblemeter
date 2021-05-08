@@ -79,69 +79,113 @@ function App() {
   }
 
   return [
-    isLoading ? (
-      <div className='w-screen h-screen bg-pink-500 flex justify-center items-center'>
-        <h1 className='inline text-2xl'>fetching data from backend</h1>
-      </div>
-    ) : (
-      <div className='App min-h-screen flex flex-col p-2'>
-        <header>
-          <h1 className='text-4xl'>Polit-o-Meter</h1>
-          <h2 className='text-sm mb-6'>
-            <span className='font-mono'>Stand:</span> 3. Mai 2021
-          </h2>
-        </header>
-        <main className='flex-1'>
-          <div className='mb-4 md:grid md:grid-cols-2 gap-6'>
-            <div className='mb-4'>
-              <label htmlFor='user-select' className='text-2xl mb-2'>
-                Choose a User:
-              </label>
-              <div className='inline-block relative w-64'>
-                <select
-                  className='block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline'
-                  name='users'
-                  id='user-select'
-                  onChange={(e) => changeCurrUser(e.target.value)}
-                >
-                  {usersInDB.map((entry) => {
-                    return (
-                      <option key={entry.name} value={entry.id}>
-                        {entry.name}
-                      </option>
-                    )
-                  })}
-                </select>
-                <div className='pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700'>
-                  <svg
-                    className='fill-current h-4 w-4'
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='0 0 20 20'
-                  >
-                    <path d='M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z' />
-                  </svg>
-                </div>
-              </div>
-
-              <h2 className='text-2xl mb-2'>Selected User</h2>
-              <div className='overflow-auto h-64'>
-                <UserInfo
-                  userData={currentUser}
-                  changeCurrUser={changeCurrUser}
-                  currentId={currentUser.id}
-                />
-              </div>
-              <h2 className='text-2xl mb-2 mt-4 '>Top Ten Influencers</h2>
-              <TopTen topten={topten} />
-            </div>
-            <div className=''>
-              <h2 className='text-2xl mb-2 '>Polit Koordinaten</h2>
-              <SmarterMap politicians={politicians} />
+    // isLoading ? (
+    //   <div className='w-screen h-screen bg-pink-500 flex justify-center items-center'>
+    //     <h1 className='inline text-2xl'>fetching data from backend</h1>
+    //   </div>
+    // ) : (
+    <div className='App min-h-screen flex flex-col p-2'>
+      <header>
+        <h1 className='text-4xl'>Polit-o-Meter</h1>
+        <h2 className='text-sm mb-6'>
+          <span className='font-mono'>Stand:</span> 8. Mai 2021
+        </h2>
+      </header>
+      <main className='flex-1 md:grid md:grid-cols-2 gap-6'>
+        {/* User Selection */}
+        <div className='mb-4 '>
+          <label htmlFor='user-select' className='text-2xl mb-2 block'>
+            Choose a User
+          </label>
+          <div className='inline-block relative w-64'>
+            <select
+              className='block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline'
+              name='users'
+              id='user-select'
+              onChange={(e) => changeCurrUser(e.target.value)}
+            >
+              {usersInDB.map((entry) => {
+                return (
+                  <option key={entry.name} value={entry.id}>
+                    {entry.name}
+                  </option>
+                )
+              })}
+            </select>
+            <div className='pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700'>
+              <svg
+                className='fill-current h-4 w-4'
+                xmlns='http://www.w3.org/2000/svg'
+                viewBox='0 0 20 20'
+              >
+                <path d='M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z' />
+              </svg>
             </div>
           </div>
-        </main>
-      </div>
-    ),
+        </div>
+        <div className='mb-4'>
+          <h2 className='text-2xl mb-2'>Selected User</h2>
+          <div>
+            <UserInfo
+              userData={currentUser}
+              changeCurrUser={changeCurrUser}
+              currentId={currentUser.id}
+            />
+          </div>
+        </div>
+
+        {/* Top Ten */}
+        <section>
+          <h2 className='text-2xl mb-2'>Top Ten Influencers</h2>
+          <p className='max-w-md'>
+            Hier werden die Einslussreichsten Twitterer in deinem Netzwerk
+            angezeigt. Der Score ergibt sich aus der Anzahl eingehender Kanten
+            (Anzahl Followers) der User.
+          </p>
+        </section>
+        <TopTen topten={topten} />
+
+        {/* Polit Koordinaten */}
+        <section>
+          <h2 className='text-2xl mb-2 '>Polit Koordinaten</h2>
+          <p className='max-w-md'>
+            Wenn ein Twitterer aus deinem Netzwerk auf Smartvote.ch ein Profil
+            angelegt hat, wird er hier gemäss seiner politischen Ausrichtung
+            angezeigt.
+          </p>
+        </section>
+        <SmarterMap politicians={politicians} />
+
+        {/* Polito-Meter */}
+        <section>
+          <h2 className='text-2xl mb-2 '>Polit-o-Meter</h2>
+          <p className='max-w-md'>
+            Hier wird angezeigt, wie politisch deine Twitter Bubble ist.
+          </p>
+        </section>
+        <p>100%</p>
+
+        {/* Schwerpunkt */}
+        <section>
+          <h2 className='text-2xl mb-2 '>Schwerpunkt</h2>
+          <p className='max-w-md'>
+            Hier wird angezeigt, wo du in der CH-Politlandschaft mit deiner
+            Twitter Bubble stehst.
+          </p>
+        </section>
+        <p>Socke</p>
+        {/* Inner/Outer Circle */}
+        <section>
+          <h2 className='text-2xl mb-2 '>Inner/Outer Circle</h2>
+          <p className='max-w-md'>
+            Kannst du Kontakte sehen, die innerhalb oder ausserhalb deiner
+            Bubble sind.
+          </p>
+        </section>
+        <p>100%</p>
+      </main>
+    </div>,
+    // ),
   ]
 }
 
