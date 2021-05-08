@@ -34,7 +34,9 @@ function TopTen({ topten }) {
             <tr className='border  py-1 text-left pl-2' key={scorer[0]}>
               <td className='border  py-1 text-left pl-2'>{i + 1}</td>
               <td className='border  py-1 text-left pl-2'>{scorer[0]}</td>
-              <td className='border  py-1 text-left pl-2'>{scorer[3]}</td>
+              <td className='border  py-1 text-left pl-2'>
+                {scorer[3] || scorer[1]}
+              </td>
             </tr>
           )
         })}

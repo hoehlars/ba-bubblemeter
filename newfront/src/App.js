@@ -5,7 +5,13 @@ import { default as data } from './data.json'
 import { useEffect, useState } from 'react'
 
 function App() {
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState({
+    selectedUser: false,
+    topten: false,
+    koordinaten: false,
+    score: false,
+    parties: false,
+  })
   const [politicians, setPoliticians] = useState(
     data.body.politicians_in_network.data
   )
@@ -15,6 +21,29 @@ function App() {
     polit_score: 0,
     size_of_whole_network: 1,
   })
+
+  const [partyList, setPartyList] = useState(
+    Object.entries({
+      AL: 7,
+      ALG: 2,
+      BDP: 14,
+      'BastA!': 1,
+      CSV: 7,
+      CVP: 9,
+      EVP: 4,
+      FDP: 24,
+      'Gr\u00fcne': 32,
+      JCVP: 1,
+      JG: 4,
+      JUSO: 13,
+      Lega: 2,
+      Piraten: 6,
+      SP: 126,
+      SVP: 9,
+      glp: 29,
+      jevp: 1,
+    })
+  )
   const [topten, setTopten] = useState(data.body.top_ten_most_influential.data)
   const [currentUser, setCurrentUser] = useState({
     name: 'Jürgen Spielberger',
@@ -63,23 +92,51 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       console.log('started')
-      setIsLoading(true)
+      setIsLoading({
+        selectedUser: false,
+        topten: true,
+        koordinaten: true,
+        score: true,
+        parties: true,
+      })
       const res = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}make_analysis/${currentUser.id}`
       )
       const resJson = await res.json()
       setTopten(resJson.body.top_ten_most_influential.data)
+      setIsLoading((isLoading) => ({
+        ...isLoading,
+        topten: false,
+      }))
       setPoliticians(resJson.body.politicians_in_network.data)
+      setIsLoading((isLoading) => ({
+        ...isLoading,
+        koordinaten: false,
+      }))
       const score = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}polit_score/${currentUser.id}`
       )
       const scoreJson = await score.json()
       setPolitScore(scoreJson.body)
+      setIsLoading((isLoading) => ({
+        ...isLoading,
+        score: false,
+      }))
+
+      const partyList = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}most_influential_party/${currentUser.id}`
+      )
+      const partyListJson = await partyList.json()
+      const partyArray = Object.entries(partyListJson.body.parties)
+      const sortedPartyArray = partyArray.sort((a, b) => b[1] - a[1])
+      setPartyList(sortedPartyArray)
+      setIsLoading((isLoading) => ({
+        ...isLoading,
+        parties: false,
+      }))
       console.log('finished')
-      setIsLoading(false)
     }
     fetchData()
-    // console.log(politicians.candidates)
   }, [currentUser])
 
   function changeCurrUser(twitterId) {
@@ -88,11 +145,6 @@ function App() {
   }
 
   return [
-    // isLoading ? (
-    //   <div className='w-screen h-screen bg-pink-500 flex justify-center items-center'>
-    //     <h1 className='inline text-2xl'>fetching data from backend</h1>
-    //   </div>
-    // ) : (
     <div className='App min-h-screen flex flex-col p-2'>
       <header>
         <h1 className='text-4xl'>Polit-o-Meter</h1>
@@ -148,48 +200,69 @@ function App() {
           <h2 className='text-2xl mb-2'>Top Ten Influencers</h2>
           <p className='max-w-md'>
             Hier werden die Einslussreichsten Twitterer in deinem Netzwerk
-            angezeigt. Der Score ergibt sich aus der Anzahl eingehender Kanten
-            (Anzahl Followers) der User.
+            angezeigt. Der Score ergibt sich aus der Anzahl Followers aus deinem
+            Netzwerk des jeweiligen Users.
           </p>
         </section>
-        <TopTen topten={topten} />
+        {isLoading.topten ? <p>loading</p> : <TopTen topten={topten} />}
 
         {/* Polit Koordinaten */}
         <section>
-          <h2 className='text-2xl mb-2 '>Polit Koordinaten</h2>
+          <h2 className='text-2xl mb-2 '>Koordinaten</h2>
           <p className='max-w-md'>
             Wenn ein Twitterer aus deinem Netzwerk auf Smartvote.ch ein Profil
             angelegt hat, wird er hier gemäss seiner politischen Ausrichtung
             angezeigt.
           </p>
         </section>
-        <SmarterMap politicians={politicians} />
+        {isLoading.koordinaten ? (
+          <p>loading</p>
+        ) : (
+          <SmarterMap politicians={politicians} />
+        )}
 
         {/* PolitScore */}
         <section>
-          <h2 className='text-2xl mb-2 '>Polit-Score</h2>
+          <h2 className='text-2xl mb-2 '>Score</h2>
           <p className='max-w-md'>
             Hier wird angezeigt, wie politisch deine Twitter Bubble ist.
           </p>
         </section>
-        <div>
-          <p>
-            Polit Score:{' '}
-            <span className='text-2xl text-pink-600 bold'>
-              {Math.round((politScore.polit_score + Number.EPSILON) * 100) /
-                100}
-            </span>
+        {isLoading.score ? (
+          <p>loading</p>
+        ) : (
+          <div>
+            <p>
+              Polit Score:{' '}
+              <span className='text-2xl text-pink-600 bold'>
+                {Math.round((politScore.polit_score + Number.EPSILON) * 100) /
+                  100}
+              </span>
+            </p>
+            <p>
+              Number of Politicians in DB:{' '}
+              {politScore.amount_of_politicians_in_db}
+            </p>
+            <p>
+              Number of Politicians in your Network:{' '}
+              {politScore.amount_of_politicians_in_network}
+            </p>
+            <p>
+              Total Size of your Network: {politScore.size_of_whole_network}
+            </p>
+          </div>
+        )}
+
+        {/* Party List */}
+
+        <section>
+          <h2 className='text-2xl mb-2 '>Parteien</h2>
+          <p className='max-w-md'>
+            Hier wird angezeigt, welche Parteien den grössten Einfluss in deiner
+            Bubble haben.
           </p>
-          <p>
-            Number of Politicians in DB:{' '}
-            {politScore.amount_of_politicians_in_db}
-          </p>
-          <p>
-            Number of Politicians in your Network:{' '}
-            {politScore.amount_of_politicians_in_network}
-          </p>
-          <p>Total Size of your Network: {politScore.size_of_whole_network}</p>
-        </div>
+        </section>
+        {isLoading.parties ? <p>loading</p> : <TopTen topten={partyList} />}
 
         {/* Schwerpunkt */}
         <section>
@@ -199,7 +272,7 @@ function App() {
             Twitter Bubble stehst.
           </p>
         </section>
-        <p>Socke</p>
+        <p>Work in progress</p>
         {/* Inner/Outer Circle */}
         <section>
           <h2 className='text-2xl mb-2 '>Inner/Outer Circle</h2>
@@ -208,10 +281,9 @@ function App() {
             Bubble sind.
           </p>
         </section>
-        <p>100%</p>
+        <p>Work in progress</p>
       </main>
     </div>,
-    // ),
   ]
 }
 
