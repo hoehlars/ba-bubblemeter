@@ -175,7 +175,10 @@ function App() {
         <div>
           <p>
             Polit Score:{' '}
-            {Math.round((politScore.polit_score + Number.EPSILON) * 100) / 100}
+            <span className='text-2xl text-pink-600 bold'>
+              {Math.round((politScore.polit_score + Number.EPSILON) * 100) /
+                100}
+            </span>
           </p>
           <p>
             Number of Politicians in DB:{' '}
