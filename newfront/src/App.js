@@ -7,8 +7,8 @@ import { useEffect, useState } from 'react'
 
 function App() {
   const [politicians, setPoliticians] = useState(
-    data.body.politicians_in_network.data
-    //candidates
+    //data.body.politicians_in_network.data
+    candidates
   )
   const [topten, setTopten] = useState(data.body.top_ten_most_influential.data)
   const [currentUser, setCurrentUser] = useState({
@@ -86,12 +86,12 @@ function App() {
       <main className='flex-1'>
         <div className='mb-4 md:grid md:grid-cols-2 gap-6'>
           <div className='mb-4'>
-            <label for='user-select' className='text-2xl mb-2'>
+            <label htmlFor='user-select' className='text-2xl mb-2'>
               Choose a User:
             </label>
-            <div class='inline-block relative w-64'>
+            <div className='inline-block relative w-64'>
               <select
-                class='block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline'
+                className='block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline'
                 name='users'
                 id='user-select'
                 onChange={(e) => changeCurrUser(e.target.value)}
@@ -104,9 +104,9 @@ function App() {
                   )
                 })}
               </select>
-              <div class='pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700'>
+              <div className='pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700'>
                 <svg
-                  class='fill-current h-4 w-4'
+                  className='fill-current h-4 w-4'
                   xmlns='http://www.w3.org/2000/svg'
                   viewBox='0 0 20 20'
                 >
