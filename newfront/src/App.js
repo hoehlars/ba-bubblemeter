@@ -2,15 +2,19 @@ import UserInfo from './components/UserInfo'
 import TopTen from './components/TopTen'
 import SmarterMap from './components/SmarterMap'
 import { default as data } from './data.json'
-import candidates from './candidates.json.js'
 import { useEffect, useState } from 'react'
 
 function App() {
   const [isLoading, setIsLoading] = useState(true)
   const [politicians, setPoliticians] = useState(
     data.body.politicians_in_network.data
-    //candidates
   )
+  const [politScore, setPolitScore] = useState({
+    amount_of_politicians_in_db: 0,
+    amount_of_politicians_in_network: 1,
+    polit_score: 0,
+    size_of_whole_network: 1,
+  })
   const [topten, setTopten] = useState(data.body.top_ten_most_influential.data)
   const [currentUser, setCurrentUser] = useState({
     name: 'Jürgen Spielberger',
@@ -61,11 +65,16 @@ function App() {
       console.log('started')
       setIsLoading(true)
       const res = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/${currentUser.id}`
+        `${process.env.REACT_APP_BACKEND_URL}make_analysis/${currentUser.id}`
       )
       const resJson = await res.json()
       setTopten(resJson.body.top_ten_most_influential.data)
       setPoliticians(resJson.body.politicians_in_network.data)
+      const score = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}polit_score/${currentUser.id}`
+      )
+      const scoreJson = await score.json()
+      setPolitScore(scoreJson.body)
       console.log('finished')
       setIsLoading(false)
     }
@@ -156,14 +165,28 @@ function App() {
         </section>
         <SmarterMap politicians={politicians} />
 
-        {/* Polito-Meter */}
+        {/* PolitScore */}
         <section>
-          <h2 className='text-2xl mb-2 '>Polit-o-Meter</h2>
+          <h2 className='text-2xl mb-2 '>Polit-Score</h2>
           <p className='max-w-md'>
             Hier wird angezeigt, wie politisch deine Twitter Bubble ist.
           </p>
         </section>
-        <p>100%</p>
+        <div>
+          <p>
+            Polit Score:{' '}
+            {Math.round((politScore.polit_score + Number.EPSILON) * 100) / 100}
+          </p>
+          <p>
+            Number of Politicians in DB:{' '}
+            {politScore.amount_of_politicians_in_db}
+          </p>
+          <p>
+            Number of Politicians in your Network:{' '}
+            {politScore.amount_of_politicians_in_network}
+          </p>
+          <p>Total Size of your Network: {politScore.size_of_whole_network}</p>
+        </div>
 
         {/* Schwerpunkt */}
         <section>
