@@ -6,9 +6,10 @@ import candidates from './candidates.json.js'
 import { useEffect, useState } from 'react'
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true)
   const [politicians, setPoliticians] = useState(
-    //data.body.politicians_in_network.data
-    candidates
+    data.body.politicians_in_network.data
+    //candidates
   )
   const [topten, setTopten] = useState(data.body.top_ten_most_influential.data)
   const [currentUser, setCurrentUser] = useState({
@@ -58,6 +59,7 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       console.log('started')
+      setIsLoading(true)
       const res = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/${currentUser.id}`
       )
@@ -65,6 +67,7 @@ function App() {
       setTopten(resJson.body.top_ten_most_influential.data)
       setPoliticians(resJson.body.politicians_in_network.data)
       console.log('finished')
+      setIsLoading(false)
     }
     fetchData()
     // console.log(politicians.candidates)
@@ -75,65 +78,71 @@ function App() {
     setCurrentUser(user)
   }
 
-  return (
-    <div className='App min-h-screen flex flex-col p-2'>
-      <header>
-        <h1 className='text-4xl'>Polit-o-Meter</h1>
-        <h2 className='text-sm mb-6'>
-          <span className='font-mono'>Stand:</span> 3. Mai 2021
-        </h2>
-      </header>
-      <main className='flex-1'>
-        <div className='mb-4 md:grid md:grid-cols-2 gap-6'>
-          <div className='mb-4'>
-            <label htmlFor='user-select' className='text-2xl mb-2'>
-              Choose a User:
-            </label>
-            <div className='inline-block relative w-64'>
-              <select
-                className='block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline'
-                name='users'
-                id='user-select'
-                onChange={(e) => changeCurrUser(e.target.value)}
-              >
-                {usersInDB.map((entry) => {
-                  return (
-                    <option key={entry.name} value={entry.id}>
-                      {entry.name}
-                    </option>
-                  )
-                })}
-              </select>
-              <div className='pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700'>
-                <svg
-                  className='fill-current h-4 w-4'
-                  xmlns='http://www.w3.org/2000/svg'
-                  viewBox='0 0 20 20'
+  return [
+    isLoading ? (
+      <div className='w-screen h-screen bg-pink-500 flex justify-center items-center'>
+        <h1 className='inline text-2xl'>fetching data from backend</h1>
+      </div>
+    ) : (
+      <div className='App min-h-screen flex flex-col p-2'>
+        <header>
+          <h1 className='text-4xl'>Polit-o-Meter</h1>
+          <h2 className='text-sm mb-6'>
+            <span className='font-mono'>Stand:</span> 3. Mai 2021
+          </h2>
+        </header>
+        <main className='flex-1'>
+          <div className='mb-4 md:grid md:grid-cols-2 gap-6'>
+            <div className='mb-4'>
+              <label htmlFor='user-select' className='text-2xl mb-2'>
+                Choose a User:
+              </label>
+              <div className='inline-block relative w-64'>
+                <select
+                  className='block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline'
+                  name='users'
+                  id='user-select'
+                  onChange={(e) => changeCurrUser(e.target.value)}
                 >
-                  <path d='M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z' />
-                </svg>
+                  {usersInDB.map((entry) => {
+                    return (
+                      <option key={entry.name} value={entry.id}>
+                        {entry.name}
+                      </option>
+                    )
+                  })}
+                </select>
+                <div className='pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700'>
+                  <svg
+                    className='fill-current h-4 w-4'
+                    xmlns='http://www.w3.org/2000/svg'
+                    viewBox='0 0 20 20'
+                  >
+                    <path d='M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z' />
+                  </svg>
+                </div>
               </div>
-            </div>
 
-            <h2 className='text-2xl mb-2'>Selected User</h2>
-            <div className='overflow-auto h-64'>
-              <UserInfo
-                userData={currentUser}
-                changeCurrUser={changeCurrUser}
-                currentId={currentUser.id}
-              />
+              <h2 className='text-2xl mb-2'>Selected User</h2>
+              <div className='overflow-auto h-64'>
+                <UserInfo
+                  userData={currentUser}
+                  changeCurrUser={changeCurrUser}
+                  currentId={currentUser.id}
+                />
+              </div>
+              <h2 className='text-2xl mb-2 mt-4 '>Top Ten Influencers</h2>
+              <TopTen topten={topten} />
             </div>
-            <h2 className='text-2xl mb-2 mt-4 '>Top Ten Influencers</h2>
-            <TopTen topten={topten} />
+            <div className=''>
+              <h2 className='text-2xl mb-2 '>Polit Koordinaten</h2>
+              <SmarterMap politicians={politicians} />
+            </div>
           </div>
-          <div className=''>
-            <h2 className='text-2xl mb-2 '>Polit Koordinaten</h2>
-            <SmarterMap politicians={politicians} />
-          </div>
-        </div>
-      </main>
-    </div>
-  )
+        </main>
+      </div>
+    ),
+  ]
 }
 
 export default App
