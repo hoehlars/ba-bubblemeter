@@ -53,6 +53,13 @@ def make_analysis(twitterID):
     k = 10
     ten_most_influential = top_k_of_network_sorted_incoming_degree(k, G_sorted_df)
     
+    # check if the twitter user itself is in the top ten list
+    if not ten_most_influential[ten_most_influential.twitter_id == int(twitterID)].empty:
+    # get top 11 most influential nodes, remove twitter user self
+        k = 11
+        ten_most_influential = top_k_of_network_sorted_incoming_degree(k, G_sorted_df)
+        ten_most_influential = ten_most_influential[ten_most_influential.twitter_id != int(twitterID)]
+    
     # get all politicians in network
     politicians_in_network = get_all_NR_and_SR_in_network(G_sorted_df)
     
