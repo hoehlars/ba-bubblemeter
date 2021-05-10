@@ -144,19 +144,19 @@ function App() {
     setCurrentUser(user)
   }
 
-  return [
+  return (
     <div className='App min-h-screen flex flex-col p-2'>
       <header>
         <h1 className='text-4xl'>Polit-o-Meter</h1>
         <h2 className='text-sm mb-6'>
-          <span className='font-mono'>Stand:</span> 8. Mai 2021
+          <span className='font-mono'>Stand:</span> 10. Mai 2021
         </h2>
       </header>
       <main className='flex-1 md:grid md:grid-cols-2 gap-6'>
         {/* User Selection */}
         <div className='mb-4 '>
           <label htmlFor='user-select' className='text-2xl mb-2 block'>
-            Choose a User
+            User auswählen
           </label>
           <div className='inline-block relative w-64'>
             <select
@@ -185,7 +185,7 @@ function App() {
           </div>
         </div>
         <div className='mb-4'>
-          <h2 className='text-2xl mb-2'>Selected User</h2>
+          <h2 className='text-2xl mb-2'>Ausgewählter User</h2>
           <div>
             <UserInfo
               userData={currentUser}
@@ -199,9 +199,8 @@ function App() {
         <section>
           <h2 className='text-2xl mb-2'>Top Ten Influencers</h2>
           <p className='max-w-md'>
-            Hier werden die Einslussreichsten Twitterer in deinem Netzwerk
-            angezeigt. Der Score ergibt sich aus der Anzahl Followers aus deinem
-            Netzwerk des jeweiligen Users.
+            Hier werden die Einslussreichsten Twitterer in deiner Bubble
+            angezeigt.
           </p>
         </section>
         {isLoading.topten ? <p>loading</p> : <TopTen topten={topten} />}
@@ -210,7 +209,7 @@ function App() {
         <section>
           <h2 className='text-2xl mb-2 '>Koordinaten</h2>
           <p className='max-w-md'>
-            Wenn ein Twitterer aus deinem Netzwerk auf Smartvote.ch ein Profil
+            Wenn ein Twitterer aus deiner Bubble auf Smartvote.ch ein Profil
             angelegt hat, wird er hier gemäss seiner politischen Ausrichtung
             angezeigt.
           </p>
@@ -225,7 +224,7 @@ function App() {
         <section>
           <h2 className='text-2xl mb-2 '>Score</h2>
           <p className='max-w-md'>
-            Hier wird angezeigt, wie politisch deine Twitter Bubble ist.
+            Hier wird angezeigt, wie politisch deine Bubble ist.
           </p>
         </section>
         {isLoading.score ? (
@@ -265,16 +264,15 @@ function App() {
         {isLoading.parties ? <p>loading</p> : <TopTen topten={partyList} />}
 
         {/* Schwerpunkt */}
-        <section>
+        {/* <section>
           <h2 className='text-2xl mb-2 '>Schwerpunkt</h2>
           <p className='max-w-md'>
-            Hier wird angezeigt, wo du in der CH-Politlandschaft mit deiner
-            Twitter Bubble stehst.
+            Hier wird angezeigt, wo du in der CH-Politlandschaft mit deiner Bubble stehst.
           </p>
         </section>
-        <p>Work in progress</p>
+        <p>Work in progress</p> */}
         {/* Inner/Outer Circle */}
-        <section>
+        {/* <section>
           <h2 className='text-2xl mb-2 '>Inner/Outer Circle</h2>
           <p className='max-w-md'>
             Kannst du Kontakte sehen, die innerhalb oder ausserhalb deiner
@@ -282,9 +280,10 @@ function App() {
           </p>
         </section>
         <p>Work in progress</p>
+        */}
       </main>
-    </div>,
-  ]
+    </div>
+  )
 }
 
 export default App
