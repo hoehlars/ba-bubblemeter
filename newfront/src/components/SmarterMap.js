@@ -18,23 +18,8 @@ function SmarterMap({ politicians }) {
   const Y_ID = 14
   const PARTY_ABBREVIATION_ID = 9
 
-  function calculateMyCircle() {
-    const xSum = politikerUpdate.reduce((xTotal, currentX) => {
-        return xTotal + currentX[X_ID]
-     })
-     const ySum = politikerUpdate.reduce((yTotal, currentY) => {
-       return yTotal + currentY[Y_ID]
-     })
-
-     const myCoordinates = [xSum, ySum]
-     console.log(myCoordinates)
-     return [myCoordinates]
-   }
-
   useEffect(() => {
     setPolitikerUpdate(politicians)
-    const myCoordinates= calculateMyCircle()
-    setMyCircle(myCoordinates)
   }, [politicians])
 
   return (
@@ -48,13 +33,8 @@ function SmarterMap({ politicians }) {
 
             #otherOnes circle {
               opacity: 0;
-              animation: dropIn .5s ease forwards;
+              animation: dropIn .2s ease forwards;
             } 
-
-            #myCircle {
-              opacity:0;
-              animation:dropInLate 2s ease forwards;
-            }
 
             @keyframes dropIn {
               20% { 
@@ -66,14 +46,7 @@ function SmarterMap({ politicians }) {
                 transform: translateY(0);
               }
             }
-            @keyframes dropInLate {
-              80% {
-                opacity: 0;
-              }
-              100% {
-                opacity: 1;
-              }
-            }
+            
           `}
         </style>
         <g id='legend'>
@@ -113,15 +86,6 @@ function SmarterMap({ politicians }) {
             </circle>
           ))}
         </g>
-        { <circle
-          id='myCircle'
-          cx={myCircle[0]}
-          cy={myCircle[1]}
-          r='5'
-          strokeWidth='1'
-          stroke='#DB2777'
-          fill='#EC4899'
-        /> }
       </svg>
     </div>
   )
