@@ -3,6 +3,7 @@ import TopTen from './components/TopTen'
 import SmarterMap from './components/SmarterMap'
 import { default as data } from './data.json'
 import { useEffect, useState } from 'react'
+import Schwerpunkt from './components/Schwerpunkt'
 
 function App() {
   const [isLoading, setIsLoading] = useState({
@@ -264,13 +265,18 @@ function App() {
         {isLoading.parties ? <p>loading</p> : <TopTen topten={partyList} />}
 
         {/* Schwerpunkt */}
-        {/* <section>
+        <section>
           <h2 className='text-2xl mb-2 '>Schwerpunkt</h2>
           <p className='max-w-md'>
-            Hier wird angezeigt, wo du in der CH-Politlandschaft mit deiner Bubble stehst.
+            Hier wird angezeigt, wo du in der CH-Politlandschaft mit deiner
+            Bubble stehst.
           </p>
         </section>
-        <p>Work in progress</p> */}
+        {isLoading.koordinaten ? (
+          <p>loading</p>
+        ) : (
+          <Schwerpunkt politicians={politicians} />
+        )}
         {/* Inner/Outer Circle */}
         {/* <section>
           <h2 className='text-2xl mb-2 '>Inner/Outer Circle</h2>

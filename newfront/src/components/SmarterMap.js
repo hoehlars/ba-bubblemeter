@@ -1,14 +1,8 @@
 import { useEffect, useState } from 'react'
 
-// HACK: kommastellen sind verrutscht, deswegen hier gefixt:
-function fixDecimal(value) {
-  return value >= 400000000000000 ? value / 10 ** 13 : value / 10 ** 12
-}
-
-function SmarterMap({ politicians }) {
-  const [myCircle, setMyCircle] = useState([160, 160])
-
+function SmarterMap({ politicians, myCoords }) {
   const [politikerUpdate, setPolitikerUpdate] = useState(politicians)
+  const [myCoordinates, setMyCoordinates] = useState(myCoords)
 
   const FIRSTNAME_IDX = 1
   const LASTNAME_IDX = 2
@@ -71,7 +65,7 @@ function SmarterMap({ politicians }) {
         </g>
 
         <g id='otherOnes'>
-          {politikerUpdate.map((politician, i) => (
+          {politikerUpdate?.map((politician, i) => (
             <circle
               key={politician[SMARTMAP_ID_IDX]}
               cx={politician[X_ID] || 160}
@@ -85,6 +79,17 @@ function SmarterMap({ politicians }) {
               <title>{`${politician[FIRSTNAME_IDX]} ${politician[LASTNAME_IDX]} | ${politician[PARTY_ABBREVIATION_ID]}`}</title>
             </circle>
           ))}
+        </g>
+        <g id='myCoords'>
+          {myCoords && (
+            <circle
+              cx={myCoords.x}
+              cy={myCoords.y}
+              r='16'
+              stroke='#6B7280'
+              fill='#db2777'
+            ></circle>
+          )}
         </g>
       </svg>
     </div>
