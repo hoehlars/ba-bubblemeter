@@ -9,6 +9,17 @@ Created on Wed Apr 14 09:41:06 2021
 import pandas as pd
 from db import get_politicians
 from twitter_access import get_user_from_id
+import networkx as nx
+
+
+
+def generate_graph(edges_df):
+    G = nx.from_pandas_edgelist(edges_df, 'IDFrom', 'IDTo', create_using=nx.DiGraph())
+
+    # sort by incoming degree
+    G_sorted_df = pd.DataFrame(sorted(G.in_degree, key=lambda x: x[1], reverse=True))
+    G_sorted_df.columns = ['twitter_id','in_degree']
+    return G_sorted_df
 
 def top_k_of_network_sorted_incoming_degree(k, G_sorted_df):
     # get top k

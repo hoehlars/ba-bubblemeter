@@ -23,11 +23,12 @@ sys.path.append("../network")
 import pandas as pd
 import json
 
-import networkx as nx
+
 from twitter_access import process_friends
 from db import get_edges_friends_of_friends, get_amount_of_politicians_in_db
 from network import top_k_of_network_sorted_incoming_degree
 from network import get_all_NR_and_SR_in_network
+from network import generate_graph
 
 #call with twitter id
 #returns json object with politicians_in_network and top_ten_most_influential
@@ -42,16 +43,20 @@ def make_analysis(twitterID):
     
     # create dataframe and graph
     edges_df = pd.DataFrame(edges)
-    G = nx.from_pandas_edgelist(edges_df, 'IDFrom', 'IDTo', create_using=nx.DiGraph())
-
-    # sort by incoming degree
-    G_sorted_df = pd.DataFrame(sorted(G.in_degree, key=lambda x: x[1], reverse=True))
-    G_sorted_df.columns = ['twitter_id','in_degree']
     
+    
+    G_sorted_df = generate_graph(edges_df)
     
     # get ten most influential nodes
     k = 10
     ten_most_influential = top_k_of_network_sorted_incoming_degree(k, G_sorted_df)
+    
+    # check if the twitter user itself is in the top ten list
+    if not ten_most_influential[ten_most_influential.twitter_id == int(twitterID)].empty:
+    # get top 11 most influential nodes, remove twitter user self
+        k = 11
+        ten_most_influential = top_k_of_network_sorted_incoming_degree(k, G_sorted_df)
+        ten_most_influential = ten_most_influential[ten_most_influential.twitter_id != int(twitterID)]
     
     # get all politicians in network
     politicians_in_network = get_all_NR_and_SR_in_network(G_sorted_df)
@@ -127,5 +132,5 @@ def most_influential_party(twitterID):
     
     response = {"statusCode": 200, "body": {"parties": parties}}
     return response
-
+  
 app.run()
