@@ -31,7 +31,7 @@ from network import get_all_politicians_in_network
 from network import generate_graph
 from centroid import compute_centroid_top_k_percent
 from centroid import compute_inside_outside_circle
-from helper import df_to_json
+from helpers import df_to_json
 
 MOST_INFLUENTIAL_TOP_COUNT = 10
 MOST_INFLUENTIAL_PARTY_POLIT_COUNT = 100
