@@ -4,6 +4,7 @@ import SmarterMap from './components/SmarterMap'
 import { default as data } from './data.json'
 import { useEffect, useState } from 'react'
 import Schwerpunkt from './components/Schwerpunkt'
+import ListInnerOuterCircle from './components/ListInnerOuterCircle'
 
 function App() {
   const [isLoading, setIsLoading] = useState({
@@ -12,7 +13,8 @@ function App() {
     koordinaten: false,
     score: false,
     parties: false,
-    centroid: false
+    centroid: false,
+    innerOuterCircle: false
   })
   const [politicians, setPoliticians] = useState(
     data.body.politicians_in_network.data
@@ -54,6 +56,9 @@ function App() {
   })
 
   const [centroid, setCentroid] = useState({"x": 160, "y": 160})
+
+  const [innerCircle, setInnerCircle] = useState([])
+  const [outerCircle, setOuterCircle] = useState([])
 
   const usersInDB = [
     {
@@ -102,7 +107,8 @@ function App() {
         koordinaten: true,
         score: true,
         parties: true,
-        centroid: true
+        centroid: true,
+        innerOuterCircle: true
       })
       const res = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}make_analysis/${currentUser.id}`
@@ -118,6 +124,24 @@ function App() {
         ...isLoading,
         koordinaten: false,
       }))
+
+      const innerOuterCircleRes = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}inner_outer_circle/${currentUser.id}`,
+        {
+          method: "GET",
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        }
+      )
+      const innerOuterCircleJson = await innerOuterCircleRes.json()
+      setInnerCircle(innerOuterCircleJson.body.politicians_inside.data)
+      setOuterCircle(innerOuterCircleJson.body.politicians_outside.data)
+      console.log(innerOuterCircleJson.body.politicians_inside.data)
+      console.log(innerOuterCircleJson.body.politicians_outside.data)
+      setIsLoading((isLoading) => ({
+        ...isLoading,
+        innerOuterCircle: false
+      }))
       
       const centroidRes = await fetch(`${process.env.REACT_APP_BACKEND_URL}centroid/${currentUser.id}`)
       const centroidJson = await centroidRes.json();
@@ -131,7 +155,12 @@ function App() {
       }))
 
       const score = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}polit_score/${currentUser.id}`
+        `${process.env.REACT_APP_BACKEND_URL}polit_score/${currentUser.id}`,
+        {
+          method: "GET",
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        }
       )
       const scoreJson = await score.json()
       setPolitScore(scoreJson.body)
@@ -151,6 +180,8 @@ function App() {
         ...isLoading,
         parties: false,
       }))
+
+
       console.log('finished')
     }
     fetchData()
@@ -294,15 +325,15 @@ function App() {
           <Schwerpunkt centroid={centroid} />
         )}
         {/* Inner/Outer Circle */}
-        {/* <section>
+        <section>
           <h2 className='text-2xl mb-2 '>Inner/Outer Circle</h2>
           <p className='max-w-md'>
             Kannst du Kontakte sehen, die innerhalb oder ausserhalb deiner
             Bubble sind.
           </p>
         </section>
-        <p>Work in progress</p>
-        */}
+        {isLoading.innerOuterCircle ? <p>loading</p> : <ListInnerOuterCircle innerCircle={innerCircle}
+        outerCircle={outerCircle} />}
       </main>
     </div>
   )

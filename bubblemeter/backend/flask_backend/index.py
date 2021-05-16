@@ -31,6 +31,7 @@ from network import top_k_of_network_sorted_incoming_degree
 from network import get_all_NR_and_SR_in_network
 from network import generate_graph
 from network import compute_centroid_top_k_percent
+from network import compute_inside_outside_circle
 
 #call with twitter id
 #returns json object with politicians_in_network and top_ten_most_influential
@@ -154,5 +155,34 @@ def centroid(twitterID):
 
     response = {"statusCode": 200, "body": {"x": coordinates["x"], "y": coordinates["y"]}}
     return response
+
+@app.route('/inner_outer_circle/<twitterID>')
+def inner_outer_circle(twitterID):
+        
+    edges = get_edges_friends_of_friends(int(twitterID))
+    
+    # create dataframe and graph
+    edges_df = pd.DataFrame(edges)
+    
+    G_sorted_df = generate_graph(edges_df)
+    
+    k = 5
+    radius = 16
+    politicians_in_network = compute_inside_outside_circle(G_sorted_df, k, radius)
+        
+    politicians_inside = politicians_in_network[politicians_in_network["isInside"] == True]
+    politicians_outside = politicians_in_network[politicians_in_network["isInside"] == False]
+
+    
+    result = politicians_inside.to_json(orient="split")
+    politicians_inside_json = json.loads(result)
+    
+    result = politicians_outside.to_json(orient="split")
+    politicians_outside_json = json.loads(result)
+    
+    response = {"statusCode": 200, "body": {"radius": radius, "politicians_inside": politicians_inside_json, "politicians_outside": politicians_outside_json}}
+    return response
+
+
   
 app.run()

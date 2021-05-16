@@ -10,7 +10,7 @@ import pandas as pd
 from db import get_politicians
 from twitter_access import get_user_from_id
 import networkx as nx
-
+import math
 
 
 def generate_graph(edges_df):
@@ -105,4 +105,33 @@ def compute_centroid_top_k_percent(G_sorted_df, k):
     y = sum_y / sum_score
     
     return {"x": x, "y": y}
+
+def compute_inside_outside_circle(G_sorted_df, k, radius):
+    
+    politicians_in_network = get_all_NR_and_SR_in_network(G_sorted_df)
+    
+    # create isInside column
+    politicians_in_network["isInside"] = False
+    politicians_in_network["distance"] = 0
+    
+    
+    centroid = compute_centroid_top_k_percent(G_sorted_df, k)
+    centroid_x = centroid["x"]
+    centroid_y = centroid["y"]
+    for index, politician in politicians_in_network.iterrows():
+        x = float(politician["x"])
+        y = float(politician["y"])
+        politicians_in_network.loc[index, "isInside"] = isInsideCircle(centroid_x, centroid_y, x, y, radius)
+        politicians_in_network.loc[index, "distance"] = math.sqrt((centroid_x - x) ** 2 + (centroid_y - y) ** 2)
+    return politicians_in_network
+        
+        
+def isInsideCircle(circle_x, circle_y, x, y, radius):
+    dist = math.sqrt((circle_x - x) ** 2 + (circle_y - y) ** 2)
+    return dist <= radius
+    
+    
+    
+    
+    
     
