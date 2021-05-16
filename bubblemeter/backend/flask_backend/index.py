@@ -132,5 +132,45 @@ def most_influential_party(twitterID):
     
     response = {"statusCode": 200, "body": {"parties": parties}}
     return response
+
+
+@app.route('/centroid/<twitterID>')
+def centroid(twitterID):
+    
+    # get all edges from the db
+    edges = get_edges_friends_of_friends(int(twitterID))
+    
+    # create dataframe and graph
+    edges_df = pd.DataFrame(edges)
+    
+    
+    G_sorted_df = generate_graph(edges_df)
+    
+    
+    politicians_in_network = get_all_NR_and_SR_in_network(G_sorted_df)
+    
+    
+    # specifies the percentage of the politicians in network taken
+    k = 5
+    percent = round((politicians_in_network.shape[0] / 100) * k)
+    
+    # take only top 5 percent
+    politicians_in_network = politicians_in_network.head(percent)
+    
+    # sum up x and y coordinates and scale them by in degree
+    sum_x = 0
+    sum_y = 0
+    for index, politician in politicians_in_network.iterrows():
+        sum_x = sum_x + float(politician['x']) * int(politician['in_degree'])
+        sum_y = sum_y + float(politician['y']) * int(politician['in_degree'])
+    
+    sum_score = pd.to_numeric(politicians_in_network['in_degree']).sum()
+    
+    
+    x = sum_x / sum_score
+    y = sum_y / sum_score
+
+    response = {"statusCode": 200, "body": {"x": x, "y": y, "percent": percent, "shape": politicians_in_network.shape}}
+    return response
   
 app.run()
