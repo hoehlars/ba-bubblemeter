@@ -15,6 +15,7 @@ app.config["DEBUG"] = True
 
 CORS(app)
 
+
 #sys import, used so that files in other directories are found
 import sys
 sys.path.append("../network")
@@ -29,6 +30,7 @@ from db import get_edges_friends_of_friends, get_amount_of_politicians_in_db
 from network import top_k_of_network_sorted_incoming_degree
 from network import get_all_NR_and_SR_in_network
 from network import generate_graph
+from network import compute_centroid_top_k_percent
 
 #call with twitter id
 #returns json object with politicians_in_network and top_ten_most_influential
@@ -131,6 +133,26 @@ def most_influential_party(twitterID):
             
     
     response = {"statusCode": 200, "body": {"parties": parties}}
+    return response
+
+
+@app.route('/centroid/<twitterID>')
+def centroid(twitterID):
+    
+    # get all edges from the db
+    edges = get_edges_friends_of_friends(int(twitterID))
+    
+    # create dataframe and graph
+    edges_df = pd.DataFrame(edges)
+    
+    
+    G_sorted_df = generate_graph(edges_df)
+    
+    
+    k = 5
+    coordinates = compute_centroid_top_k_percent(G_sorted_df, k)
+
+    response = {"statusCode": 200, "body": {"x": coordinates["x"], "y": coordinates["y"]}}
     return response
   
 app.run()
