@@ -12,6 +12,7 @@ function App() {
     koordinaten: false,
     score: false,
     parties: false,
+    centroid: false
   })
   const [politicians, setPoliticians] = useState(
     data.body.politicians_in_network.data
@@ -51,6 +52,8 @@ function App() {
     handle: '@Spielberger_J',
     id: 595346116,
   })
+
+  const [centroid, setCentroid] = useState({"x": 160, "y": 160})
 
   const usersInDB = [
     {
@@ -99,6 +102,7 @@ function App() {
         koordinaten: true,
         score: true,
         parties: true,
+        centroid: true
       })
       const res = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}make_analysis/${currentUser.id}`
@@ -114,6 +118,18 @@ function App() {
         ...isLoading,
         koordinaten: false,
       }))
+      
+      const centroidRes = await fetch(`${process.env.REACT_APP_BACKEND_URL}centroid/${currentUser.id}`)
+      const centroidJson = await centroidRes.json();
+      const centroid = {"x": centroidJson.body.x, "y": centroidJson.body.y}
+      setCentroid(centroid);
+
+
+      setIsLoading((isLoading) => ({
+        ...isLoading,
+        centroid: false
+      }))
+
       const score = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}polit_score/${currentUser.id}`
       )
@@ -272,10 +288,10 @@ function App() {
             Bubble stehst.
           </p>
         </section>
-        {isLoading.koordinaten ? (
+        {isLoading.centroid ? (
           <p>loading</p>
         ) : (
-          <Schwerpunkt politicians={politicians} />
+          <Schwerpunkt centroid={centroid} />
         )}
         {/* Inner/Outer Circle */}
         {/* <section>
