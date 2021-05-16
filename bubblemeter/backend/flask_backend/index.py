@@ -80,13 +80,7 @@ def polit_score(twitterID):
     
     # create dataframe and graph
     edges_df = pd.DataFrame(edges)
-    G = nx.from_pandas_edgelist(edges_df, 'IDFrom', 'IDTo', create_using=nx.DiGraph())
-    
-    # sort by incoming degree
-    G_sorted_df = pd.DataFrame(sorted(G.in_degree, key=lambda x: x[1], reverse=True))
-    G_sorted_df.columns = ['twitter_id','in_degree']
-    
-    
+    G_sorted_df = generate_graph(edges_df)
     
     # get all politicians in network
     politicians_in_network = get_all_NR_and_SR_in_network(G_sorted_df)
@@ -108,11 +102,7 @@ def most_influential_party(twitterID):
     
     # create dataframe and graph
     edges_df = pd.DataFrame(edges)
-    G = nx.from_pandas_edgelist(edges_df, 'IDFrom', 'IDTo', create_using=nx.DiGraph())
-    
-    # sort by incoming degree
-    G_sorted_df = pd.DataFrame(sorted(G.in_degree, key=lambda x: x[1], reverse=True))
-    G_sorted_df.columns = ['twitter_id','in_degree']
+    G_sorted_df = generate_graph(edges_df)
     
      # get all politicians in network
     politicians_in_network = get_all_NR_and_SR_in_network(G_sorted_df)
@@ -146,9 +136,7 @@ def centroid(twitterID):
     # create dataframe and graph
     edges_df = pd.DataFrame(edges)
     
-    
     G_sorted_df = generate_graph(edges_df)
-    
     
     k = 5
     coordinates = compute_centroid_top_k_percent(G_sorted_df, k)
