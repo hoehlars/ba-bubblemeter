@@ -10,7 +10,6 @@ import pandas as pd
 from db import get_politicians
 from twitter_access import get_user_from_id
 import networkx as nx
-import math
 
 
 def generate_graph(edges_df):
@@ -22,7 +21,7 @@ def generate_graph(edges_df):
     return G_sorted_df
 
 def top_k_of_network_sorted_incoming_degree(k, G_sorted_df):
-    # get top k
+    
     G_top_k = G_sorted_df.head(k)
     
     top_k_df = pd.DataFrame(columns = ['name', 'twitter_handle', 'twitter_id', 'in_degree'])
@@ -43,10 +42,8 @@ def top_k_of_network_sorted_incoming_degree(k, G_sorted_df):
 def get_all_politicians_in_network(G_sorted_df):
     politicians = get_politicians()
     
-    # iterate over network
     politicians_df = pd.DataFrame(columns=["smartMapId", "firstname", "lastname","twitterHandle", "twitterId", "yearOfBirth", "profileImageUrl", "isIncumbent", "isElected", "partyAbbreviation", "partyColor", "__typename", "twitterLink", "x", "y", "in_degree"])
     
-    # find politicians in network and safe in df
     idx = 0
     for politician in politicians:
 
@@ -55,7 +52,7 @@ def get_all_politicians_in_network(G_sorted_df):
             
             # search for politician with id, if found --> append it to politicians_df
             politicians_df = politicians_df.append(G_sorted_df[G_sorted_df['twitter_id'] == politician["twitterId"]], ignore_index=True)
-            # add nametwitter handle, party and smartmap coordinates of politician into df
+            # add additional information into df
             politicians_df.loc[idx, 'smartMapId'] = politician["smartMapId"]
             politicians_df.loc[idx, 'firstname'] = politician["firstname"]
             politicians_df.loc[idx, 'lastname'] = politician["lastname"]
@@ -81,54 +78,6 @@ def get_all_politicians_in_network(G_sorted_df):
     
     return politicians_df
 
-
-def compute_centroid_top_k_percent(G_sorted_df, k):
-    politicians_in_network = get_all_politicians_in_network(G_sorted_df)
-    
-    # specifies the percentage of the politicians in network taken
-    percent = round((politicians_in_network.shape[0] / 100) * k)
-    
-    # take only top k percent
-    politicians_in_network = politicians_in_network.head(percent)
-    
-    # sum up x and y coordinates and scale them by in degree
-    sum_x = 0
-    sum_y = 0
-    for index, politician in politicians_in_network.iterrows():
-        sum_x = sum_x + float(politician['x']) * int(politician['in_degree'])
-        sum_y = sum_y + float(politician['y']) * int(politician['in_degree'])
-    
-    # sum up score of top 5 percent
-    sum_score = pd.to_numeric(politicians_in_network['in_degree']).sum()
-     
-    x = sum_x / sum_score
-    y = sum_y / sum_score
-    
-    return {"x": x, "y": y}
-
-def compute_inside_outside_circle(G_sorted_df, k, radius):
-    
-    politicians_in_network = get_all_politicians_in_network(G_sorted_df)
-    
-    # create isInside column
-    politicians_in_network["isInside"] = False
-    politicians_in_network["distance"] = 0
-    
-    
-    centroid = compute_centroid_top_k_percent(G_sorted_df, k)
-    centroid_x = centroid["x"]
-    centroid_y = centroid["y"]
-    for index, politician in politicians_in_network.iterrows():
-        x = float(politician["x"])
-        y = float(politician["y"])
-        politicians_in_network.loc[index, "isInside"] = isInsideCircle(centroid_x, centroid_y, x, y, radius)
-        politicians_in_network.loc[index, "distance"] = math.sqrt((centroid_x - x) ** 2 + (centroid_y - y) ** 2)
-    return politicians_in_network
-        
-        
-def isInsideCircle(circle_x, circle_y, x, y, radius):
-    dist = math.sqrt((circle_x - x) ** 2 + (circle_y - y) ** 2)
-    return dist <= radius
     
     
     
