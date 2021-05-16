@@ -33,6 +33,12 @@ from network import generate_graph
 from network import compute_centroid_top_k_percent
 from network import compute_inside_outside_circle
 
+MOST_INFLUENTIAL_TOP_COUNT = 10
+MOST_INFLUENTIAL_PARTY_POLIT_COUNT = 100
+CENTROID_TOP_K_PERCENT_POLIT = 5
+RADIUS_AROUND_CENTROID = 16
+DF_ROW_COUNT = 0
+
 #call with twitter id
 #returns json object with politicians_in_network and top_ten_most_influential
 @app.route('/make_analysis/<twitterID>')
@@ -51,14 +57,12 @@ def make_analysis(twitterID):
     G_sorted_df = generate_graph(edges_df)
     
     # get ten most influential nodes
-    k = 10
-    ten_most_influential = top_k_of_network_sorted_incoming_degree(k, G_sorted_df)
+    ten_most_influential = top_k_of_network_sorted_incoming_degree(MOST_INFLUENTIAL_TOP_COUNT, G_sorted_df)
     
     # check if the twitter user itself is in the top ten list
     if not ten_most_influential[ten_most_influential.twitter_id == int(twitterID)].empty:
     # get top 11 most influential nodes, remove twitter user self
-        k = 11
-        ten_most_influential = top_k_of_network_sorted_incoming_degree(k, G_sorted_df)
+        ten_most_influential = top_k_of_network_sorted_incoming_degree(MOST_INFLUENTIAL_TOP_COUNT + 1, G_sorted_df)
         ten_most_influential = ten_most_influential[ten_most_influential.twitter_id != int(twitterID)]
     
     # get all politicians in network
@@ -85,10 +89,9 @@ def polit_score(twitterID):
     # get all politicians in network
     politicians_in_network = get_all_NR_and_SR_in_network(G_sorted_df)
     
-    size_of_whole_network = G_sorted_df.shape[0]
-    amount_of_politicians_in_network = politicians_in_network.shape[0]
+    size_of_whole_network = G_sorted_df.shape[DF_ROW_COUNT]
+    amount_of_politicians_in_network = politicians_in_network.shape[DF_ROW_COUNT]
     amount_of_politicians_in_db = get_amount_of_politicians_in_db()
-    
     
     polit_score = amount_of_politicians_in_network / amount_of_politicians_in_db
     
@@ -108,7 +111,7 @@ def most_influential_party(twitterID):
     politicians_in_network = get_all_NR_and_SR_in_network(G_sorted_df)
     
     # take top 100
-    politicians_in_network_top_100 = politicians_in_network.head(100)
+    politicians_in_network_top_100 = politicians_in_network.head(MOST_INFLUENTIAL_PARTY_POLIT_COUNT)
     
     parties = {}
     
@@ -154,21 +157,18 @@ def inner_outer_circle(twitterID):
     
     G_sorted_df = generate_graph(edges_df)
     
-    k = 5
-    radius = 16
-    politicians_in_network = compute_inside_outside_circle(G_sorted_df, k, radius)
+    politicians_in_network = compute_inside_outside_circle(G_sorted_df, CENTROID_TOP_K_PERCENT_POLIT, RADIUS_AROUND_CENTROID)
         
     politicians_inside = politicians_in_network[politicians_in_network["isInside"] == True]
     politicians_outside = politicians_in_network[politicians_in_network["isInside"] == False]
 
-    
     result = politicians_inside.to_json(orient="split")
     politicians_inside_json = json.loads(result)
     
     result = politicians_outside.to_json(orient="split")
     politicians_outside_json = json.loads(result)
     
-    response = {"statusCode": 200, "body": {"radius": radius, "politicians_inside": politicians_inside_json, "politicians_outside": politicians_outside_json}}
+    response = {"statusCode": 200, "body": {"radius": RADIUS_AROUND_CENTROID, "politicians_inside": politicians_inside_json, "politicians_outside": politicians_outside_json}}
     return response
 
 
