@@ -5,6 +5,7 @@ import { default as data } from './data.json'
 import { useEffect, useState } from 'react'
 import Schwerpunkt from './components/Schwerpunkt'
 import ListInnerOuterCircle from './components/ListInnerOuterCircle'
+import {fetchAnalysisData, fetchInnerOuterCircleData, fetchCentroidData, fetchScore, fetchSortedPartyList} from './services/apiService'
 
 function App() {
   const [isLoading, setIsLoading] = useState({
@@ -110,77 +111,51 @@ function App() {
         centroid: true,
         innerOuterCircle: true
       })
-      const res = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}make_analysis/${currentUser.id}`
-      )
-      const resJson = await res.json()
-      setTopten(resJson.body.top_ten_most_influential.data)
+
+      const analysisData = await fetchAnalysisData(currentUser.id);
+
+      setTopten(analysisData.top_ten_most_influential.data)
       setIsLoading((isLoading) => ({
         ...isLoading,
         topten: false,
       }))
-      setPoliticians(resJson.body.politicians_in_network.data)
+      setPoliticians(analysisData.politicians_in_network.data)
       setIsLoading((isLoading) => ({
         ...isLoading,
         koordinaten: false,
       }))
 
-      const innerOuterCircleRes = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}inner_outer_circle/${currentUser.id}`,
-        {
-          method: "GET",
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        }
-      )
-      const innerOuterCircleJson = await innerOuterCircleRes.json()
-      setInnerCircle(innerOuterCircleJson.body.politicians_inside.data)
-      setOuterCircle(innerOuterCircleJson.body.politicians_outside.data)
-      console.log(innerOuterCircleJson.body.politicians_inside.data)
-      console.log(innerOuterCircleJson.body.politicians_outside.data)
+      const innerOuterCircleData = await fetchInnerOuterCircleData(currentUser.id)
+      
+      setInnerCircle(innerOuterCircleData.politicians_inside.data)
+      setOuterCircle(innerOuterCircleData.politicians_outside.data)
       setIsLoading((isLoading) => ({
         ...isLoading,
         innerOuterCircle: false
       }))
       
-      const centroidRes = await fetch(`${process.env.REACT_APP_BACKEND_URL}centroid/${currentUser.id}`)
-      const centroidJson = await centroidRes.json();
-      const centroid = {"x": centroidJson.body.x, "y": centroidJson.body.y}
+      const centroidData = await fetchCentroidData(currentUser.id)
+      const centroid = {"x": centroidData.x, "y": centroidData.y}
       setCentroid(centroid);
-
 
       setIsLoading((isLoading) => ({
         ...isLoading,
         centroid: false
       }))
 
-      const score = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}polit_score/${currentUser.id}`,
-        {
-          method: "GET",
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        }
-      )
-      const scoreJson = await score.json()
-      setPolitScore(scoreJson.body)
+      const score = await fetchScore(currentUser.id)
+      setPolitScore(score)
       setIsLoading((isLoading) => ({
         ...isLoading,
         score: false,
       }))
 
-      const partyList = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}most_influential_party/${currentUser.id}`
-      )
-      const partyListJson = await partyList.json()
-      const partyArray = Object.entries(partyListJson.body.parties)
-      const sortedPartyArray = partyArray.sort((a, b) => b[1] - a[1])
+      const sortedPartyArray = await fetchSortedPartyList(currentUser.id)
       setPartyList(sortedPartyArray)
       setIsLoading((isLoading) => ({
         ...isLoading,
         parties: false,
       }))
-
 
       console.log('finished')
     }
