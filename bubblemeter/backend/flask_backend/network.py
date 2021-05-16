@@ -40,7 +40,7 @@ def top_k_of_network_sorted_incoming_degree(k, G_sorted_df):
     
     return top_k_df
 
-def get_all_NR_and_SR_in_network(G_sorted_df):
+def get_all_politicians_in_network(G_sorted_df):
     politicians = get_politicians()
     
     # iterate over network
@@ -83,7 +83,7 @@ def get_all_NR_and_SR_in_network(G_sorted_df):
 
 
 def compute_centroid_top_k_percent(G_sorted_df, k):
-    politicians_in_network = get_all_NR_and_SR_in_network(G_sorted_df)
+    politicians_in_network = get_all_politicians_in_network(G_sorted_df)
     
     # specifies the percentage of the politicians in network taken
     percent = round((politicians_in_network.shape[0] / 100) * k)
@@ -108,7 +108,7 @@ def compute_centroid_top_k_percent(G_sorted_df, k):
 
 def compute_inside_outside_circle(G_sorted_df, k, radius):
     
-    politicians_in_network = get_all_NR_and_SR_in_network(G_sorted_df)
+    politicians_in_network = get_all_politicians_in_network(G_sorted_df)
     
     # create isInside column
     politicians_in_network["isInside"] = False
