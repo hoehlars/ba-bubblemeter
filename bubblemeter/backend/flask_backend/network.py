@@ -80,3 +80,29 @@ def get_all_NR_and_SR_in_network(G_sorted_df):
     politicians_df = politicians_df.drop('twitter_id', axis=1)
     
     return politicians_df
+
+
+def compute_centroid_top_k_percent(G_sorted_df, k):
+    politicians_in_network = get_all_NR_and_SR_in_network(G_sorted_df)
+    
+    # specifies the percentage of the politicians in network taken
+    percent = round((politicians_in_network.shape[0] / 100) * k)
+    
+    # take only top k percent
+    politicians_in_network = politicians_in_network.head(percent)
+    
+    # sum up x and y coordinates and scale them by in degree
+    sum_x = 0
+    sum_y = 0
+    for index, politician in politicians_in_network.iterrows():
+        sum_x = sum_x + float(politician['x']) * int(politician['in_degree'])
+        sum_y = sum_y + float(politician['y']) * int(politician['in_degree'])
+    
+    # sum up score of top 5 percent
+    sum_score = pd.to_numeric(politicians_in_network['in_degree']).sum()
+     
+    x = sum_x / sum_score
+    y = sum_y / sum_score
+    
+    return {"x": x, "y": y}
+    

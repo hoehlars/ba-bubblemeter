@@ -15,6 +15,7 @@ app.config["DEBUG"] = True
 
 CORS(app)
 
+
 #sys import, used so that files in other directories are found
 import sys
 sys.path.append("../network")
@@ -29,6 +30,7 @@ from db import get_edges_friends_of_friends, get_amount_of_politicians_in_db
 from network import top_k_of_network_sorted_incoming_degree
 from network import get_all_NR_and_SR_in_network
 from network import generate_graph
+from network import compute_centroid_top_k_percent
 
 #call with twitter id
 #returns json object with politicians_in_network and top_ten_most_influential
@@ -147,30 +149,10 @@ def centroid(twitterID):
     G_sorted_df = generate_graph(edges_df)
     
     
-    politicians_in_network = get_all_NR_and_SR_in_network(G_sorted_df)
-    
-    
-    # specifies the percentage of the politicians in network taken
     k = 5
-    percent = round((politicians_in_network.shape[0] / 100) * k)
-    
-    # take only top 5 percent
-    politicians_in_network = politicians_in_network.head(percent)
-    
-    # sum up x and y coordinates and scale them by in degree
-    sum_x = 0
-    sum_y = 0
-    for index, politician in politicians_in_network.iterrows():
-        sum_x = sum_x + float(politician['x']) * int(politician['in_degree'])
-        sum_y = sum_y + float(politician['y']) * int(politician['in_degree'])
-    
-    sum_score = pd.to_numeric(politicians_in_network['in_degree']).sum()
-    
-    
-    x = sum_x / sum_score
-    y = sum_y / sum_score
+    coordinates = compute_centroid_top_k_percent(G_sorted_df, k)
 
-    response = {"statusCode": 200, "body": {"x": x, "y": y, "percent": percent, "shape": politicians_in_network.shape}}
+    response = {"statusCode": 200, "body": {"x": coordinates["x"], "y": coordinates["y"]}}
     return response
   
 app.run()
