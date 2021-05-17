@@ -25,8 +25,11 @@ import pandas as pd
 import json
 
 
-from twitter_access import process_friends
 from db import get_edges_friends_of_friends
+from db import insert_request_in_queue
+from db import is_twitterHandle_analyzed
+from db import is_twitterHandle_in_queue
+from db import get_analyzed_users
 from network import top_k_of_network_sorted_incoming_degree
 from network import get_all_NR_and_SR_in_network
 from network import generate_graph
@@ -36,9 +39,6 @@ from network import generate_graph
 @app.route('/make_analysis/<twitterID>')
 @cross_origin()
 def make_analysis(twitterID):
-    
-    # get all friends of friends and check if they are in db or not
-    process_friends(twitterID)
     
     # get all edges from the db
     edges = get_edges_friends_of_friends(int(twitterID))
@@ -61,7 +61,25 @@ def make_analysis(twitterID):
     ten_most_influential_json = json.loads(result)
     result = politicians_in_network.to_json(orient="split")
     politicians_in_network_json = json.loads(result)
-    response = {"statusCode": 200, "body": {"politicians_in_network": politicians_in_network_json, "top_ten_most_influential": ten_most_influential_json }}
+    analyzed_users = get_analyzed_users()
+    response = {"statusCode": 200, "body": {"politicians_in_network": politicians_in_network_json, "top_ten_most_influential": ten_most_influential_json, "analyzed_users": analyzed_users }}
+    return response    
+
+@app.route('/request_analysis/<twitterHandle>')
+@cross_origin()
+def request_analysis(twitterHandle):
+    
+    if is_twitterHandle_analyzed(twitterHandle) or is_twitterHandle_in_queue(twitterHandle):
+        errorMsg = "User has already been analyzed or requested"
+        response = {"statusCode": 200, "body": {"msg": errorMsg}}
+        return response
+    
+    #inserts user request in queue
+    insert_request_in_queue(twitterHandle)
+    
+    successMsg = "User analysis has been requestet"
+    response = {"statusCode": 200, "body": {"msg": successMsg}}
     return response
+    
     
 app.run()
