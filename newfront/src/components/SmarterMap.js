@@ -8,9 +8,9 @@ function SmarterMap({ politicians, myCoords }) {
   const LASTNAME_IDX = 2
   const SMARTMAP_ID_IDX = 0
   const PARTYCOLOR_IDX = 10
-  const X_ID = 13
-  const Y_ID = 14
-  const PARTY_ABBREVIATION_ID = 9
+  const X_IDX = 13
+  const Y_IDX = 14
+  const PARTY_ABBREVIATION_IDX = 9
 
   useEffect(() => {
     setPolitikerUpdate(politicians)
@@ -68,15 +68,15 @@ function SmarterMap({ politicians, myCoords }) {
           {politikerUpdate?.map((politician, i) => (
             <circle
               key={politician[SMARTMAP_ID_IDX]}
-              cx={politician[X_ID] || 160}
-              cy={politician[Y_ID] || 160}
+              cx={politician[X_IDX] || 160}
+              cy={politician[Y_IDX] || 160}
               r='3'
               strokeWidth='1'
               stroke='#6B7280'
               fill={`#${politician[PARTYCOLOR_IDX]}`}
               style={{ animationDelay: `${100 * (i + 1)}ms` }}
             >
-              <title>{`${politician[FIRSTNAME_IDX]} ${politician[LASTNAME_IDX]} | ${politician[PARTY_ABBREVIATION_ID]}`}</title>
+              <title>{`${politician[FIRSTNAME_IDX]} ${politician[LASTNAME_IDX]} | ${politician[PARTY_ABBREVIATION_IDX]}`}</title>
             </circle>
           ))}
         </g>

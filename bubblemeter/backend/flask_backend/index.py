@@ -22,79 +22,64 @@ sys.path.append("../network")
 
 #imports
 import pandas as pd
-import json
 
 
 from twitter_access import process_friends
 from db import get_edges_friends_of_friends, get_amount_of_politicians_in_db
 from network import top_k_of_network_sorted_incoming_degree
-from network import get_all_NR_and_SR_in_network
+from network import get_all_politicians_in_network
 from network import generate_graph
-from network import compute_centroid_top_k_percent
-from network import compute_inside_outside_circle
+from centroid import compute_centroid_top_k_percent
+from centroid import compute_inside_outside_circle
+from helpers import df_to_json
 
-#call with twitter id
-#returns json object with politicians_in_network and top_ten_most_influential
+MOST_INFLUENTIAL_TOP_COUNT = 10
+MOST_INFLUENTIAL_PARTY_POLIT_COUNT = 100
+CENTROID_TOP_K_PERCENT_POLIT = 5
+RADIUS_AROUND_CENTROID = 16
+DF_ROW_COUNT = 0
+
 @app.route('/make_analysis/<twitterID>')
 def make_analysis(twitterID):
     
-    # get all friends of friends and check if they are in db or not
     process_friends(twitterID)
     
-    # get all edges from the db
     edges = get_edges_friends_of_friends(int(twitterID))
     
-    # create dataframe and graph
+
     edges_df = pd.DataFrame(edges)
-    
     
     G_sorted_df = generate_graph(edges_df)
     
-    # get ten most influential nodes
-    k = 10
-    ten_most_influential = top_k_of_network_sorted_incoming_degree(k, G_sorted_df)
+    ten_most_influential = top_k_of_network_sorted_incoming_degree(MOST_INFLUENTIAL_TOP_COUNT, G_sorted_df)
     
     # check if the twitter user itself is in the top ten list
     if not ten_most_influential[ten_most_influential.twitter_id == int(twitterID)].empty:
     # get top 11 most influential nodes, remove twitter user self
-        k = 11
-        ten_most_influential = top_k_of_network_sorted_incoming_degree(k, G_sorted_df)
+        ten_most_influential = top_k_of_network_sorted_incoming_degree(MOST_INFLUENTIAL_TOP_COUNT + 1, G_sorted_df)
         ten_most_influential = ten_most_influential[ten_most_influential.twitter_id != int(twitterID)]
     
-    # get all politicians in network
-    politicians_in_network = get_all_NR_and_SR_in_network(G_sorted_df)
+    politicians_in_network = get_all_politicians_in_network(G_sorted_df)
     
-    # convert to json
-    result = ten_most_influential.to_json(orient="split")
-    ten_most_influential_json = json.loads(result)
-    result = politicians_in_network.to_json(orient="split")
-    politicians_in_network_json = json.loads(result)
+    ten_most_influential_json = df_to_json(ten_most_influential)
+    politicians_in_network_json = df_to_json(politicians_in_network)
+    
     response = {"statusCode": 200, "body": {"politicians_in_network": politicians_in_network_json, "top_ten_most_influential": ten_most_influential_json }}
     return response
 
 @app.route('/polit_score/<twitterID>')
 def polit_score(twitterID):
     
-    # get all edges from the db
     edges = get_edges_friends_of_friends(int(twitterID))
     
-    # create dataframe and graph
     edges_df = pd.DataFrame(edges)
-    G = nx.from_pandas_edgelist(edges_df, 'IDFrom', 'IDTo', create_using=nx.DiGraph())
+    G_sorted_df = generate_graph(edges_df)
     
-    # sort by incoming degree
-    G_sorted_df = pd.DataFrame(sorted(G.in_degree, key=lambda x: x[1], reverse=True))
-    G_sorted_df.columns = ['twitter_id','in_degree']
+    politicians_in_network = get_all_politicians_in_network(G_sorted_df)
     
-    
-    
-    # get all politicians in network
-    politicians_in_network = get_all_NR_and_SR_in_network(G_sorted_df)
-    
-    size_of_whole_network = G_sorted_df.shape[0]
-    amount_of_politicians_in_network = politicians_in_network.shape[0]
+    size_of_whole_network = G_sorted_df.shape[DF_ROW_COUNT]
+    amount_of_politicians_in_network = politicians_in_network.shape[DF_ROW_COUNT]
     amount_of_politicians_in_db = get_amount_of_politicians_in_db()
-    
     
     polit_score = amount_of_politicians_in_network / amount_of_politicians_in_db
     
@@ -103,22 +88,15 @@ def polit_score(twitterID):
 
 @app.route('/most_influential_party/<twitterID>')
 def most_influential_party(twitterID):
-    # get all edges from the db
+    
     edges = get_edges_friends_of_friends(int(twitterID))
     
-    # create dataframe and graph
     edges_df = pd.DataFrame(edges)
-    G = nx.from_pandas_edgelist(edges_df, 'IDFrom', 'IDTo', create_using=nx.DiGraph())
+    G_sorted_df = generate_graph(edges_df)
     
-    # sort by incoming degree
-    G_sorted_df = pd.DataFrame(sorted(G.in_degree, key=lambda x: x[1], reverse=True))
-    G_sorted_df.columns = ['twitter_id','in_degree']
+    politicians_in_network = get_all_politicians_in_network(G_sorted_df)
     
-     # get all politicians in network
-    politicians_in_network = get_all_NR_and_SR_in_network(G_sorted_df)
-    
-    # take top 100
-    politicians_in_network_top_100 = politicians_in_network.head(100)
+    politicians_in_network_top_100 = politicians_in_network.head(MOST_INFLUENTIAL_PARTY_POLIT_COUNT)
     
     parties = {}
     
@@ -140,18 +118,13 @@ def most_influential_party(twitterID):
 @app.route('/centroid/<twitterID>')
 def centroid(twitterID):
     
-    # get all edges from the db
     edges = get_edges_friends_of_friends(int(twitterID))
     
-    # create dataframe and graph
     edges_df = pd.DataFrame(edges)
-    
     
     G_sorted_df = generate_graph(edges_df)
     
-    
-    k = 5
-    coordinates = compute_centroid_top_k_percent(G_sorted_df, k)
+    coordinates = compute_centroid_top_k_percent(G_sorted_df, CENTROID_TOP_K_PERCENT_POLIT)
 
     response = {"statusCode": 200, "body": {"x": coordinates["x"], "y": coordinates["y"]}}
     return response
@@ -161,26 +134,19 @@ def inner_outer_circle(twitterID):
         
     edges = get_edges_friends_of_friends(int(twitterID))
     
-    # create dataframe and graph
     edges_df = pd.DataFrame(edges)
     
     G_sorted_df = generate_graph(edges_df)
     
-    k = 5
-    radius = 16
-    politicians_in_network = compute_inside_outside_circle(G_sorted_df, k, radius)
+    politicians_in_network = compute_inside_outside_circle(G_sorted_df, CENTROID_TOP_K_PERCENT_POLIT, RADIUS_AROUND_CENTROID)
         
     politicians_inside = politicians_in_network[politicians_in_network["isInside"] == True]
     politicians_outside = politicians_in_network[politicians_in_network["isInside"] == False]
 
+    politicians_inside_json = df_to_json(politicians_inside)
+    politicians_outside_json = df_to_json(politicians_outside)
     
-    result = politicians_inside.to_json(orient="split")
-    politicians_inside_json = json.loads(result)
-    
-    result = politicians_outside.to_json(orient="split")
-    politicians_outside_json = json.loads(result)
-    
-    response = {"statusCode": 200, "body": {"radius": radius, "politicians_inside": politicians_inside_json, "politicians_outside": politicians_outside_json}}
+    response = {"statusCode": 200, "body": {"radius": RADIUS_AROUND_CENTROID, "politicians_inside": politicians_inside_json, "politicians_outside": politicians_outside_json}}
     return response
 
 
