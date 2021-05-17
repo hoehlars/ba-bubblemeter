@@ -36,7 +36,7 @@ def insert_analyzed_user(twitterID, twitterHandle, twitterName, friends_count):
     
 def get_analyzed_users():
     #returns all items in Collection
-    allEntries = analyzedCol.find()
+    allEntries = analyzedCol.find().sort("date",1)
     users = []
     for entry in allEntries:
         user = {"name": entry["twitterName"], "handle": entry["twitterHandle"], "id": entry["twitterId"]}
