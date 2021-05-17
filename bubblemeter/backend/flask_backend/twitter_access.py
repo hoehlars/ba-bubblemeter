@@ -75,10 +75,17 @@ def process_friends(user_to_start_with):
     print("Collect or load friends...")
     
     if user_to_start_with.isdecimal():
-         userStart = api.get_user(user_id = str(user_to_start_with))
+        try:
+            userStart = api.get_user(user_id = str(user_to_start_with))
+        except:
+            print("USER ID " + user_to_start_with + " DOES NOT EXIST")
+            return
     else:
-         userStart = api.get_user(screen_name = str(user_to_start_with))
-    
+        try:
+            userStart = api.get_user(screen_name = str(user_to_start_with))
+        except:
+            print("USER HANDLE " + user_to_start_with + " DOES NOT EXIST")
+            return
     
     if not userStart.protected and userStart.friends_count > 0:
         if is_twitterId_in_db(userStart.id):
