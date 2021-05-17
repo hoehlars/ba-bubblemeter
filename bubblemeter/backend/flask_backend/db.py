@@ -15,6 +15,8 @@ client = pymongo.MongoClient(config['DB_CONNECT_STRING'])
 twitterNetworkDb = client[config['DB_NAME']]
 edgeCol = twitterNetworkDb[config['EDGE_COL_NAME']]
 politiciansCol = twitterNetworkDb[config['POLITICIANS_COL_NAME']]
+analyzedCol = twitterNetworkDb[config['ANALYZED_USERS_NAME']]
+requestQueueCol = twitterNetworkDb[config['QUEUE']]
 
 
 def get_politicians():
@@ -27,6 +29,49 @@ def insert_edge(idFrom, idTo):
     edge = { "date": datetime_now, "IDFrom": idFrom, "IDTo": idTo}
     edgeCol.insert_one(edge)
     
+def insert_analyzed_user(twitterID, twitterHandle, twitterName, friends_count):
+    datetime_now = datetime.now()
+    edge = { "date": datetime_now, "twitterId": twitterID, "twitterHandle": twitterHandle, "twitterName": twitterName, "friends": friends_count}
+    analyzedCol.insert_one(edge)
+    
+def get_analyzed_users():
+    #returns all items in Collection
+    allEntries = analyzedCol.find()
+    users = []
+    for entry in allEntries:
+        user = {"name": entry["twitterName"], "handle": entry["twitterHandle"], "id": entry["twitterId"]}
+        users.append(user)
+    return users
+
+def is_twitterHandle_analyzed(twitterHandle):
+    query = {"twitterHandle": twitterHandle}
+    allEntries = analyzedCol.find(query)    
+    return len(list(allEntries)) != 0
+
+def is_twitterHandle_in_queue(twitterHandle):
+    query = {"twitterHandle": twitterHandle}
+    allEntries = requestQueueCol.find(query)    
+    return len(list(allEntries)) != 0
+
+def is_queue_empty():
+    allEntries = requestQueueCol.find()
+    count = len(list(allEntries))
+    return count == 0
+    
+def insert_request_in_queue(twitterHandle):
+    datetime_now = datetime.now()
+    edge = { "date": datetime_now, "twitterHandle": twitterHandle}
+    requestQueueCol.insert_one(edge) 
+
+def get_next_request_from_queue():
+    # 1 for oldest, -1 for newest
+    nextUserDict = requestQueueCol.find().sort("date",1).limit(1)
+    nextUser = nextUserDict[0]
+    return nextUser['twitterHandle']
+
+def remove_user_from_queue(twitterHandle):
+    query = {"twitterHandle": twitterHandle}
+    requestQueueCol.delete_one(query)
 
 def is_twitterId_in_db(twitterId):
     query = {"IDFrom": twitterId}
@@ -66,4 +111,3 @@ def get_edges_friends_of_friends(twitterID):
     friends_of_friends.extend(friends)
     
     return friends_of_friends
-  
