@@ -1,22 +1,16 @@
 import { useEffect, useState } from 'react'
 
-// HACK: kommastellen sind verrutscht, deswegen hier gefixt:
-function fixDecimal(value) {
-  return value >= 400000000000000 ? value / 10 ** 13 : value / 10 ** 12
-}
-
-function SmarterMap({ politicians }) {
-  const [myCircle, setMyCircle] = useState([160, 160])
-
+function SmarterMap({ politicians, myCoords }) {
   const [politikerUpdate, setPolitikerUpdate] = useState(politicians)
+  const [myCoordinates, setMyCoordinates] = useState(myCoords)
 
   const FIRSTNAME_IDX = 1
   const LASTNAME_IDX = 2
   const SMARTMAP_ID_IDX = 0
   const PARTYCOLOR_IDX = 10
-  const X_ID = 13
-  const Y_ID = 14
-  const PARTY_ABBREVIATION_ID = 9
+  const X_IDX = 13
+  const Y_IDX = 14
+  const PARTY_ABBREVIATION_IDX = 9
 
   useEffect(() => {
     setPolitikerUpdate(politicians)
@@ -71,20 +65,31 @@ function SmarterMap({ politicians }) {
         </g>
 
         <g id='otherOnes'>
-          {politikerUpdate.map((politician, i) => (
+          {politikerUpdate?.map((politician, i) => (
             <circle
               key={politician[SMARTMAP_ID_IDX]}
-              cx={politician[X_ID] || 160}
-              cy={politician[Y_ID] || 160}
+              cx={politician[X_IDX] || 160}
+              cy={politician[Y_IDX] || 160}
               r='3'
               strokeWidth='1'
               stroke='#6B7280'
               fill={`#${politician[PARTYCOLOR_IDX]}`}
               style={{ animationDelay: `${100 * (i + 1)}ms` }}
             >
-              <title>{`${politician[FIRSTNAME_IDX]} ${politician[LASTNAME_IDX]} | ${politician[PARTY_ABBREVIATION_ID]}`}</title>
+              <title>{`${politician[FIRSTNAME_IDX]} ${politician[LASTNAME_IDX]} | ${politician[PARTY_ABBREVIATION_IDX]}`}</title>
             </circle>
           ))}
+        </g>
+        <g id='myCoords'>
+          {myCoords && (
+            <circle
+              cx={myCoords.x}
+              cy={myCoords.y}
+              r='16'
+              stroke='#6B7280'
+              fill='#db2777'
+            ></circle>
+          )}
         </g>
       </svg>
     </div>
