@@ -22,6 +22,6 @@ jobs:
         IMAGE_NAME: 'flask-backend'
         TAG: 'bubblemeter-backend'
         DOCKERFILE_PATH: 'bubblemeter/backend/flask_backend/Dockerfile'
-        BUILD_CONTEXT: 'app/'
+        BUILD_CONTEXT: '/app'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
