@@ -4,6 +4,8 @@ on:
   push:
     paths:
     - 'bubblemeter/backend/flask_backend/**'
+    branches: 
+    - main
 
 jobs:
   build:
