@@ -38,6 +38,7 @@ CENTROID_TOP_K_PERCENT_POLIT = 5
 RADIUS_AROUND_CENTROID = 16
 DF_ROW_COUNT = 0
 
+
 @app.route('/make_analysis/<twitterID>')
 def make_analysis(twitterID):
     
