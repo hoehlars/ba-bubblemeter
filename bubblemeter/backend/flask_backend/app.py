@@ -10,11 +10,10 @@ Connect: localhost:5000/
 #flask import
 import flask
 from flask_cors import CORS
+from gevent.pywsgi import WSGIServer
 app = flask.Flask(__name__)
-app.config["DEBUG"] = True
 
 CORS(app)
-
 
 #sys import, used so that files in other directories are found
 import sys
@@ -150,5 +149,6 @@ def inner_outer_circle(twitterID):
     return response
 
 
-  
-app.run()
+if __name__ == "__main__":
+    http_server = WSGIServer(('', 5000), app)
+    http_server.serve_forever()
