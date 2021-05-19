@@ -1,49 +1,27 @@
-name: Backend Test CI
+name: Backend Test CD
 
 on:
   push:
     paths:
-    - 'bubblemeter/backend/**'
+    - 'bubblemeter/backend/flask_backend/**'
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node.version: [12.x]
+  build:
+    runs-on: ubuntu-latest 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: Dependency Cache
-      uses: actions/cache@v1.1.2
-      with:
-        path: backend/node_modules
-        key: backend_node_modules
-    - name: nom install
-      run: cd backend && npm install
-    - name: npm run test
-      run: cd backend && npm run test
 
-  lint:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node.version: [12.x]
-    steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+    - name: Copy Repo Files
+      uses: actions/checkout@master
+
+     #This Action Emits 2 Variables, IMAGE_SHA_NAME and IMAGE_URL 
+     #which you can reference in subsequent steps
+    - name: Publish Docker Image to GPR
+      uses: machine-learning-apps/gpr-docker-publish@master
+      id: docker
       with:
-        node-version: ${{ matrix.node-version }}
-    - name: Dependency Cache
-      uses: actions/cache@v1.1.2
-      with:
-        path: backend/node_modules
-        key: backend_node_modules
-    - name: yarn install
-      run: cd backend && yarn install
-    - name: yarn run lint
-      run: cd backend && yarn run lint
+        IMAGE_NAME: 'flask-backend'
+        TAG: 'bubblemeter-backend'
+        DOCKERFILE_PATH: 'bubblemeter/backend/flask_backend/Dockerfile'
+        BUILD_CONTEXT: 'app/'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
