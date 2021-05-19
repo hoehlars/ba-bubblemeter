@@ -14,9 +14,9 @@ export const fetchAnalysisData = async (twitterId) => {
 }
 
 
-export const fetchInnerOuterCircleData = async (twitterId) => {
+export const fetchInnerOuterCircleData = async (twitterId, radius) => {
     const innerOuterCircleRes = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}inner_outer_circle/${twitterId}`, FETCH_OPTIONS
+        `${process.env.REACT_APP_BACKEND_URL}inner_outer_circle/${twitterId}/${radius}`, FETCH_OPTIONS
       )
     const innerOuterCircleJson = await innerOuterCircleRes.json()
     return innerOuterCircleJson.body;

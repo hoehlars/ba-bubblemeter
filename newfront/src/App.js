@@ -125,7 +125,7 @@ function App() {
         koordinaten: false,
       }))
 
-      const innerOuterCircleData = await fetchInnerOuterCircleData(currentUser.id)
+      const innerOuterCircleData = await fetchInnerOuterCircleData(currentUser.id, 16)
       
       setInnerCircle(innerOuterCircleData.politicians_inside.data)
       setOuterCircle(innerOuterCircleData.politicians_outside.data)

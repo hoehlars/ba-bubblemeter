@@ -36,7 +36,6 @@ from helpers import df_to_json
 MOST_INFLUENTIAL_TOP_COUNT = 10
 MOST_INFLUENTIAL_PARTY_POLIT_COUNT = 100
 CENTROID_TOP_K_PERCENT_POLIT = 5
-RADIUS_AROUND_CENTROID = 16
 DF_ROW_COUNT = 0
 
 @app.route('/make_analysis/<twitterID>')
@@ -129,8 +128,8 @@ def centroid(twitterID):
     response = {"statusCode": 200, "body": {"x": coordinates["x"], "y": coordinates["y"]}}
     return response
 
-@app.route('/inner_outer_circle/<twitterID>')
-def inner_outer_circle(twitterID):
+@app.route('/inner_outer_circle/<twitterID>/<radius>')
+def inner_outer_circle(twitterID, radius):
         
     edges = get_edges_friends_of_friends(int(twitterID))
     
@@ -138,7 +137,7 @@ def inner_outer_circle(twitterID):
     
     G_sorted_df = generate_graph(edges_df)
     
-    politicians_in_network = compute_inside_outside_circle(G_sorted_df, CENTROID_TOP_K_PERCENT_POLIT, RADIUS_AROUND_CENTROID)
+    politicians_in_network = compute_inside_outside_circle(G_sorted_df, CENTROID_TOP_K_PERCENT_POLIT, radius)
         
     politicians_inside = politicians_in_network[politicians_in_network["isInside"] == True]
     politicians_outside = politicians_in_network[politicians_in_network["isInside"] == False]
@@ -146,7 +145,7 @@ def inner_outer_circle(twitterID):
     politicians_inside_json = df_to_json(politicians_inside)
     politicians_outside_json = df_to_json(politicians_outside)
     
-    response = {"statusCode": 200, "body": {"radius": RADIUS_AROUND_CENTROID, "politicians_inside": politicians_inside_json, "politicians_outside": politicians_outside_json}}
+    response = {"statusCode": 200, "body": {"radius": radius, "politicians_inside": politicians_inside_json, "politicians_outside": politicians_outside_json}}
     return response
 
 
