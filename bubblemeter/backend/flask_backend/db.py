@@ -87,7 +87,7 @@ def get_analyzed_users():
     allEntries = analyzedCol.find().sort("date",1)
     users = []
     for entry in allEntries:
-        user = {"name": entry["twitterName"], "handle": entry["twitterHandle"], "id": entry["twitterId"]}
+        user = {"name": entry["twitterName"], "handle": entry["twitterHandle"], "id": entry["twitterId"], "twitterProfileImage": entry["twitterProfileImage"]}
         users.append(user)
     return users
 
@@ -113,7 +113,7 @@ def get_next_request_from_queue():
 def get_request_queue_length():
     #returns all items in Collection
     allEntries = requestQueueCol.find()
-    return len(allEntries)
+    return len(list(allEntries))
 
 def remove_user_from_queue(twitterHandle):
     query = {"twitterHandle": twitterHandle}
