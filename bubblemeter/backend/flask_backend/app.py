@@ -26,6 +26,7 @@ from db import get_edges_friends_of_friends, get_amount_of_politicians_in_db
 from db import insert_request_in_queue
 from db import is_twitterHandle_analyzed
 from db import is_twitterHandle_in_queue
+from db import get_analyzed_users
 from network import top_k_of_network_sorted_incoming_degree
 from network import get_all_politicians_in_network
 from network import generate_graph
@@ -66,7 +67,7 @@ def make_analysis(twitterID):
     response = {"statusCode": 200, "body": {"politicians_in_network": politicians_in_network_json, "top_ten_most_influential": ten_most_influential_json }}
     return response
 
-@app.route('request_analysis/<twitterHandleOrTwitterID>')
+@app.route('/request_analysis/<twitterHandleOrTwitterID>')
 def request_analysis(twitterHandleOrTwitterID):
     
     if is_twitterHandle_analyzed(twitterHandleOrTwitterID):
@@ -86,6 +87,17 @@ def request_analysis(twitterHandleOrTwitterID):
     response = {"statusCode": 200, "body": {"msg": successMsg}}
     return response
 
+@app.route('/request_analyzed_users')
+def request_analysed_users():
+    
+    analyzed_users = get_analyzed_users()
+    
+    if len(analyzed_users) == 0:
+        response = {"statusCode": 200, "body": {"msg": "No user has been analyzed yet."}}
+        return response
+    
+    response = {"statusCode": 200, "body": {"analyzed_users": analyzed_users }}
+    return response
 
 @app.route('/polit_score/<twitterID>')
 def polit_score(twitterID):
