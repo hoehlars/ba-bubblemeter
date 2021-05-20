@@ -17,53 +17,28 @@ function App() {
     id: 595346116,
   })
 
-  const usersInDB = [
-    {
+  const [usersInDB, setUsersInDB] = useState([{
       name: 'Jürgen Spielberger',
       handle: '@Spielberger_J',
       id: 595346116,
     },
     {
-      name: 'Erich Hess',
-      handle: '@Erich_Hess',
-      id: 62798697,
-    },
-    {
-      name: 'Thomas Aeschi',
-      handle: '@thomas_aeschi',
-      id: '731908201592045568',
-    },
-    {
-      name: 'Paul Rechsteiner',
-      handle: '@PaulRechsteiner',
-      id: 529478391,
-    },
-    {
-      name: 'Thilo Stadelmann',
-      handle: '@thilo_on_data',
-      id: 1376558149,
-    },
-    {
-      name: 'Dani Lerch',
-      handle: '@puck3000',
-      id: 181555601,
-    },
-    {
       name: 'Thomas Percy',
       handle: '@ThomasPercy95',
       id: 3397339312,
-    },
-  ]
+    },])
 
   useEffect(() => {
     const fetchData = async () => {
       console.log('started')
       const res = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/${currentUser.id}`
+        `http://localhost:5000/make_analysis/${currentUser.id}`
       )
       const resJson = await res.json()
+      console.log('received')
       setTopten(resJson.body.top_ten_most_influential.data)
-      setPoliticians(resJson.body.politicians_in_network.data)
+      //setPoliticians(resJson.body.politicians_in_network.data)
+      setUsersInDB(resJson.body.analyzed_users)
       console.log('finished')
     }
     fetchData()
@@ -73,6 +48,20 @@ function App() {
   function changeCurrUser(twitterId) {
     const user = usersInDB.find((user) => user.id == twitterId)
     setCurrentUser(user)
+  }
+
+  const [input, setInput] = useState('')
+  function requestAnalysis() {
+    console.log(input)
+    const fetchData = async () => {
+      const res = await fetch(
+        `http://localhost:5000/request_analysis/${input}`
+      )
+      const resJson = await res.json()
+      console.log(resJson.body.msg)
+      alert(resJson.body.msg)
+    }
+    fetchData()
   }
 
   return (
@@ -86,6 +75,13 @@ function App() {
       <main className='flex-1'>
         <div className='mb-4 md:grid md:grid-cols-2 gap-6'>
           <div className='mb-4'>
+            <form onSubmit={(event) => {event.preventDefault(); requestAnalysis()}}>
+              <label for='user-analyse' className='text-2xl mb-2'>
+                Analyze a User:
+              </label>
+              <input type='text' id='user-analyse' placeholder='@TwitterHandle' defaultValue={input} onChange={(event) => setInput(event.target.value)}/>
+              <button type='submit'>analyze</button>
+            </form>
             <label for='user-select' className='text-2xl mb-2'>
               Choose a User:
             </label>

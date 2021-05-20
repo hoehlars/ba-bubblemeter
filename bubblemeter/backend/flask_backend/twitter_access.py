@@ -10,6 +10,7 @@ import time
 from db import is_twitterId_in_db
 from db import insert_edge
 from db import get_friends
+from db import insert_analyzed_user
 from dotenv import dotenv_values
 
 config = dotenv_values(".env")
@@ -69,11 +70,22 @@ def change_keys():
 # pass user to start with as string
 # it willl automatically call process_friends_of_friends
 def process_friends(user_to_start_with):
-    
+
     print("In progress...")
     print("Collect or load friends...")
     
-    userStart = api.get_user(user_id = str(user_to_start_with))
+    if user_to_start_with.isdecimal():
+        try:
+            userStart = api.get_user(user_id = str(user_to_start_with))
+        except:
+            print("USER ID " + user_to_start_with + " DOES NOT EXIST")
+            return
+    else:
+        try:
+            userStart = api.get_user(screen_name = str(user_to_start_with))
+        except:
+            print("USER HANDLE " + user_to_start_with + " DOES NOT EXIST")
+            return
     
     if not userStart.protected and userStart.friends_count > 0:
         if is_twitterId_in_db(userStart.id):
@@ -95,7 +107,7 @@ def process_friends(user_to_start_with):
         print("User is either private or has no friends!")
             
 def process_friends_of_friends(user, friends):
-    
+
     print("Check friends of friends or add to DB...")
     
     global api
@@ -119,6 +131,7 @@ def process_friends_of_friends(user, friends):
                 change_keys()
                 continue
         friend_position = friend_position + 1
+    insert_analyzed_user(user.id, user.screen_name, user.name, user.friends_count)
     print("finished")
             
 def get_user_from_id(twitter_id):
