@@ -27,6 +27,7 @@ from db import insert_request_in_queue
 from db import is_twitterHandle_analyzed
 from db import is_twitterHandle_in_queue
 from db import get_analyzed_users
+from db import get_request_queue_length
 from network import top_k_of_network_sorted_incoming_degree
 from network import get_all_politicians_in_network
 from network import generate_graph
@@ -97,6 +98,14 @@ def request_analysed_users():
         return response
     
     response = {"statusCode": 200, "body": {"analyzed_users": analyzed_users }}
+    return response
+
+@app.route('/request_queue_length')
+def request_queue_length():
+    
+    queue_length = get_request_queue_length()
+    
+    response = {"statusCode": 200, "body": {"queue_length": queue_length }}
     return response
 
 @app.route('/polit_score/<twitterID>')
