@@ -24,6 +24,10 @@ def get_politicians():
     # get all politicans from db
     return list(allEntries)
 
+def get_amount_of_politicians_in_db():
+    allEntries = politiciansCol.find({}, {"_id": 0, "username": 0})
+    return len(list(allEntries))
+
 def insert_edge(idFrom, idTo):
     datetime_now = datetime.now()
     edge = { "date": datetime_now, "IDFrom": idFrom, "IDTo": idTo}

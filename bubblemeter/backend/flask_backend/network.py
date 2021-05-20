@@ -12,7 +12,6 @@ from twitter_access import get_user_from_id
 import networkx as nx
 
 
-
 def generate_graph(edges_df):
     G = nx.from_pandas_edgelist(edges_df, 'IDFrom', 'IDTo', create_using=nx.DiGraph())
 
@@ -22,7 +21,7 @@ def generate_graph(edges_df):
     return G_sorted_df
 
 def top_k_of_network_sorted_incoming_degree(k, G_sorted_df):
-    # get top k
+    
     G_top_k = G_sorted_df.head(k)
     
     top_k_df = pd.DataFrame(columns = ['name', 'twitter_handle', 'twitter_id', 'in_degree'])
@@ -40,13 +39,11 @@ def top_k_of_network_sorted_incoming_degree(k, G_sorted_df):
     
     return top_k_df
 
-def get_all_NR_and_SR_in_network(G_sorted_df):
+def get_all_politicians_in_network(G_sorted_df):
     politicians = get_politicians()
     
-    # iterate over network
-    politicians_df = pd.DataFrame(columns=["smartMapId", "firstname", "lastname","twitterHandle", "twitterId", "yearOfBirth", "profileImageUrl", "isIncumbent", "isElected", "partyAbbreviation", "partyColor", "__typename", "twitterLink", "coordinates", "in_degree"])
+    politicians_df = pd.DataFrame(columns=["smartMapId", "firstname", "lastname","twitterHandle", "twitterId", "yearOfBirth", "profileImageUrl", "isIncumbent", "isElected", "partyAbbreviation", "partyColor", "__typename", "twitterLink", "x", "y", "in_degree"])
     
-    # find politicians in network and safe in df
     idx = 0
     for politician in politicians:
 
@@ -55,7 +52,7 @@ def get_all_NR_and_SR_in_network(G_sorted_df):
             
             # search for politician with id, if found --> append it to politicians_df
             politicians_df = politicians_df.append(G_sorted_df[G_sorted_df['twitter_id'] == politician["twitterId"]], ignore_index=True)
-            # add nametwitter handle, party and smartmap coordinates of politician into df
+            # add additional information into df
             politicians_df.loc[idx, 'smartMapId'] = politician["smartMapId"]
             politicians_df.loc[idx, 'firstname'] = politician["firstname"]
             politicians_df.loc[idx, 'lastname'] = politician["lastname"]
@@ -80,3 +77,10 @@ def get_all_NR_and_SR_in_network(G_sorted_df):
     politicians_df = politicians_df.drop('twitter_id', axis=1)
     
     return politicians_df
+
+    
+    
+    
+    
+    
+    

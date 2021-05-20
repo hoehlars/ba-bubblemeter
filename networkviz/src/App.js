@@ -2,12 +2,12 @@ import UserInfo from './components/UserInfo'
 import TopTen from './components/TopTen'
 import SmarterMap from './components/SmarterMap'
 import { default as data } from './data.json'
-import { default as candidates } from './candidates.json'
+import candidates from './candidates.json.js'
 import { useEffect, useState } from 'react'
 
 function App() {
   const [politicians, setPoliticians] = useState(
-    // data.body.politicians_in_network.data
+    //data.body.politicians_in_network.data
     candidates
   )
   const [topten, setTopten] = useState(data.body.top_ten_most_influential.data)
@@ -124,7 +124,7 @@ function App() {
           </div>
           <div className=''>
             <h2 className='text-2xl mb-2 '>Polit Koordinaten</h2>
-            <SmarterMap politicians={politicians.candidates} />
+            <SmarterMap politicians={politicians} />
           </div>
         </div>
       </main>
