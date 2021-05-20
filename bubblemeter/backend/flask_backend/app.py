@@ -22,9 +22,10 @@ sys.path.append("../network")
 #imports
 import pandas as pd
 
-
-from twitter_access import process_friends
 from db import get_edges_friends_of_friends, get_amount_of_politicians_in_db
+from db import insert_request_in_queue
+from db import is_twitterHandle_analyzed
+from db import is_twitterHandle_in_queue
 from network import top_k_of_network_sorted_incoming_degree
 from network import get_all_politicians_in_network
 from network import generate_graph
@@ -41,11 +42,10 @@ DF_ROW_COUNT = 0
 @app.route('/make_analysis/<twitterID>')
 def make_analysis(twitterID):
     
-    process_friends(twitterID)
-    
+    # get all edges from the db
     edges = get_edges_friends_of_friends(int(twitterID))
     
-
+    # create dataframe and graph
     edges_df = pd.DataFrame(edges)
     
     G_sorted_df = generate_graph(edges_df)
@@ -65,6 +65,27 @@ def make_analysis(twitterID):
     
     response = {"statusCode": 200, "body": {"politicians_in_network": politicians_in_network_json, "top_ten_most_influential": ten_most_influential_json }}
     return response
+
+@app.route('request_analysis/<twitterHandleOrTwitterID>')
+def request_analysis(twitterHandleOrTwitterID):
+    
+    if is_twitterHandle_analyzed(twitterHandleOrTwitterID):
+        errorMsg = "User has already been analyzed."
+        response = {"statusCode": 200, "body": {"msg": errorMsg}}
+        return response
+    
+    if is_twitterHandle_in_queue(twitterHandleOrTwitterID):
+        errorMsg = "User has already been requested and is still in the queue."
+        response = {"statusCode": 200, "body": {"msg": errorMsg}}
+        return response
+    
+    #inserts user request in queue
+    insert_request_in_queue(twitterHandleOrTwitterID)
+    
+    successMsg = "User analysis of " + twitterHandleOrTwitterID + " has been requestet"
+    response = {"statusCode": 200, "body": {"msg": successMsg}}
+    return response
+
 
 @app.route('/polit_score/<twitterID>')
 def polit_score(twitterID):
