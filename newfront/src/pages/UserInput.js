@@ -44,7 +44,7 @@ function UserInput() {
         Erfasse hier deine Twitter@handle oder deine TwitterId und wir werfen
         unsere Maschine an:
       </p>
-      <form onSubmit={onSubmit} className='mb-4'>
+      <form onSubmit={onSubmit} className='mb-6'>
         <label class='block'>
           <span class='text-xs text-gray-700'>
             Twitter@handle oder TwitterId
@@ -70,19 +70,22 @@ function UserInput() {
         <div className='text-right'>
           <button
             type='submit'
-            className='text-pink-600 border-2 border-pink-600 py-3 px-6 '
+            className='text-pink-600 border-2 border-pink-600 hover:text-white hover:bg-pink-600 transition-colors py-1 px-6 '
           >
             submit
           </button>
         </div>
       </form>
-      <p>
+      <p className='mb-8'>
         Deine Email benötigen wir, damit wir dich informieren können, sobald
-        unsere Analyse fertig ist. Je nach grösse deines Netzwerks kann dass
-        aufgrund von Beschränkungen in der Twitter API auch mal einen Tag
-        dauern.
+        unsere Analyse fertig ist. Je nach grösse deines Netzwerks und aufgrund
+        von Beschränkungen in der Twitter API kann das eine Stunde oder auch mal
+        ein-zwei Tage dauern.
       </p>
-      <p>Zur Zeit befinden sich XY User in der Pipeline.</p>
+      <h2>
+        Zur Zeit befinden sich{' '}
+        <span className='text-pink-600 text-2xl'>XY</span> User in der Pipeline.
+      </h2>
     </main>
   )
 }

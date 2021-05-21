@@ -1,0 +1,39 @@
+{
+  "usersInDB": [
+    {
+      "name": "Jürgen Spielberger",
+      "handle": "@Spielberger_J",
+      "id": 595346116
+    },
+    {
+      "name": "Erich Hess",
+      "handle": "@Erich_Hess",
+      "id": 62798697
+    },
+    {
+      "name": "Thomas Aeschi",
+      "handle": "@thomas_aeschi",
+      "id": 731908201592045568
+    },
+    {
+      "name": "Paul Rechsteiner",
+      "handle": "@PaulRechsteiner",
+      "id": 529478391
+    },
+    {
+      "name": "Thilo Stadelmann",
+      "handle": "@thilo_on_data",
+      "id": 1376558149
+    },
+    {
+      "name": "Dani Lerch",
+      "handle": "@puck3000",
+      "id": 181555601
+    },
+    {
+      "name": "Thomas Percy",
+      "handle": "@ThomasPercy95",
+      "id": 3397339312
+    }
+  ]
+}

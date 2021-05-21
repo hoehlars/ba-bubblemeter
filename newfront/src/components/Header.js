@@ -1,27 +1,30 @@
 import { NavLink } from 'react-router-dom'
-let userId = 529478391
+let userId = 595346116
 
 const Header = () => {
   return (
-    <header>
-      <h1 className='text-4xl'>Polit-o-Meter</h1>
+    <header className='mb-4 mt-4 text-center'>
+      <h1 className='text-4xl mb-2'>
+        Polit-<span className='text-pink-600'>o</span>-Meter
+      </h1>
       <nav>
-        <ul className='flex gap-16'>
+        <ul className='flex gap-4 justify-center'>
           <li>
             <NavLink exact activeClassName='text-pink-600' to='/'>
               home
             </NavLink>
           </li>
+          <li>|</li>
           <li>
             <NavLink activeClassName='text-pink-600' to='/userselection'>
-              user
+              userlist
             </NavLink>
           </li>
-          <li>
+          {/* <li>
             <NavLink activeClassName='text-pink-600' to={`/results/${userId}`}>
               results
             </NavLink>
-          </li>
+          </li> */}
         </ul>
       </nav>
     </header>
