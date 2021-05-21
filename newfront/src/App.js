@@ -24,8 +24,8 @@ function App() {
         </Switch>
         <footer className='text-xs mb-1 font-mono'>
           <p>
-            ZHAW-Bachelorarbeit zum Thema "Online Bubbles" von Daniel Lerch,
-            Ilbien Paul und Lars Höhener.
+            ZHAW-Bachelorarbeit zum Thema "Online Bubbles" von Lars Höhener,
+            Daniel Lerch und Ilbien Paul.
             <br />
             <span className='text-pink-600'>Stand: </span> 21. Mai 2021
           </p>

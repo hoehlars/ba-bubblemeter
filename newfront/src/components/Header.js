@@ -17,7 +17,7 @@ const Header = () => {
           <li>|</li>
           <li>
             <NavLink activeClassName='text-pink-600' to='/userselection'>
-              userlist
+              user
             </NavLink>
           </li>
           {/* <li>
