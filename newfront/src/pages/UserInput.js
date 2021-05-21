@@ -1,11 +1,19 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Header from '../components/Header'
-
-// TODO: ask for new enpoint which takes @handle/id and email adress
-// TODO: ask for endpoint that gives current nr in queue
+import {
+  fetchRequestQueueLength,
+  requestAnalysis,
+} from '../services/apiService'
 
 function UserInput() {
+  const [queueLength, setQueueLength] = useState('99')
   const [user, setUser] = useState()
+
+  useEffect(() => {
+    const qlen = fetchRequestQueueLength()
+    console.log(fetchRequestQueueLength())
+  }, [])
+
   const set = (event) => {
     return ({ target: { value } }) => {
       setUser((oldValues) => ({ ...oldValues, [event]: value }))
@@ -13,14 +21,7 @@ function UserInput() {
   }
 
   const saveFormData = async () => {
-    const response = await fetch(
-      `${process.env.REACT_APP_BACKEND_URL}make_analysis/${user.handle}`,
-      {
-        method: 'GET',
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      }
-    )
+    const response = await requestAnalysis(user.handle)
     if (response.status !== 200) {
       throw new Error(`Request failed: ${response.status}`)
     }
@@ -84,7 +85,8 @@ function UserInput() {
       </p>
       <h2>
         Zur Zeit befinden sich{' '}
-        <span className='text-pink-600 text-2xl'>XY</span> User in der Pipeline.
+        <span className='text-pink-600 text-2xl'>{queueLength}</span> Anfragen
+        in unserer Pipeline.
       </h2>
     </main>
   )

@@ -27,7 +27,7 @@ function App() {
             ZHAW-Bachelorarbeit zum Thema "Online Bubbles" von Daniel Lerch,
             Ilbien Paul und Lars Höhener.
             <br />
-            <span className='text-pink-600'>Stand: </span> 18. Mai 2021
+            <span className='text-pink-600'>Stand: </span> 21. Mai 2021
           </p>
         </footer>
       </div>
