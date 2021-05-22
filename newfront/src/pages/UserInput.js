@@ -10,8 +10,11 @@ function UserInput() {
   const [user, setUser] = useState()
 
   useEffect(() => {
-    const qlen = fetchRequestQueueLength()
-    console.log(fetchRequestQueueLength())
+    const fetchQlen = async () => {
+      const qLen = await fetchRequestQueueLength()
+      setQueueLength(qLen.queue_length)
+    }
+    fetchQlen()
   }, [])
 
   const set = (event) => {
