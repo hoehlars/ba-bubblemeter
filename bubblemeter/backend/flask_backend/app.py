@@ -10,11 +10,10 @@ Connect: localhost:5000/
 #flask import
 import flask
 from flask_cors import CORS
+from gevent.pywsgi import WSGIServer
 app = flask.Flask(__name__)
-app.config["DEBUG"] = True
 
 CORS(app)
-
 
 #sys import, used so that files in other directories are found
 import sys
@@ -23,9 +22,12 @@ sys.path.append("../network")
 #imports
 import pandas as pd
 
-
-from twitter_access import process_friends
 from db import get_edges_friends_of_friends, get_amount_of_politicians_in_db
+from db import insert_request_in_queue
+from db import is_twitterHandle_analyzed
+from db import is_twitterHandle_in_queue
+from db import get_analyzed_users
+from db import get_request_queue_length
 from network import top_k_of_network_sorted_incoming_degree
 from network import get_all_politicians_in_network
 from network import generate_graph
@@ -42,11 +44,10 @@ DF_ROW_COUNT = 0
 @app.route('/make_analysis/<twitterID>')
 def make_analysis(twitterID):
     
-    process_friends(twitterID)
-    
+    # get all edges from the db
     edges = get_edges_friends_of_friends(int(twitterID))
     
-
+    # create dataframe and graph
     edges_df = pd.DataFrame(edges)
     
     G_sorted_df = generate_graph(edges_df)
@@ -65,6 +66,46 @@ def make_analysis(twitterID):
     politicians_in_network_json = df_to_json(politicians_in_network)
     
     response = {"statusCode": 200, "body": {"politicians_in_network": politicians_in_network_json, "top_ten_most_influential": ten_most_influential_json }}
+    return response
+
+@app.route('/request_analysis/<twitterHandleOrTwitterID>')
+def request_analysis(twitterHandleOrTwitterID):
+    
+    if is_twitterHandle_analyzed(twitterHandleOrTwitterID):
+        errorMsg = "User has already been analyzed."
+        response = {"statusCode": 200, "body": {"msg": errorMsg}}
+        return response
+    
+    if is_twitterHandle_in_queue(twitterHandleOrTwitterID):
+        errorMsg = "User has already been requested and is still in the queue."
+        response = {"statusCode": 200, "body": {"msg": errorMsg}}
+        return response
+    
+    #inserts user request in queue
+    insert_request_in_queue(twitterHandleOrTwitterID)
+    
+    successMsg = "User analysis of " + twitterHandleOrTwitterID + " has been requestet"
+    response = {"statusCode": 200, "body": {"msg": successMsg}}
+    return response
+
+@app.route('/request_analyzed_users')
+def request_analysed_users():
+    
+    analyzed_users = get_analyzed_users()
+    
+    if len(analyzed_users) == 0:
+        response = {"statusCode": 200, "body": {"msg": "No user has been analyzed yet."}}
+        return response
+    
+    response = {"statusCode": 200, "body": {"analyzed_users": analyzed_users }}
+    return response
+
+@app.route('/request_queue_length')
+def request_queue_length():
+    
+    queue_length = get_request_queue_length()
+    
+    response = {"statusCode": 200, "body": {"queue_length": queue_length }}
     return response
 
 @app.route('/polit_score/<twitterID>')
@@ -150,5 +191,6 @@ def inner_outer_circle(twitterID):
     return response
 
 
-  
-app.run()
+if __name__ == "__main__":
+    http_server = WSGIServer(('', 5000), app)
+    http_server.serve_forever()
