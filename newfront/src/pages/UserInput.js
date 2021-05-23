@@ -25,19 +25,16 @@ function UserInput() {
 
   const saveFormData = async () => {
     const response = await requestAnalysis(user.handle)
-    if (response.status !== 200) {
-      throw new Error(`Request failed: ${response.status}`)
-    }
+    return response
   }
 
   const onSubmit = async (event) => {
     event.preventDefault()
     try {
-      await saveFormData()
-      alert('messimessi')
-      setUser({})
+      const res = await saveFormData()
+      alert(res)
     } catch (e) {
-      console.log(`Registration failed! ${e.message}`)
+      console.log(`Request failed! ${e.message}`)
       alert('upsi')
     }
   }
@@ -49,8 +46,8 @@ function UserInput() {
         unsere Maschine an:
       </p>
       <form onSubmit={onSubmit} className='mb-6'>
-        <label class='block'>
-          <span class='text-xs text-gray-700'>
+        <label className='block'>
+          <span className='text-xs text-gray-700'>
             Twitter@handle oder TwitterId
           </span>
           <input
@@ -61,8 +58,8 @@ function UserInput() {
             onChange={set('handle')}
           />
         </label>
-        <label class='block'>
-          <span class='text-xs text-gray-700'>Email</span>
+        <label className='block'>
+          <span className='text-xs text-gray-700'>Email</span>
           <input
             type='email'
             required
@@ -82,8 +79,8 @@ function UserInput() {
       </form>
       <p className='mb-8'>
         Deine Email benötigen wir, damit wir dich informieren können, sobald
-        unsere Analyse fertig ist. Je nach grösse deines Netzwerks und aufgrund
-        von Beschränkungen in der Twitter API kann das eine Stunde oder auch mal
+        unsere Analyse fertig ist. Aufgrund von Beschränkungen in der Twitter
+        API kann das je nach grösse deines Netzwerks eine Stunde oder auch mal
         ein-zwei Tage dauern.
       </p>
       <h2>
