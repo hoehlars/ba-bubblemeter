@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import Header from '../components/Header'
+import Intro from '../components/Intro'
 import UserInfo from '../components/UserInfo'
 import {
   fetchAnalysisData,
@@ -14,13 +15,13 @@ import {
 function Resultspage() {
   const { userId } = useParams()
   const [isLoading, setIsLoading] = useState({
-    selectedUser: false,
-    topten: false,
-    koordinaten: false,
-    score: false,
-    parties: false,
-    centroid: false,
-    innerOuterCircle: false,
+    currentUser: true,
+    topten: true,
+    koordinaten: true,
+    score: true,
+    parties: true,
+    centroid: true,
+    innerOuterCircle: true,
   })
 
   const [currentUser, setCurrentUser] = useState()
@@ -35,18 +36,14 @@ function Resultspage() {
   useEffect(() => {
     const fetchData = async () => {
       console.log('started')
+
       const userList = await fetchAnalizedUsers()
       const user = userList.analyzed_users.find((user) => user.id == userId)
       setCurrentUser(user)
-      setIsLoading({
-        selectedUser: false,
-        topten: true,
-        koordinaten: true,
-        score: true,
-        parties: true,
-        centroid: true,
-        innerOuterCircle: true,
-      })
+      setIsLoading((isLoading) => ({
+        ...isLoading,
+        currentUser: false,
+      }))
 
       const analysisData = await fetchAnalysisData(userId)
       setTopten(analysisData.top_ten_most_influential.data)
@@ -102,6 +99,11 @@ function Resultspage() {
       <Header />
       <main className='flex-1 md:grid md:grid-cols-2 gap-6'>
         <UserInfo userData={currentUser} />
+        {isLoading.score ? (
+          <p>loading</p>
+        ) : (
+          <Intro score={politScore} user={currentUser} />
+        )}
       </main>
     </>
   )
