@@ -61,8 +61,8 @@ function Userselection() {
           </p>
 
           {/* suche */}
-          <label class='block'>
-            <span class='text-xs text-pink-600'>Suche</span>
+          <label className='block'>
+            <span className='text-xs text-pink-600'>Suche</span>
             <input
               type='text'
               required

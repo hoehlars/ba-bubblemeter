@@ -62,9 +62,18 @@ export const fetchRequestQueueLength = async () => {
 
 export const requestAnalysis = async (handleOrId) => {
   const analysis = await fetch(
-    `${process.env.REACT_APP_BACKEND_URL}reuqest_analysis/${handleOrId}`,
+    `${process.env.REACT_APP_BACKEND_URL}request_analysis/${handleOrId}`,
     FETCH_OPTIONS
   )
   const analysisJson = await analysis.json()
-  return analysisJson.body
+  return analysisJson.body.msg
+}
+
+export const fetchAnalizedUsers = async () => {
+  const analyzedUsers = await fetch(
+    `${process.env.REACT_APP_BACKEND_URL}request_analyzed_users`,
+    FETCH_OPTIONS
+  )
+  const analyzedUsersJson = await analyzedUsers.json()
+  return analyzedUsersJson.body
 }

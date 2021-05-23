@@ -8,6 +8,7 @@ import {
   fetchCentroidData,
   fetchScore,
   fetchSortedPartyList,
+  fetchAnalizedUsers,
 } from '../services/apiService'
 
 function Resultspage() {
@@ -34,6 +35,9 @@ function Resultspage() {
   useEffect(() => {
     const fetchData = async () => {
       console.log('started')
+      const userList = await fetchAnalizedUsers()
+      const user = userList.analyzed_users.find((user) => user.id == userId)
+      setCurrentUser(user)
       setIsLoading({
         selectedUser: false,
         topten: true,
@@ -45,7 +49,6 @@ function Resultspage() {
       })
 
       const analysisData = await fetchAnalysisData(userId)
-      console.log(analysisData)
       setTopten(analysisData.top_ten_most_influential.data)
       setIsLoading((isLoading) => ({
         ...isLoading,
