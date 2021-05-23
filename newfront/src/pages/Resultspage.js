@@ -113,7 +113,7 @@ function Resultspage() {
           {isLoading.koordinaten ? (
             <p>loading</p>
           ) : (
-            <SmarterMap politicians={politicians} />
+            <SmarterMap politicians={politicians} myCoords={centroid} />
           )}
         </section>
       </main>

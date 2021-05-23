@@ -49,7 +49,7 @@ const dummyList = [
 ]
 
 function Userselection() {
-  const [userList, setUserList] = useState(dummyList)
+  const [userList, setUserList] = useState()
   const [query, setQuery] = useState('')
 
   useEffect(() => {
@@ -82,27 +82,28 @@ function Userselection() {
           </label>
           {/* liste */}
           <ul className='grid grid-cols-2 gap-8'>
-            {userList
-              .filter((user) =>
-                user.name.toString().toLowerCase().includes(query)
-              )
-              .map((user) => {
-                return (
-                  <li
-                    key={user.id}
-                    className='text-center hover:text-pink-600 transition-colors'
-                  >
-                    <Link to={`/results/${user.id}`}>
-                      <img
-                        src={user.twitterProfileImage}
-                        alt={`${user.name}s Profile Pic`}
-                        className='rounded-full w-16 m-auto'
-                      />
-                      <p>{user.name}</p>
-                    </Link>
-                  </li>
+            {userList &&
+              userList
+                .filter((user) =>
+                  user.name.toString().toLowerCase().includes(query)
                 )
-              })}
+                .map((user) => {
+                  return (
+                    <li
+                      key={user.id}
+                      className='text-center hover:text-pink-600 transition-colors'
+                    >
+                      <Link to={`/results/${user.id}`}>
+                        <img
+                          src={user.twitterProfileImage}
+                          alt={`${user.name}s Profile Pic`}
+                          className='rounded-full w-16 m-auto'
+                        />
+                        <p>{user.name}</p>
+                      </Link>
+                    </li>
+                  )
+                })}
           </ul>
         </section>
       </main>

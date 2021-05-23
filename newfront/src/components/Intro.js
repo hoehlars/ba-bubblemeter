@@ -18,7 +18,7 @@ export default function Intro({ score, user }) {
     }
   }
   return (
-    <arcicle>
+    <article>
       <h2 className='text-pink-600 text-xl'>{user.name}s Netzwerk</h2>
       <p>
         Das Twitter Netzwerk von {user?.name} erstreckt sich über{' '}
@@ -38,6 +38,6 @@ export default function Intro({ score, user }) {
         </span>
         .
       </p>
-    </arcicle>
+    </article>
   )
 }
