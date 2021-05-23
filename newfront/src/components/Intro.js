@@ -18,17 +18,26 @@ export default function Intro({ score, user }) {
     }
   }
   return (
-    <p>
-      Das Twitter Netzwerk von {user?.name} erstreckt sich über{' '}
-      {score.size_of_whole_network} Knoten. Damit ist es im Vergleich zu den
-      anderen von uns analysierten Netzwerken{' '}
-      {sizeValue(score.size_of_whole_network)}.
-      <br />
-      Von den {score.amount_of_politicians_in_db} in unserem Netzwerk erfassten
-      politisch aktivsten CH-Twitter Nutzer*innen finden sich{' '}
-      {score.amount_of_politicians_in_network} in {user.name}s Netzwerk. Im
-      Vergleich mit den anderen von uns analysierten Netzerken ist {user.name}s
-      Netzwerk damit {scoreValue(score.polit_score)}.
-    </p>
+    <arcicle>
+      <h2 className='text-pink-600 text-xl'>{user.name}s Netzwerk</h2>
+      <p>
+        Das Twitter Netzwerk von {user?.name} erstreckt sich über{' '}
+        {score.size_of_whole_network} Knoten. Damit ist es im Vergleich zu den
+        anderen von uns analysierten Netzwerken{' '}
+        <span className='text-pink-600 font-medium'>
+          {sizeValue(score.size_of_whole_network)}
+        </span>
+        .
+        <br />
+        Von den {score.amount_of_politicians_in_db} in unserem Netzwerk
+        erfassten politisch aktivsten CH-Twitter Nutzer*innen finden sich{' '}
+        {score.amount_of_politicians_in_network} in {user.name}s Netzwerk. Damit
+        ist es im Vergleich zu den anderen von uns analysierten Netzwerken{' '}
+        <span className='text-pink-600 font-medium'>
+          {scoreValue(score.polit_score)}
+        </span>
+        .
+      </p>
+    </arcicle>
   )
 }

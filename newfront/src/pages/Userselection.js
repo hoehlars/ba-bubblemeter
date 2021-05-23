@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Header from '../components/Header'
+import { fetchAnalizedUsers } from '../services/apiService'
 
 const dummyList = [
   {
@@ -51,6 +52,14 @@ function Userselection() {
   const [userList, setUserList] = useState(dummyList)
   const [query, setQuery] = useState('')
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const list = await fetchAnalizedUsers()
+      setUserList(list.analyzed_users)
+    }
+    fetchData()
+  }, [])
+
   return (
     <>
       <Header />
@@ -85,7 +94,7 @@ function Userselection() {
                   >
                     <Link to={`/results/${user.id}`}>
                       <img
-                        src={user.src}
+                        src={user.twitterProfileImage}
                         alt={`${user.name}s Profile Pic`}
                         className='rounded-full w-16 m-auto'
                       />

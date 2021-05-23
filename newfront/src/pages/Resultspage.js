@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import Header from '../components/Header'
 import Intro from '../components/Intro'
+import SmarterMap from '../components/SmarterMap'
 import UserInfo from '../components/UserInfo'
 import {
   fetchAnalysisData,
@@ -98,12 +99,23 @@ function Resultspage() {
     <>
       <Header />
       <main className='flex-1 md:grid md:grid-cols-2 gap-6'>
-        <UserInfo userData={currentUser} />
-        {isLoading.score ? (
-          <p>loading</p>
-        ) : (
-          <Intro score={politScore} user={currentUser} />
-        )}
+        <section className='mb-4'>
+          <UserInfo userData={currentUser} />
+        </section>
+        <section className='mb-4'>
+          {isLoading.score ? (
+            <p>loading</p>
+          ) : (
+            <Intro score={politScore} user={currentUser} />
+          )}
+        </section>
+        <section>
+          {isLoading.koordinaten ? (
+            <p>loading</p>
+          ) : (
+            <SmarterMap politicians={politicians} />
+          )}
+        </section>
       </main>
     </>
   )
