@@ -65,12 +65,12 @@ function Userselection() {
       <Header />
       <main className='flex-1'>
         <section className='mb-4'>
-          <p className='mb-4'>
+          <p className='font-light mb-4 md:text-center prose md:w-1/2 lg:w-1/3 md:mx-auto'>
             Hier kannst du nach eine*n bereits erfasste*n Nutzer*in suchen:
           </p>
 
           {/* suche */}
-          <label className='block'>
+          <label className='block md:w-1/2 md:mx-auto mb-16'>
             <span className='text-xs text-pink-600'>Suche</span>
             <input
               type='text'
@@ -81,7 +81,7 @@ function Userselection() {
             />
           </label>
           {/* liste */}
-          <ul className='grid grid-cols-2 gap-8'>
+          <ul className='grid grid-cols-2 md:w-1/2 xl:grid-cols-4 gap-8 md:mx-auto'>
             {userList &&
               userList
                 .filter((user) =>

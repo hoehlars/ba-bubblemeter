@@ -4,9 +4,12 @@
 
 @layer base {
   p {
-    @apply font-light;
+    @apply font-light mb-2;
   }
   label {
     @apply font-mono;
+  }
+  section {
+    @apply mb-4;
   }
 }

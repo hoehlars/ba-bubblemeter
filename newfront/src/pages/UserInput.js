@@ -41,11 +41,11 @@ function UserInput() {
   return (
     <main className='flex-1'>
       <Header />
-      <p className='mb-4'>
+      <p className='font-light mb-16 md:text-center prose md:w-1/2 lg:w-1/3 md:mx-auto'>
         Erfasse hier deine Twitter@handle oder deine TwitterId und wir werfen
         unsere Maschine an:
       </p>
-      <form onSubmit={onSubmit} className='mb-6'>
+      <form onSubmit={onSubmit} className='md:w-1/2 md:mx-auto mb-16'>
         <label className='block'>
           <span className='text-xs text-gray-700'>
             Twitter@handle oder TwitterId
@@ -68,7 +68,7 @@ function UserInput() {
             onChange={set('email')}
           />
         </label>
-        <div className='text-right'>
+        <div className='text-right md:text-center'>
           <button
             type='submit'
             className='text-pink-600 border-2 border-pink-600 hover:text-white hover:bg-pink-600 transition-colors py-1 px-6 '
@@ -77,13 +77,13 @@ function UserInput() {
           </button>
         </div>
       </form>
-      <p className='mb-8'>
+      <p className='font-light mb-8 md:text-center prose md:w-1/2 lg:w-1/3 md:mx-auto'>
         Deine Email benötigen wir, damit wir dich informieren können, sobald
         unsere Analyse fertig ist. Aufgrund von Beschränkungen in der Twitter
         API kann das je nach grösse deines Netzwerks eine Stunde oder auch mal
         ein-zwei Tage dauern.
       </p>
-      <h2>
+      <h2 className='md:text-center prose md:w-1/2 lg:w-1/3 md:mx-auto'>
         Zur Zeit befinden sich{' '}
         <span className='text-pink-600 text-2xl'>{queueLength}</span> Anfragen
         in unserer Pipeline.

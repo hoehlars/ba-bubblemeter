@@ -22,12 +22,12 @@ function App() {
             <Home></Home>
           </Route>
         </Switch>
-        <footer className='text-xs mb-1 font-mono'>
+        <footer className='text-xs mb-1 font-mono md:text-center mx-auto'>
           <p>
             ZHAW-Bachelorarbeit zum Thema "Online Bubbles" von Lars Höhener,
             Daniel Lerch und Ilbien Paul.
             <br />
-            <span className='text-pink-600'>Stand: </span> 21. Mai 2021
+            <span className='text-pink-600'>Stand: </span> 23. Mai 2021
           </p>
         </footer>
       </div>

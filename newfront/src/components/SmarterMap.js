@@ -18,7 +18,6 @@ function SmarterMap({ politicians, myCoords }) {
 
   return (
     <>
-      <h2 className='text-pink-600'>Politische Exponenten im Netzwerk</h2>
       <div className='border-2 border-black max-w-2xl mb-2'>
         <svg viewBox='0 0 320 320'>
           <style>

@@ -19,8 +19,7 @@ export default function Intro({ score, user }) {
   }
   return (
     <article>
-      <h2 className='text-pink-600 text-xl'>{user.name}s Netzwerk</h2>
-      <p>
+      <p className='prose max-w-prose'>
         Das Twitter Netzwerk von {user?.name} erstreckt sich über{' '}
         {score.size_of_whole_network} Knoten. Damit ist es im Vergleich zu den
         anderen von uns analysierten Netzwerken{' '}

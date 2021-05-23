@@ -8,7 +8,7 @@ function UserInfo({ userData }) {
   }
 
   const user = (
-    <div className='flex justify-between'>
+    <div className='flex justify-between md:justify-end gap-16 '>
       <ul>
         <li>
           <span className='font-mono text-pink-600'>name:</span> {data.name}
@@ -22,7 +22,7 @@ function UserInfo({ userData }) {
         </li>
       </ul>
       <img
-        className='w-1/5 rounded-full'
+        className='w-20 h-20 rounded-full'
         src={data.twitterProfileImage}
         alt={data.name}
       />

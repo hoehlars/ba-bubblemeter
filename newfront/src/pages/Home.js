@@ -13,17 +13,17 @@ function Home() {
           visualisiert die politische Ausrichtung von deinem Twitter Netzwerk.
         </h2>
       </header>
-      <p className='font-light mb-16'>
+      <p className='font-light mb-16 md:text-center prose md:w-1/2 md:mx-auto'>
         Du kannst dein Twitter Profil von uns analysieren lassen oder dir die
         analysierten Profile anderer Nutzer*innen anschauen:
       </p>
       <ul>
-        <li className='border-2 border-pink-600 text-pink-600 px-6 py-4 w-96 m-auto text-center font-semibold hover:bg-pink-600 hover:text-white transition-colors mb-6'>
+        <li className='border-2 border-pink-600 text-pink-600 px-6 py-4 w-96 m-auto text-center font-semibold hover:bg-pink-600 hover:text-white transition-colors mb-6 rounded-full'>
           <NavLink activeClassName='text-pink-600' to='/userinput'>
             Nutzer*in erfassen
           </NavLink>
         </li>
-        <li className='border-2 border-pink-600 text-pink-600 px-6 py-4 w-96 m-auto text-center font-semibold hover:bg-pink-600 hover:text-white transition-colors mb-6'>
+        <li className='border-2 border-pink-600 text-pink-600 px-6 py-4 w-96 m-auto text-center font-semibold hover:bg-pink-600 hover:text-white transition-colors mb-6 rounded-full'>
           <NavLink activeClassName='text-pink-600' to='/userselection'>
             Liste anzeigen
           </NavLink>

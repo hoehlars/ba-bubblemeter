@@ -14,7 +14,7 @@ function TopTen({ topten }) {
   }, [topten])
 
   const topTenList = (
-    <table className='w-full'>
+    <table className='w-full mb-2'>
       <thead>
         <tr>
           <th className='border py-1 text-left pl-2 text-pink-600 font-normal'>
