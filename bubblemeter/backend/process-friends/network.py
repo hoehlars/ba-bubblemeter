@@ -24,6 +24,9 @@ def generate_graph(edges_df):
 def top_k_of_network_sorted_incoming_degree(k, G_sorted_df, twitterID):
     
     G_top_k = G_sorted_df.head(k)
+
+    if not G_top_k[G_top_k['twitter_id'] == twitterID].empty:
+        G_top_k = G_sorted_df.head(k+1)
     
     top_k_df = pd.DataFrame(columns = ['name', 'twitter_handle', 'twitter_id', 'in_degree'])
     
@@ -37,13 +40,6 @@ def top_k_of_network_sorted_incoming_degree(k, G_sorted_df, twitterID):
         top_k_df.loc[idx, 'name'] = u.name
         top_k_df.loc[idx, 'twitter_handle'] = u.screen_name
         
-    # check if the twitter user itself is in the top ten list
-    if not top_k_df[top_k_df.twitter_id == int(twitterID)].empty:
-        # get top k + 1 most influential
-        top_k_plus1_influential = top_k_df(k + 1, G_sorted_df)
-        
-        #exclude user which is in the top 10 user himself/herself
-        top_k_df = top_k_plus1_influential[top_k_plus1_influential.twitter_id != int(twitterID)]
         
     return top_k_df
         
