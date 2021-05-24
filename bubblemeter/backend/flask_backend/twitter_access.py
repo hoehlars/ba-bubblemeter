@@ -11,16 +11,14 @@ from db import is_twitterId_in_db
 from db import insert_edge
 from db import get_friends
 from db import insert_analyzed_user
-from dotenv import dotenv_values
-
-config = dotenv_values(".env")
+import os
 
 key_in_use = 1
 
-consumer_key = config['CONSUMER_KEY_1']
-consumer_secret = config['CONSUMER_SECRET_1']
-access_token = config['ACCESS_TOKEN_1']
-access_token_secret = config['ACCESS_TOKEN_SECRET_1']
+consumer_key = os.environ['CONSUMER_KEY_1']
+consumer_secret = os.environ['CONSUMER_SECRET_1']
+access_token = os.environ['ACCESS_TOKEN_1']
+access_token_secret = os.environ['ACCESS_TOKEN_SECRET_1']
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
@@ -40,10 +38,10 @@ def change_keys():
     if case == 1 or case == 2:
         key_in_use = key_in_use + 1
         print("KEY: ", key_in_use)
-        consumer_key = config['CONSUMER_KEY_' + str(key_in_use)]
-        consumer_secret = config['CONSUMER_SECRET_' + str(key_in_use)]
-        access_token = config['ACCESS_TOKEN_' + str(key_in_use)]
-        access_token_secret = config['ACCESS_TOKEN_SECRET_' + str(key_in_use)]
+        consumer_key = os.environ['CONSUMER_KEY_' + str(key_in_use)]
+        consumer_secret = os.environ['CONSUMER_SECRET_' + str(key_in_use)]
+        access_token = os.environ['ACCESS_TOKEN_' + str(key_in_use)]
+        access_token_secret = os.environ['ACCESS_TOKEN_SECRET_' + str(key_in_use)]
         
         
         auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
@@ -55,10 +53,10 @@ def change_keys():
         print("KEY: ", key_in_use)
         print("Rate limit reached. Sleeping for 15 minutes")
         time.sleep(900) #15 minutes
-        consumer_key = config['CONSUMER_KEY_1']
-        consumer_secret = config['CONSUMER_SECRET_1']
-        access_token = config['ACCESS_TOKEN_1']
-        access_token_secret = config['ACCESS_TOKEN_SECRET_1']
+        consumer_key = os.environ['CONSUMER_KEY_1']
+        consumer_secret = os.environ['CONSUMER_SECRET_1']
+        access_token = os.environ['ACCESS_TOKEN_1']
+        access_token_secret = os.environ['ACCESS_TOKEN_SECRET_1']
         
         auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
         auth.set_access_token(access_token, access_token_secret)

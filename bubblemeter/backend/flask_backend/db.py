@@ -7,16 +7,15 @@ Created on Sun Apr 11 15:10:19 2021
 
 import pymongo
 from datetime import datetime
-from dotenv import dotenv_values
+import os
 
-config = dotenv_values(".env")
 
-client = pymongo.MongoClient(config['DB_CONNECT_STRING'])
-twitterNetworkDb = client[config['DB_NAME']]
-edgeCol = twitterNetworkDb[config['EDGE_COL_NAME']]
-politiciansCol = twitterNetworkDb[config['POLITICIANS_COL_NAME']]
-analyzedCol = twitterNetworkDb[config['ANALYZED_USERS_NAME']]
-requestQueueCol = twitterNetworkDb[config['QUEUE']]
+client = pymongo.MongoClient(os.environ['DB_CONNECT_STRING'])
+twitterNetworkDb = client[os.environ['DB_NAME']]
+edgeCol = twitterNetworkDb[os.environ['EDGE_COL_NAME']]
+politiciansCol = twitterNetworkDb[os.environ['POLITICIANS_COL_NAME']]
+analyzedCol = twitterNetworkDb[os.environ['ANALYZED_USERS_NAME']]
+requestQueueCol = twitterNetworkDb[os.environ['QUEUE']]
 
 #----- GENERAL -----
 
