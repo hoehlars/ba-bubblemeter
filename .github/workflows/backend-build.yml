@@ -30,7 +30,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/flask_backend:latest
 
-  build:
+  build-process-friends:
     runs-on: ubuntu-latest
     steps:
       - name: Check Out Repo 
