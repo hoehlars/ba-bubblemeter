@@ -75,9 +75,9 @@ def get_amount_of_politicians_in_db():
    
 #-----ANALYZED USERS----- 
    
-def insert_analyzed_user(twitterID, twitterHandle, twitterName, twitterProfileImage, friends_count):
+def insert_analyzed_user(twitterID, twitterHandle, twitterName, twitterProfileImage, friends_count, analysis):
     datetime_now = datetime.now()
-    edge = { "date": datetime_now, "twitterId": twitterID, "twitterHandle": twitterHandle, "twitterName": twitterName, "twitterProfileImage": twitterProfileImage, "friends": friends_count}
+    edge = { "date": datetime_now, "twitterId": twitterID, "twitterHandle": twitterHandle, "twitterName": twitterName, "twitterProfileImage": twitterProfileImage, "friends": friends_count, "analysis": analysis}
     analyzedCol.insert_one(edge)
     
 def get_analyzed_users():
@@ -93,6 +93,11 @@ def is_twitterHandle_analyzed(twitterHandle):
     query = {"twitterHandle": twitterHandle}
     allEntries = analyzedCol.find(query)    
     return len(list(allEntries)) != 0
+
+def get_analysis_of_user_analyzed(twitterID):
+    query = {"twitterId"}
+    allEntries = analyzedCol.find(query)
+    return list(allEntries[0]["analysis"])
 
 #-----REQUEST QUEUE-----
 
