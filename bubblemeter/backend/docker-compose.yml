@@ -26,6 +26,8 @@ services:
             - ANALYZED_USERS_NAME=
             - QUEUE=
             - PYTHONUNBUFFERED=1
+            - EMAIL=
+            - EMAIL_PW=
 
     flask-backend:
         build:
@@ -54,3 +56,5 @@ services:
             - ANALYZED_USERS_NAME=
             - QUEUE=
             - PYTHONUNBUFFERED=1
+            - EMAIL=
+            - EMAIL_PW=
