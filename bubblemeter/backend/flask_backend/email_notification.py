@@ -22,5 +22,3 @@ html = '<a href="www.google.com">Click me!</a>'
 def send_notification(receiver):
     to = receiver
     yag.send(to = to, subject = subject, contents = [body, html])
-    
-    
