@@ -35,7 +35,7 @@ def make_analysis(twitterID):
     G_sorted_df = generate_graph(edges_df)
     
     # ------------ ten_most_influential --------------
-    ten_most_influential = top_k_of_network_sorted_incoming_degree(MOST_INFLUENTIAL_TOP_COUNT, G_sorted_df)
+    ten_most_influential = top_k_of_network_sorted_incoming_degree(MOST_INFLUENTIAL_TOP_COUNT, G_sorted_df, twitterID)
     analysis["ten_most_influential"] = df_to_json(ten_most_influential)
     
     # ------------ politicians in network ------------
