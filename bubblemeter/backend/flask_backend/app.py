@@ -84,8 +84,8 @@ def make_analysis(twitterID):
     response = {"statusCode": 200, "body": {"politicians_in_network": politicians_in_network_json, "top_ten_most_influential": ten_most_influential_json }}
     return response
 
-@app.route('/request_analysis/<twitterHandleOrTwitterID>')
-def request_analysis(twitterHandleOrTwitterID):
+@app.route('/request_analysis/<twitterHandleOrTwitterID>/<email>')
+def request_analysis(twitterHandleOrTwitterID, email):
     
     if is_twitterHandle_analyzed(twitterHandleOrTwitterID):
         errorMsg = "User has already been analyzed."
@@ -98,7 +98,7 @@ def request_analysis(twitterHandleOrTwitterID):
         return response
     
     #inserts user request in queue
-    insert_request_in_queue(twitterHandleOrTwitterID)
+    insert_request_in_queue(twitterHandleOrTwitterID, email)
     
     successMsg = "User analysis of " + twitterHandleOrTwitterID + " has been requestet"
     response = {"statusCode": 200, "body": {"msg": successMsg}}
