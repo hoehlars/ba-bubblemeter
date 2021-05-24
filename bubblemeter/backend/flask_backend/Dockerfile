@@ -1,13 +1,14 @@
 FROM python:3.8-slim-buster
 
-WORKDIR /app
+WORKDIR /usr/src/flask
 
-COPY bubblemeter/backend/flask_backend/requirements.txt requirements.txt
+COPY requirements.txt ./
 
 RUN pip3 install --upgrade pip
 
-RUN pip3 install -r requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
 
-COPY . /app
+COPY . .
 
-CMD ["python", "app.py" ]
+# start python with unbuffered output
+CMD ["python", "./app.py" ]
