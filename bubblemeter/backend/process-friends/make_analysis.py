@@ -51,7 +51,7 @@ def make_analysis(twitterID):
     
     # ------------ most influential party ------------
     parties = compute_most_influential_party(G_sorted_df, MOST_INFLUENTIAL_PARTY_POLIT_COUNT)
-    analysis["parties"] = df_to_json(parties)
+    analysis["parties"] = parties
     
     # ------------ centroid --------------------------
     coordinates = compute_centroid_top_k_percent(G_sorted_df, CENTROID_TOP_K_PERCENT_POLIT)
