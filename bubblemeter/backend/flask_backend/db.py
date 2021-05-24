@@ -17,69 +17,9 @@ politiciansCol = twitterNetworkDb[os.environ['POLITICIANS_COL_NAME']]
 analyzedCol = twitterNetworkDb[os.environ['ANALYZED_USERS_NAME']]
 requestQueueCol = twitterNetworkDb[os.environ['QUEUE']]
 
-#----- GENERAL -----
 
-def is_twitterId_in_db(twitterId):
-    query = {"IDFrom": twitterId}
-    allEntries = edgeCol.find(query)    
-    return len(list(allEntries)) != 0
-
-def get_friends(twitterID):
-    query = {"IDFrom": twitterID}
-    # project to IDTo
-    allEntries = edgeCol.find(query, {"_id": 0, "date": 0})
-    friends = []
-    for entry in allEntries:
-        friends.append(entry["IDTo"])
-    return friends
-    
-def get_edges_friends(twitterID):
-    query = {"IDFrom": twitterID}
-    # project to IDTo
-    allEntries = edgeCol.find(query, {"_id": 0, "date": 0})
-    friends = []
-    for entry in allEntries:
-        friends.append(entry)
-    return friends
-
-def get_edges_friends_of_friends(twitterID):
-    # get friends of specific user
-    friends = get_edges_friends(twitterID)
-    
-    friends_of_friends = []
-    
-    # iterate over friends to get all friends of friends
-    for friend in friends:
-        friends_of_friend = get_edges_friends(friend["IDTo"])
-        friends_of_friends.extend(friends_of_friend)
-        
-    # finally add also friends of specific user 
-    friends_of_friends.extend(friends)
-    
-    return friends_of_friends
-
-def insert_edge(idFrom, idTo):
-    datetime_now = datetime.now()
-    edge = { "date": datetime_now, "IDFrom": idFrom, "IDTo": idTo}
-    edgeCol.insert_one(edge)
-
-#----- POLITICIANS -----
-
-def get_politicians():
-    allEntries = politiciansCol.find({}, {"_id": 0, "username": 0})
-    # get all politicans from db
-    return list(allEntries)
-
-def get_amount_of_politicians_in_db():
-    allEntries = politiciansCol.find({}, {"_id": 0, "username": 0})
-    return len(list(allEntries))
    
 #-----ANALYZED USERS----- 
-   
-def insert_analyzed_user(twitterID, twitterHandle, twitterName, twitterProfileImage, friends_count):
-    datetime_now = datetime.now()
-    edge = { "date": datetime_now, "twitterId": twitterID, "twitterHandle": twitterHandle, "twitterName": twitterName, "twitterProfileImage": process_twitterProfileImage(twitterProfileImage), "friends": friends_count}
-    analyzedCol.insert_one(edge)
     
 def process_twitterProfileImage(twitterProfileImage):
     #_normal is has to be removed from the url string, _normal is the only version that can be retrieved with twitters user object
@@ -99,6 +39,11 @@ def is_twitterHandle_analyzed(twitterHandle):
     query = {"twitterHandle": twitterHandle}
     allEntries = analyzedCol.find(query)    
     return len(list(allEntries)) != 0
+
+def get_analysis_of_user_analyzed(twitterID):
+    query = {"twitterId": int(twitterID)}
+    allEntries = analyzedCol.find(query)    
+    return list(allEntries)[0]["analysis"]
 
 #-----REQUEST QUEUE-----
 

@@ -19,6 +19,11 @@ CORS(app)
 from flask_swagger_ui import get_swaggerui_blueprint
 
 from db import get_analysis_of_user_analyzed
+from db import is_twitterHandle_analyzed
+from db import is_twitterHandle_in_queue
+from db import insert_request_in_queue
+from db import get_analyzed_users
+from db import get_request_queue_length
 
 
 SWAGGER_URL = '/docs'
