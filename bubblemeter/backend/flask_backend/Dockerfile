@@ -2,7 +2,7 @@ FROM python:3.8-slim-buster
 
 WORKDIR /usr/src/flask
 
-COPY requirements.txt ./
+COPY /bubblemeter/backend/flask_backend/requirements.txt ./
 
 RUN pip3 install --upgrade pip
 
