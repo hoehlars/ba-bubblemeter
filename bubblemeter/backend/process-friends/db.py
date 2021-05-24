@@ -9,7 +9,6 @@ import pymongo
 from datetime import datetime
 import os
 
-
 client = pymongo.MongoClient(os.environ['DB_CONNECT_STRING'])
 twitterNetworkDb = client[os.environ['DB_NAME']]
 edgeCol = twitterNetworkDb[os.environ['EDGE_COL_NAME']]
@@ -107,7 +106,7 @@ def get_next_request_from_queue():
     # 1 for oldest, -1 for newest
     nextUserDict = requestQueueCol.find().sort("date",1).limit(1)
     nextUser = nextUserDict[0]
-    return nextUser['twitterHandle']
+    return nextUser['twitterHandleOrTwitterID']
 
 def get_request_queue_length():
     #returns all items in Collection
@@ -115,11 +114,11 @@ def get_request_queue_length():
     return len(list(allEntries))
 
 def remove_user_from_queue(twitterHandle):
-    query = {"twitterHandle": twitterHandle}
+    query = {"twitterHandleOrTwitterID": twitterHandle}
     requestQueueCol.delete_one(query)
 
 def is_twitterHandle_in_queue(twitterHandle):
-    query = {"twitterHandle": twitterHandle}
+    query = {"twitterHandleOrTwitterID": twitterHandle}
     allEntries = requestQueueCol.find(query)    
     return len(list(allEntries)) != 0
 

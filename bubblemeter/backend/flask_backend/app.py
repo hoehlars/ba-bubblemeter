@@ -22,15 +22,19 @@ sys.path.append("../network")
 #imports
 import pandas as pd
 
-
-from twitter_access import process_friends
 from db import get_edges_friends_of_friends, get_amount_of_politicians_in_db
+from db import insert_request_in_queue
+from db import is_twitterHandle_analyzed
+from db import is_twitterHandle_in_queue
+from db import get_analyzed_users
+from db import get_request_queue_length
 from network import top_k_of_network_sorted_incoming_degree
 from network import get_all_politicians_in_network
 from network import generate_graph
 from centroid import compute_centroid_top_k_percent
 from centroid import compute_inside_outside_circle
 from helpers import df_to_json
+from flask_swagger_ui import get_swaggerui_blueprint
 
 MOST_INFLUENTIAL_TOP_COUNT = 10
 MOST_INFLUENTIAL_PARTY_POLIT_COUNT = 100
@@ -38,14 +42,28 @@ CENTROID_TOP_K_PERCENT_POLIT = 5
 RADIUS_AROUND_CENTROID = 16
 DF_ROW_COUNT = 0
 
+
+
+
+SWAGGER_URL = '/docs'
+
+swagger_ui_blueprint = get_swaggerui_blueprint(
+    SWAGGER_URL,
+    '/static/hoehlars-bubblemeterbackend-1.0.0-resolved.json',
+    config={
+        'app_name': "Bubblemeter Backend"
+    }
+)
+
+app.register_blueprint(swagger_ui_blueprint, url_prefix=SWAGGER_URL)
+
 @app.route('/make_analysis/<twitterID>')
 def make_analysis(twitterID):
     
-    process_friends(twitterID)
-    
+    # get all edges from the db
     edges = get_edges_friends_of_friends(int(twitterID))
     
-
+    # create dataframe and graph
     edges_df = pd.DataFrame(edges)
     
     G_sorted_df = generate_graph(edges_df)
@@ -64,6 +82,46 @@ def make_analysis(twitterID):
     politicians_in_network_json = df_to_json(politicians_in_network)
     
     response = {"statusCode": 200, "body": {"politicians_in_network": politicians_in_network_json, "top_ten_most_influential": ten_most_influential_json }}
+    return response
+
+@app.route('/request_analysis/<twitterHandleOrTwitterID>')
+def request_analysis(twitterHandleOrTwitterID):
+    
+    if is_twitterHandle_analyzed(twitterHandleOrTwitterID):
+        errorMsg = "User has already been analyzed."
+        response = {"statusCode": 200, "body": {"msg": errorMsg}}
+        return response
+    
+    if is_twitterHandle_in_queue(twitterHandleOrTwitterID):
+        errorMsg = "User has already been requested and is still in the queue."
+        response = {"statusCode": 200, "body": {"msg": errorMsg}}
+        return response
+    
+    #inserts user request in queue
+    insert_request_in_queue(twitterHandleOrTwitterID)
+    
+    successMsg = "User analysis of " + twitterHandleOrTwitterID + " has been requestet"
+    response = {"statusCode": 200, "body": {"msg": successMsg}}
+    return response
+
+@app.route('/request_analyzed_users')
+def request_analysed_users():
+    
+    analyzed_users = get_analyzed_users()
+    
+    if len(analyzed_users) == 0:
+        response = {"statusCode": 200, "body": {"msg": "No user has been analyzed yet."}}
+        return response
+    
+    response = {"statusCode": 200, "body": {"analyzed_users": analyzed_users }}
+    return response
+
+@app.route('/request_queue_length')
+def request_queue_length():
+    
+    queue_length = get_request_queue_length()
+    
+    response = {"statusCode": 200, "body": {"queue_length": queue_length }}
     return response
 
 @app.route('/polit_score/<twitterID>')
