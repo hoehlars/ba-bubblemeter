@@ -10,6 +10,7 @@ from twitter_access import process_friends
 from db import is_queue_empty
 from db import get_next_request_from_queue
 from db import remove_user_from_queue
+import schedule
 
 in_progress = False
 
@@ -27,12 +28,14 @@ def process_queue():
         print("Processing next: " + nextUserTwitterHandle)
         analyze_user(nextUserTwitterHandle)
         remove_user_from_queue(nextUserTwitterHandle)
+    else:
+        print("queue empty or in progress.....")
     
-def start():
-    while True:
-        print("Check")
-        process_queue()
-        time.sleep(15)
-        
-start()
+
+schedule.every().minute.at(":15").do(process_queue)
+
+while 1:
+    schedule.run_pending()
+    time.sleep(1)
+
         
