@@ -34,12 +34,28 @@ from network import generate_graph
 from centroid import compute_centroid_top_k_percent
 from centroid import compute_inside_outside_circle
 from helpers import df_to_json
+from flask_swagger_ui import get_swaggerui_blueprint
 
 MOST_INFLUENTIAL_TOP_COUNT = 10
 MOST_INFLUENTIAL_PARTY_POLIT_COUNT = 100
 CENTROID_TOP_K_PERCENT_POLIT = 5
 RADIUS_AROUND_CENTROID = 16
 DF_ROW_COUNT = 0
+
+
+
+
+SWAGGER_URL = '/docs'
+
+swagger_ui_blueprint = get_swaggerui_blueprint(
+    SWAGGER_URL,
+    '/static/hoehlars-bubblemeterbackend-1.0.0-resolved.json',
+    config={
+        'app_name': "Bubblemeter Backend"
+    }
+)
+
+app.register_blueprint(swagger_ui_blueprint, url_prefix=SWAGGER_URL)
 
 @app.route('/make_analysis/<twitterID>')
 def make_analysis(twitterID):

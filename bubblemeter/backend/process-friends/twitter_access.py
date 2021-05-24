@@ -11,9 +11,6 @@ from db import is_twitterId_in_db
 from db import insert_edge
 from db import get_friends
 from db import insert_analyzed_user
-from db import get_email_from_twitterHandleOrTwitterID
-from email_notification import send_notification
-
 import os
 
 key_in_use = 1
@@ -133,8 +130,7 @@ def process_friends_of_friends(user, friends):
                 continue
         friend_position = friend_position + 1
     insert_analyzed_user(user.id, user.screen_name, user.name, user.profile_image_url_https, user.friends_count)
-    send_notification(get_email_from_twitterHandleOrTwitterID(user.screen_name))
-    print("finished")    
+    print("finished")
             
 def get_user_from_id(twitter_id):
     return api.get_user(user_id = twitter_id)
