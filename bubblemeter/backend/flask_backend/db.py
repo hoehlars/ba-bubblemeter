@@ -79,8 +79,13 @@ def get_amount_of_politicians_in_db():
    
 def insert_analyzed_user(twitterID, twitterHandle, twitterName, twitterProfileImage, friends_count):
     datetime_now = datetime.now()
-    edge = { "date": datetime_now, "twitterId": twitterID, "twitterHandle": twitterHandle, "twitterName": twitterName, "twitterProfileImage": twitterProfileImage, "friends": friends_count}
+    edge = { "date": datetime_now, "twitterId": twitterID, "twitterHandle": twitterHandle, "twitterName": twitterName, "twitterProfileImage": process_twitterProfileImage(twitterProfileImage), "friends": friends_count}
     analyzedCol.insert_one(edge)
+    
+def process_twitterProfileImage(twitterProfileImage):
+    #_normal is has to be removed from the url string, _normal is the only version that can be retrieved with twitters user object
+    betterTwitterProfileImage = twitterProfileImage.replace("_normal","")
+    return betterTwitterProfileImage
     
 def get_analyzed_users():
     #returns all items in Collection
@@ -98,9 +103,9 @@ def is_twitterHandle_analyzed(twitterHandle):
 
 #-----REQUEST QUEUE-----
 
-def insert_request_in_queue(twitterHandleOrTwitterID):
+def insert_request_in_queue(twitterHandleOrTwitterID, email):
     datetime_now = datetime.now()
-    edge = { "date": datetime_now, "twitterHandleOrTwitterID": twitterHandleOrTwitterID}
+    edge = { "date": datetime_now, "twitterHandleOrTwitterID": twitterHandleOrTwitterID, "email": email}
     requestQueueCol.insert_one(edge) 
     
 #returns the oldest request from the queue
@@ -108,7 +113,12 @@ def get_next_request_from_queue():
     # 1 for oldest, -1 for newest
     nextUserDict = requestQueueCol.find().sort("date",1).limit(1)
     nextUser = nextUserDict[0]
-    return nextUser['twitterHandle']
+    return nextUser['twitterHandleOrTwitterID']
+
+def get_email_from_twitterHandleOrTwitterID(twitterHandleOrTwitterID):
+    query = {"twitterHandleOrTwitterID": twitterHandleOrTwitterID}
+    user = requestQueueCol.find_one(query)
+    return user['email']
 
 def get_request_queue_length():
     #returns all items in Collection
