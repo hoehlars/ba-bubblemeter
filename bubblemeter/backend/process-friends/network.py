@@ -8,6 +8,7 @@ Created on Wed Apr 14 09:41:06 2021
 
 import pandas as pd
 from db import get_politicians
+from db import get_amount_of_politicians_in_db
 from twitter_access import get_user_from_id
 import networkx as nx
 
@@ -89,6 +90,31 @@ def get_all_politicians_in_network(G_sorted_df):
     politicians_df = politicians_df.drop('twitter_id', axis=1)
     
     return politicians_df
+
+def compute_polit_score_analysis(G_sorted_df):
+    politicians_in_network = get_all_politicians_in_network(G_sorted_df)
+    size_of_whole_network = G_sorted_df.shape[0]
+    amount_of_politicians_in_network = politicians_in_network.shape[0]
+    amount_of_politicians_in_db = get_amount_of_politicians_in_db()
+    polit_score = amount_of_politicians_in_network / amount_of_politicians_in_db
+    return {"amount_of_politicians_in_network": amount_of_politicians_in_network, "amount_of_politicians_in_db": amount_of_politicians_in_db, "size_of_whole_network": size_of_whole_network, "polit_score": polit_score}
+
+
+def compute_most_influential_party(G_sorted_df, k):
+    politicians_in_network = get_all_politicians_in_network(G_sorted_df)
+    
+    politicians_in_network_top_100 = politicians_in_network.head(k)
+    parties = {}
+    # calculate score for each party with politicians in top 100 
+    for index, row in politicians_in_network_top_100.iterrows():
+        party = row["partyAbbreviation"]
+        in_degree = row["in_degree"]
+        
+        if not party in parties.keys():
+            parties[party] = in_degree
+        else:
+            parties[party] = parties[party] + in_degree
+    return parties
 
     
     
