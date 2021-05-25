@@ -82,8 +82,9 @@ def get_all_politicians_in_network(G_sorted_df):
     # sort after degree before returning
     politicians_df = politicians_df.sort_values('in_degree', ascending=False)
     
-    # remove appended twitter_id column
-    politicians_df = politicians_df.drop('twitter_id', axis=1)
+    # remove appended twitter_id column, check if df not empty
+    if not politicians_df.shape[0] == 0:
+        politicians_df = politicians_df.drop('twitter_id', axis=1)
     
     return politicians_df
 
