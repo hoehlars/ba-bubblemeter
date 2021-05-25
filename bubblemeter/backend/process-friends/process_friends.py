@@ -11,6 +11,7 @@ from db import is_twitterId_in_db
 from db import insert_edge
 from db import get_friends
 from db import insert_analyzed_user
+from db import delete_all_edges_from_db
 from make_analysis import make_analysis
 import os
 
@@ -131,7 +132,12 @@ def process_friends_of_friends(user, friends):
                 continue
         friend_position = friend_position + 1
     
+    # finished process friends --> make analyis
     analysis = make_analysis(user.id)
     insert_analyzed_user(user.id, user.screen_name, user.name, user.profile_image_url_https, user.friends_count, analysis)
+
+    # delete all edges from db
+    delete_all_edges_from_db()
+
     print("finished")
             
