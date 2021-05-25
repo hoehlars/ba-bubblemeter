@@ -1,4 +1,3 @@
-import { NavLink } from 'react-router-dom'
 import Weiche from '../components/Weiche'
 
 // TODO: add fancy bubble particle background

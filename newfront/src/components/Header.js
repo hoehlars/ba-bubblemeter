@@ -1,5 +1,4 @@
 import { NavLink } from 'react-router-dom'
-let userId = 595346116
 
 const Header = () => {
   return (

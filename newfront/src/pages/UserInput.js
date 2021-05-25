@@ -26,7 +26,7 @@ function UserInput() {
   }
 
   const saveFormData = async () => {
-    const response = await requestAnalysis(user.handle)
+    const response = await requestAnalysis(user.handle, user.email)
     return response
   }
 

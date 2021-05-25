@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react'
-
 function UserInfo({ userData }) {
   const data = userData || {
     name: 'Anton Waldemar',

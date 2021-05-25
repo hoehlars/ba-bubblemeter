@@ -3,6 +3,7 @@ import Home from './pages/Home'
 import Resultspage from './pages/Resultspage'
 import UserInput from './pages/UserInput'
 import Userselection from './pages/Userselection'
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 
 function App() {
   return (
