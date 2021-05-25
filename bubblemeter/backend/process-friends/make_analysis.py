@@ -55,8 +55,8 @@ def make_analysis(twitterID):
     
     # ------------ centroid --------------------------
     coordinates = compute_centroid_top_k_percent(G_sorted_df, CENTROID_TOP_K_PERCENT_POLIT)
-    analysis["x"] = coordinates["y"]
-    analysis["y"] = coordinates["y"]
+    analysis["centroid_x"] = coordinates["y"]
+    analysis["centroid_y"] = coordinates["y"]
     
     # ------------ inner outer circle ----------------
     politicians_in_network = compute_inside_outside_circle(G_sorted_df, CENTROID_TOP_K_PERCENT_POLIT, RADIUS_AROUND_CENTROID)
