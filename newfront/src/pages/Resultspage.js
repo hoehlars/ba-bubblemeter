@@ -168,9 +168,10 @@ function Resultspage() {
                 <List list={innerCircle.slice(0, 10)} />
               )}
             </div>
+            <hr className='w-64 m-auto border-pink-600 my-6' />
             <div>
               <p className='prose max-w-prose'>
-                Um die Bubble zum platzen zu bringen, könne {currentUser.name}{' '}
+                Um die Bubble zum platzen zu bringen, könnte {currentUser.name}{' '}
                 diesen Twitter User*innen folgen:
               </p>
               {isLoading.outerCircle ? (

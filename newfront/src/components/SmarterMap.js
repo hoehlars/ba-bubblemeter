@@ -96,7 +96,7 @@ function SmarterMap({ politicians, myCoords }) {
       </div>
       <button
         onClick={() => setshowCentroid(!showCentroid)}
-        className={`border-2 border-pink-600 transition-colors py-1 px-3 text-xs mb-2 ${
+        className={`border-2 border-pink-600 transition-colors py-1 px-3 text-xs mb-2 rounded-full ${
           showCentroid ? 'text-white bg-pink-600' : 'text-pink-600'
         }`}
       >
