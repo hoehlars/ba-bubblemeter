@@ -41,7 +41,7 @@ def top_k_of_network_sorted_incoming_degree(k, G_sorted_df, twitterID):
         top_k_df.loc[idx, 'twitter_handle'] = u.screen_name
         
         
-    return top_k_df
+    return top_k_df[top_k_df["twitter_id"] != twitterID]
         
     
     
