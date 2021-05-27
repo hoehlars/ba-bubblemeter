@@ -6,12 +6,10 @@ Created on Sun May 23 23:27:26 2021
 """
 
 import yagmail
-from dotenv import dotenv_values
+import os
 
-config = dotenv_values(".env")
-
-email = config['EMAIL']
-email_pw = config['EMAIL_PW']
+email = os.environ['EMAIL']
+email_pw = os.environ['EMAIL_PW']
 
 yag = yagmail.SMTP(email, email_pw)
 
