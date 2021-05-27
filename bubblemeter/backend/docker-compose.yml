@@ -1,0 +1,60 @@
+version: '3.9'
+
+services:
+    process-friends:
+        build:
+            context: ./process-friends
+        container_name: process-friends
+        restart: on-failure
+        environment: 
+            - CONSUMER_KEY_1=
+            - CONSUMER_SECRET_1=
+            - ACCESS_TOKEN_1=
+            - ACCESS_TOKEN_SECRET_1=
+            - CONSUMER_KEY_2=
+            - CONSUMER_SECRET_2=
+            - ACCESS_TOKEN_2=
+            - ACCESS_TOKEN_SECRET_2=
+            - CONSUMER_KEY_3=
+            - CONSUMER_SECRET_3=
+            - ACCESS_TOKEN_3=
+            - ACCESS_TOKEN_SECRET_3=
+            - DB_CONNECT_STRING=
+            - DB_NAME=
+            - EDGE_COL_NAME=
+            - POLITICIANS_COL_NAME=
+            - ANALYZED_USERS_NAME=
+            - QUEUE=
+            - PYTHONUNBUFFERED=1
+            - EMAIL=
+            - EMAIL_PW=
+
+    flask-backend:
+        build:
+            context: ./flask_backend
+        ports:
+            - "5000:5000"
+        container_name: flask-backend
+        restart: on-failure
+        environment: 
+            - CONSUMER_KEY_1=
+            - CONSUMER_SECRET_1=
+            - ACCESS_TOKEN_1=
+            - ACCESS_TOKEN_SECRET_1=
+            - CONSUMER_KEY_2=
+            - CONSUMER_SECRET_2=
+            - ACCESS_TOKEN_2=
+            - ACCESS_TOKEN_SECRET_2=
+            - CONSUMER_KEY_3=
+            - CONSUMER_SECRET_3=
+            - ACCESS_TOKEN_3=
+            - ACCESS_TOKEN_SECRET_3=
+            - DB_CONNECT_STRING=
+            - DB_NAME=
+            - EDGE_COL_NAME=
+            - POLITICIANS_COL_NAME=
+            - ANALYZED_USERS_NAME=
+            - QUEUE=
+            - PYTHONUNBUFFERED=1
+            - EMAIL=
+            - EMAIL_PW=

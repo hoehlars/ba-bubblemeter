@@ -20,14 +20,18 @@ def compute_centroid_top_k_percent(G_sorted_df, k):
     # sum up x and y coordinates and scale them by in degree
     sum_x = 0
     sum_y = 0
-    for index, politician in politicians_in_network.iterrows():
-        sum_x = sum_x + float(politician['x']) * int(politician['in_degree'])
-        sum_y = sum_y + float(politician['y']) * int(politician['in_degree'])
-    
-    sum_score = pd.to_numeric(politicians_in_network['in_degree']).sum()
-     
-    x = sum_x / sum_score
-    y = sum_y / sum_score
+    x = 0
+    y = 0
+
+    if not politicians_in_network.shape[0] == 0:
+        for index, politician in politicians_in_network.iterrows():
+            sum_x = sum_x + float(politician['x']) * int(politician['in_degree'])
+            sum_y = sum_y + float(politician['y']) * int(politician['in_degree'])
+            
+        sum_score = pd.to_numeric(politicians_in_network['in_degree']).sum()
+            
+        x = sum_x / sum_score
+        y = sum_y / sum_score
     
     return {"x": x, "y": y}
 
