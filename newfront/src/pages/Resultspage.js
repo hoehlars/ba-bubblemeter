@@ -21,7 +21,7 @@ function Resultspage() {
       setIsLoading(false)
     }
     fetchData()
-  }, [])
+  }, [userId])
 
   return (
     <div className='flex-1 flex flex-col'>
@@ -47,7 +47,7 @@ function Resultspage() {
                 {userAnalysis.currentUser.name}s Twitter Bubble
               </h1>
               <Intro
-                score={userAnalysis.politScore}
+                score={userAnalysis.analysis.politScore}
                 user={userAnalysis.currentUser}
               />
             </section>
@@ -63,8 +63,11 @@ function Resultspage() {
             </div>
             <div>
               <SmarterMap
-                politicians={userAnalysis.politicians}
-                myCoords={{ x: userAnalysis.x, y: userAnalysis.y }}
+                politicians={userAnalysis.analysis.politicians}
+                myCoords={{
+                  x: userAnalysis.analysis.centroid_x,
+                  y: userAnalysis.analysis.centroid_y,
+                }}
               />
             </div>
           </section>
@@ -75,13 +78,13 @@ function Resultspage() {
                 Das sind die einsflussreichsten Nutzer*innen in{' '}
                 {userAnalysis.currentUser.name}s Bubble:
               </p>
-              <TopTen topten={userAnalysis.topten} />
+              <TopTen topten={userAnalysis.analysis.topten} />
             </div>
             <div>
               <p className='mb-2'>
                 Und das sind die einsflussreichsten Parteien:
               </p>
-              <TopTen topten={userAnalysis.partyList.slice(0, 10)} />
+              <TopTen topten={userAnalysis.analysis.partyList.slice(0, 10)} />
             </div>
           </section>
           <h2 className='text-pink-600 text-xl '>Bubble-Forming</h2>
@@ -92,7 +95,7 @@ function Resultspage() {
                 {userAnalysis.currentUser.name} diesen Twitter User*innen
                 folgen:
               </p>
-              <List list={userAnalysis.innerCircle.slice(0, 10)} />
+              <List list={userAnalysis.analysis.innerCircle.slice(0, 10)} />
             </div>
             <hr className='w-64 m-auto border-pink-600 my-6' />
             <div>
@@ -101,7 +104,7 @@ function Resultspage() {
                 {userAnalysis.currentUser.name} diesen Twitter User*innen
                 folgen:
               </p>
-              <List list={userAnalysis.outerCircle.slice(0, 10)} />
+              <List list={userAnalysis.analysis.outerCircle.slice(0, 10)} />
             </div>
           </section>
         </main>
