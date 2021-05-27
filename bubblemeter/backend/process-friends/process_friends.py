@@ -13,6 +13,8 @@ from db import get_friends
 from db import insert_analyzed_user
 from db import delete_all_edges_from_db
 from make_analysis import make_analysis
+from db import get_email_from_twitterHandleOrTwitterID
+from email_notification import send_notification
 import os
 
 key_in_use = 1
@@ -138,6 +140,9 @@ def process_friends_of_friends(user, friends):
 
     # delete all edges from db
     delete_all_edges_from_db()
+
+    # send email
+    send_notification(get_email_from_twitterHandleOrTwitterID(user.screen_name))
 
     print("finished")
             
