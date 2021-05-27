@@ -62,6 +62,9 @@ def insert_edge(idFrom, idTo):
     edge = { "date": datetime_now, "IDFrom": idFrom, "IDTo": idTo}
     edgeCol.insert_one(edge)
 
+def delete_all_edges_from_db():
+    edgeCol.remove({})
+
 #----- POLITICIANS -----
 
 def get_politicians():
