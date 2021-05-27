@@ -11,9 +11,8 @@ from db import is_twitterId_in_db
 from db import insert_edge
 from db import get_friends
 from db import insert_analyzed_user
-from db import get_email_from_twitterHandleOrTwitterID
-from email_notification import send_notification
-
+from db import delete_all_edges_from_db
+from make_analysis import make_analysis
 import os
 
 key_in_use = 1
@@ -132,16 +131,13 @@ def process_friends_of_friends(user, friends):
                 change_keys()
                 continue
         friend_position = friend_position + 1
-    insert_analyzed_user(user.id, user.screen_name, user.name, user.profile_image_url_https, user.friends_count)
-    send_notification(get_email_from_twitterHandleOrTwitterID(user.screen_name))
-    print("finished")    
-            
-def get_user_from_id(twitter_id):
-    return api.get_user(user_id = twitter_id)
-
-def get_user_from_id_or_handle(twitter_id_or_handle):
     
-    if str(twitter_id_or_handle).isdecimal():
-        return api.get_user(user_id = twitter_id_or_handle)
-    else:
-        return api.get_user(screen_name = str(twitter_id_or_handle))
+    # finished process friends --> make analyis
+    analysis = make_analysis(user.id)
+    insert_analyzed_user(user.id, user.screen_name, user.name, user.profile_image_url_https, user.friends_count, analysis)
+
+    # delete all edges from db
+    delete_all_edges_from_db()
+
+    print("finished")
+            
