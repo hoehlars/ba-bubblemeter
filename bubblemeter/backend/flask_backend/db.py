@@ -31,7 +31,7 @@ def get_analyzed_users():
     allEntries = analyzedCol.find({})
     users = []
     for entry in allEntries:
-        users.append(user["currentUser"])
+        users.append(entry["currentUser"])
     users.sort(key=lambda x: x["date"])
     return users
 
