@@ -45,7 +45,7 @@ function Userselection() {
                 .map((user) => {
                   return (
                     <li
-                      key={user.id}
+                      key={user.twitterId}
                       className='text-center hover:text-pink-600 transition-colors'
                     >
                       <Link to={`/results/${user.twitterId}`}>
