@@ -28,11 +28,11 @@ def process_twitterProfileImage(twitterProfileImage):
     
 def get_analyzed_users():
     #returns all items in Collection
-    allEntries = analyzedCol.find().sort("date",1)
+    allEntries = analyzedCol.find({})
     users = []
     for entry in allEntries:
-        user = {"name": entry["twitterName"], "handle": entry["twitterHandle"], "id": entry["twitterId"], "twitterProfileImage": entry["twitterProfileImage"]}
-        users.append(user)
+        users.append(user["currentUser"])
+    users.sort(key=lambda x: x["date"])
     return users
 
 def is_twitterHandle_analyzed(twitterHandle):
@@ -43,7 +43,7 @@ def is_twitterHandle_analyzed(twitterHandle):
 def get_analysis_of_user_analyzed(twitterID):
     query = {"twitterId": int(twitterID)}
     allEntries = analyzedCol.find(query)    
-    return list(allEntries)[0]["analysis"]
+    return list(allEntries)[0]
 
 #-----REQUEST QUEUE-----
 
