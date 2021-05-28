@@ -7,27 +7,27 @@ services:
         container_name: process-friends
         restart: on-failure
         environment: 
-            - CONSUMER_KEY_1=GzkTojM69RXLPXamodpWvCMRn
-            - CONSUMER_SECRET_1=QvIDqHEB0HS18LX47X9QC4jMeAMMqyTIGIDzBWekOENvQBP1Y6
-            - ACCESS_TOKEN_1=1367397576836845579-rzrwg96XY8rlC7A1zJfn7tTqEZFTJQ
-            - ACCESS_TOKEN_SECRET_1=Gswyxau303ov84qT56TZHKqrVOY5PDWso6QLJ2hXBGxsH
-            - CONSUMER_KEY_2=XXmGstayMpxxZN4k6mh2XE1Rm
-            - CONSUMER_SECRET_2=kw99qwc12RbcAGt0sI5JzYsKE1G6yvrZC20SepMg00MT52hACU
-            - ACCESS_TOKEN_2=1369199730752897025-xSrRJf2qPdlASrKaFHPiqSL5oeG9T9
-            - ACCESS_TOKEN_SECRET_2=ixBrBJvM4nqpUqjn7IYPoPyUn9QB4f60gztAz6UIYm2cF
-            - CONSUMER_KEY_3=4q03dfQkt8eq9d5uuoz8kApHN
-            - CONSUMER_SECRET_3=KZUkua50rJt6hJpNgqWRg31HRDHSVtfrBMLW6VdjRcRAu7vXwx
-            - ACCESS_TOKEN_3=1366297874900930560-BLc9QTyrm74Rm8WZC8FV41Q5JWZCxC
-            - ACCESS_TOKEN_SECRET_3=37zdXF1PEoHk7Fo7Scb0DFai7TM9siTMBeAOH3pE22xKg
-            - DB_CONNECT_STRING=mongodb+srv://admin:8FGY664maSjknspU@bubblemetercluster0.4djrb.mongodb.net/myFirstDatabase?authSource=admin&replicaSet=atlas-13ki6c-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass%20Community&retryWrites=true&ssl=true
-            - DB_NAME=twitterNetworkDb
-            - EDGE_COL_NAME=twitterEdges
-            - POLITICIANS_COL_NAME=Politiker_new_format
-            - ANALYZED_USERS_NAME=analyzed_users
+            - CONSUMER_KEY_1=
+            - CONSUMER_SECRET_1=
+            - ACCESS_TOKEN_1=
+            - ACCESS_TOKEN_SECRET_1=
+            - CONSUMER_KEY_2=
+            - CONSUMER_SECRET_2=
+            - ACCESS_TOKEN_2=
+            - ACCESS_TOKEN_SECRET_2=i
+            - CONSUMER_KEY_3=
+            - CONSUMER_SECRET_3=
+            - ACCESS_TOKEN_3=
+            - ACCESS_TOKEN_SECRET_3=
+            - DB_CONNECT_STRING=
+            - DB_NAME=
+            - EDGE_COL_NAME=
+            - POLITICIANS_COL_NAME=
+            - ANALYZED_USERS_NAME=
             - QUEUE=request_queue
             - PYTHONUNBUFFERED=1
-            - EMAIL=bubblemeter21@gmail.com
-            - EMAIL_PW=Bubble21meter
+            - EMAIL=
+            - EMAIL_PW=
 
     flask-backend:
         build:
@@ -37,24 +37,24 @@ services:
         container_name: flask-backend
         restart: on-failure
         environment: 
-            - CONSUMER_KEY_1=GzkTojM69RXLPXamodpWvCMRn
-            - CONSUMER_SECRET_1=QvIDqHEB0HS18LX47X9QC4jMeAMMqyTIGIDzBWekOENvQBP1Y6
-            - ACCESS_TOKEN_1=1367397576836845579-rzrwg96XY8rlC7A1zJfn7tTqEZFTJQ
-            - ACCESS_TOKEN_SECRET_1=Gswyxau303ov84qT56TZHKqrVOY5PDWso6QLJ2hXBGxsH
-            - CONSUMER_KEY_2=XXmGstayMpxxZN4k6mh2XE1Rm
-            - CONSUMER_SECRET_2=kw99qwc12RbcAGt0sI5JzYsKE1G6yvrZC20SepMg00MT52hACU
-            - ACCESS_TOKEN_2=1369199730752897025-xSrRJf2qPdlASrKaFHPiqSL5oeG9T9
-            - ACCESS_TOKEN_SECRET_2=ixBrBJvM4nqpUqjn7IYPoPyUn9QB4f60gztAz6UIYm2cF
-            - CONSUMER_KEY_3=4q03dfQkt8eq9d5uuoz8kApHN
-            - CONSUMER_SECRET_3=KZUkua50rJt6hJpNgqWRg31HRDHSVtfrBMLW6VdjRcRAu7vXwx
-            - ACCESS_TOKEN_3=1366297874900930560-BLc9QTyrm74Rm8WZC8FV41Q5JWZCxC
-            - ACCESS_TOKEN_SECRET_3=37zdXF1PEoHk7Fo7Scb0DFai7TM9siTMBeAOH3pE22xKg
-            - DB_CONNECT_STRING=mongodb+srv://admin:8FGY664maSjknspU@bubblemetercluster0.4djrb.mongodb.net/myFirstDatabase?authSource=admin&replicaSet=atlas-13ki6c-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass%20Community&retryWrites=true&ssl=true
-            - DB_NAME=twitterNetworkDb
-            - EDGE_COL_NAME=twitterEdges
-            - POLITICIANS_COL_NAME=Politiker_new_format
-            - ANALYZED_USERS_NAME=analyzed_users
-            - QUEUE=request_queue
+            - CONSUMER_KEY_1=
+            - CONSUMER_SECRET_1=
+            - ACCESS_TOKEN_1=
+            - ACCESS_TOKEN_SECRET_1=
+            - CONSUMER_KEY_2=
+            - CONSUMER_SECRET_2=
+            - ACCESS_TOKEN_2=
+            - ACCESS_TOKEN_SECRET_2=
+            - CONSUMER_KEY_3=
+            - CONSUMER_SECRET_3=
+            - ACCESS_TOKEN_3=
+            - ACCESS_TOKEN_SECRET_3=
+            - DB_CONNECT_STRING=
+            - DB_NAME=
+            - EDGE_COL_NAME=
+            - POLITICIANS_COL_NAME=
+            - ANALYZED_USERS_NAME=
+            - QUEUE=
             - PYTHONUNBUFFERED=1
-            - EMAIL=bubblemeter21@gmail.com
-            - EMAIL_PW=Bubble21meter
+            - EMAIL=
+            - EMAIL_PW=
