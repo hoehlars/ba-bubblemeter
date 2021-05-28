@@ -26,8 +26,8 @@ def get_analyzed_users():
     allEntries = analyzedCol.find({})
     users = []
     for entry in allEntries:
-        users.append(entry["currentUser"])
-    users.sort(key=lambda x: x["date"])
+        users.append(entry)
+    users.sort(key=lambda x: x["currentUser"]["date"])
     return users
 
 def is_twitterHandle_analyzed(twitterHandle):
