@@ -14,7 +14,8 @@ services:
             - CONSUMER_KEY_2=
             - CONSUMER_SECRET_2=
             - ACCESS_TOKEN_2=
-            - ACCESS_TOKEN_SECRET_2=i
+            - ACCESS_TOKEN_SECRET_2=
+            - ACCESS_TOKEN_SECRET_2=
             - CONSUMER_KEY_3=
             - CONSUMER_SECRET_3=
             - ACCESS_TOKEN_3=
@@ -24,7 +25,8 @@ services:
             - EDGE_COL_NAME=
             - POLITICIANS_COL_NAME=
             - ANALYZED_USERS_NAME=
-            - QUEUE=request_queue
+            - QUEUE=
+            - QUEUE=
             - PYTHONUNBUFFERED=1
             - EMAIL=
             - EMAIL_PW=
