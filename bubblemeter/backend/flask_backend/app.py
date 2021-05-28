@@ -41,7 +41,7 @@ app.register_blueprint(swagger_ui_blueprint, url_prefix=SWAGGER_URL)
 @app.route('/get_analysis/<twitterID>')
 def get_analysis(twitterID):
     entry = get_user_analyzed(twitterID)
-    response = {"statusCode": 200, "body": {"analysis": entry["analysis"], "currentUser": entry["currentUser"], "twitterId": entry["twitterId"], "twitterHandle": entry: ["twitterHandle"]}}
+    response = {"statusCode": 200, "body": {"analysis": entry["analysis"], "currentUser": entry["currentUser"], "twitterId": entry["twitterId"], "twitterHandle": entry["twitterHandle"]}}
     return response
 
 @app.route('/request_analysis/<twitterHandleOrTwitterID>/<email>')
