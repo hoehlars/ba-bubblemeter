@@ -23,7 +23,7 @@ requestQueueCol = twitterNetworkDb[os.environ['QUEUE']]
     
 def get_analyzed_users():
     #returns all items in Collection
-    allEntries = analyzedCol.find({})
+    allEntries = analyzedCol.find({}, {"_id": 0})
     users = []
     for entry in allEntries:
         users.append(entry)
