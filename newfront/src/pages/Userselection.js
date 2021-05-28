@@ -40,7 +40,7 @@ function Userselection() {
             {userList &&
               userList
                 .filter((user) =>
-                  user.name.toString().toLowerCase().includes(query)
+                  user.twitterName.toString().toLowerCase().includes(query)
                 )
                 .map((user) => {
                   return (
@@ -48,13 +48,13 @@ function Userselection() {
                       key={user.id}
                       className='text-center hover:text-pink-600 transition-colors'
                     >
-                      <Link to={`/results/${user.id}`}>
+                      <Link to={`/results/${user.twitterId}`}>
                         <img
                           src={user.twitterProfileImage}
-                          alt={`${user.name}s Profile Pic`}
+                          alt={`${user.twitterName}s Profile Pic`}
                           className='rounded-full w-16 m-auto'
                         />
-                        <p>{user.name}</p>
+                        <p>{user.twitterName}</p>
                       </Link>
                     </li>
                   )

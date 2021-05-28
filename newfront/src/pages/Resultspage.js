@@ -26,7 +26,7 @@ function Resultspage() {
   return (
     <div className='flex-1 flex flex-col'>
       <Header />
-      {isLoading ? (
+      {/* {isLoading ? (
         <div className='h-full w-full flex-1 flex justify-center items-center'>
           <Loader
             type='Rings'
@@ -108,7 +108,7 @@ function Resultspage() {
             </div>
           </section>
         </main>
-      )}
+      )} */}
     </div>
   )
 }
