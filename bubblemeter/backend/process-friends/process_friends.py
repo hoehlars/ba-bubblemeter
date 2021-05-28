@@ -136,7 +136,7 @@ def process_friends_of_friends(user, friends):
     
     # finished process friends --> make analyis
     analysis = make_analysis(user.id)
-    insert_analyzed_user(user, user.id, user.screen_name, user.name, user.profile_image_url_https, user.friends_count, analysis)
+    insert_analyzed_user(user.id, user.screen_name, user.name, user.profile_image_url_https, user.friends_count, analysis)
 
     # delete all edges from db
     delete_all_edges_from_db()
