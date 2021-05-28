@@ -11,4 +11,4 @@ RUN pip3 install --no-cache-dir -r requirements.txt
 COPY . .
 
 # start python with unbuffered output
-CMD ["python", "./app.py" ]
+CMD ["python", "/usr/src/flask/app.py" ]
