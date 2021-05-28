@@ -6,7 +6,7 @@ Created on Sat May 8 22:33:02 2021
 """
 
 import time
-from twitter_access import process_friends
+from process_friends import process_friends
 from db import is_queue_empty
 from db import get_next_request_from_queue
 from db import remove_user_from_queue

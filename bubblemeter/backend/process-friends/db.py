@@ -62,6 +62,9 @@ def insert_edge(idFrom, idTo):
     edge = { "date": datetime_now, "IDFrom": idFrom, "IDTo": idTo}
     edgeCol.insert_one(edge)
 
+def delete_all_edges_from_db():
+    edgeCol.remove({})
+
 #----- POLITICIANS -----
 
 def get_politicians():
@@ -75,10 +78,16 @@ def get_amount_of_politicians_in_db():
    
 #-----ANALYZED USERS----- 
    
-def insert_analyzed_user(twitterID, twitterHandle, twitterName, twitterProfileImage, friends_count):
+def insert_analyzed_user(twitterID, twitterHandle, twitterName, twitterProfileImage, friends_count, analysis):
     datetime_now = datetime.now()
-    edge = { "date": datetime_now, "twitterId": twitterID, "twitterHandle": twitterHandle, "twitterName": twitterName, "twitterProfileImage": twitterProfileImage, "friends": friends_count}
-    analyzedCol.insert_one(edge)
+    currentUser = {"date": datetime_now, "twitterName": twitterName, "twitterProfileImage": process_twitterProfileImage(twitterProfileImage), "friends": friends_count}
+    analyzed_user = {"currentUser": currentUser, "analysis": analysis, "twitterId": twitterID, "twitterHandle": twitterHandle}
+    analyzedCol.insert_one(analyzed_user)
+
+def process_twitterProfileImage(twitterProfileImage):
+    #_normal is has to be removed from the url string, _normal is the only version that can be retrieved with twitters user object
+    betterTwitterProfileImage = twitterProfileImage.replace("_normal","")
+    return betterTwitterProfileImage
     
 def get_analyzed_users():
     #returns all items in Collection
@@ -88,17 +97,23 @@ def get_analyzed_users():
         user = {"name": entry["twitterName"], "handle": entry["twitterHandle"], "id": entry["twitterId"], "twitterProfileImage": entry["twitterProfileImage"]}
         users.append(user)
     return users
+    
 
 def is_twitterHandle_analyzed(twitterHandle):
     query = {"twitterHandle": twitterHandle}
     allEntries = analyzedCol.find(query)    
     return len(list(allEntries)) != 0
 
+def get_analysis_of_user_analyzed(twitterID):
+    query = {"twitterId"}
+    allEntries = analyzedCol.find(query)
+    return list(allEntries[0]["analysis"])
+
 #-----REQUEST QUEUE-----
 
-def insert_request_in_queue(twitterHandleOrTwitterID):
+def insert_request_in_queue(twitterHandleOrTwitterID, email):
     datetime_now = datetime.now()
-    edge = { "date": datetime_now, "twitterHandleOrTwitterID": twitterHandleOrTwitterID}
+    edge = { "date": datetime_now, "twitterHandleOrTwitterID": twitterHandleOrTwitterID, "email": email}
     requestQueueCol.insert_one(edge) 
     
 #returns the oldest request from the queue
@@ -107,6 +122,11 @@ def get_next_request_from_queue():
     nextUserDict = requestQueueCol.find().sort("date",1).limit(1)
     nextUser = nextUserDict[0]
     return nextUser['twitterHandleOrTwitterID']
+
+def get_email_from_twitterHandleOrTwitterID(twitterHandleOrTwitterID):
+    query = {"twitterHandleOrTwitterID": twitterHandleOrTwitterID}
+    user = requestQueueCol.find_one(query)
+    return user['email']
 
 def get_request_queue_length():
     #returns all items in Collection

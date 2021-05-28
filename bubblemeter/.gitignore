@@ -119,3 +119,9 @@ yarn.lock
 # sonarQube scanner
 .scannerwork
 sonarScannerLocal.sh
+
+# Docker Stuff because github is a bitch
+
+docker-compose.yml
+flask_backend/Dockerfile
+process-friends/Dockerfile

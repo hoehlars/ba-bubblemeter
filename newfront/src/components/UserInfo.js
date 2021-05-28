@@ -1,33 +1,33 @@
-import { useEffect, useState } from 'react'
-
-function UserInfo({ userData, changeCurrUser, currentId }) {
-  const [isActive, setIsActive] = useState()
-
+function UserInfo({ userData }) {
   const data = userData || {
     name: 'Anton Waldemar',
     handle: '@waldi1980',
     id: 123123123,
   }
 
-  useEffect(() => {
-    setIsActive(currentId === data.id)
-    console.log(currentId === data.id)
-  }, [currentId, data.id])
-
   const user = (
-    <div>
-      <ul onClick={() => changeCurrUser(userData.id)}>
+    <div className='flex justify-between md:justify-end gap-16 '>
+      <ul>
         <li>
-          <span className='font-mono text-pink-600'>name:</span> {data.name}
+          <span className='font-mono text-pink-600'>name:</span>{' '}
+          {data.twitterName}
         </li>
         <li>
-          <span className='font-mono text-pink-600'>@handle:</span>{' '}
-          {data.handle}
+          <span className='font-mono text-pink-600'>Anzahl Friends:</span>{' '}
+          {data.friends}
         </li>
         <li>
-          <span className='font-mono text-pink-600'>id: </span> {data.id}
+          <span className='font-mono text-pink-600'>
+            Analyse durchgeführt am{' '}
+          </span>{' '}
+          {data.date}
         </li>
       </ul>
+      <img
+        className='w-20 h-20 rounded-full'
+        src={data.twitterProfileImage}
+        alt={data.twitterName}
+      />
     </div>
   )
 
