@@ -2,7 +2,7 @@ FROM python:3.8-slim-buster
 
 WORKDIR /usr/src/process-friends
 
-COPY /requirements.txt ./
+COPY bubblemeter/backend/process-friends/requirements.txt ./
 
 RUN pip3 install --upgrade pip
 
