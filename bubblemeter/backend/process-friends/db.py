@@ -78,10 +78,11 @@ def get_amount_of_politicians_in_db():
    
 #-----ANALYZED USERS----- 
    
-def insert_analyzed_user(user, twitterID, twitterHandle, twitterName, twitterProfileImage, friends_count, analysis):
+def insert_analyzed_user(twitterID, twitterHandle, twitterName, twitterProfileImage, friends_count, analysis):
     datetime_now = datetime.now()
-    edge = {"currentUser": user, "date": datetime_now, "twitterId": twitterID, "twitterHandle": twitterHandle, "twitterName": twitterName, "twitterProfileImage": process_twitterProfileImage(twitterProfileImage), "friends": friends_count, "analysis": analysis}
-    analyzedCol.insert_one(edge)
+    currentUser = {"date": datetime_now, "twitterId": twitterID, "twitterHandle": twitterHandle, "twitterName": twitterName, "twitterProfileImage": process_twitterProfileImage(twitterProfileImage), "friends": friends_count,}
+    analyzed_user = {"currentUser": currentUser, "analysis": analysis}
+    analyzedCol.insert_one(analyzed_user)
 
 def process_twitterProfileImage(twitterProfileImage):
     #_normal is has to be removed from the url string, _normal is the only version that can be retrieved with twitters user object
