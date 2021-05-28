@@ -8,7 +8,7 @@ RUN pip3 install --upgrade pip
 
 RUN pip3 install --no-cache-dir -r requirements.txt
 
-COPY . .
+COPY /bubblemeter/backend/process-friends/ .
 
 # start python with unbuffered output
-ENTRYPOINT ["python", "./process_request_queue.py" ]
+CMD ["python", "./process_request_queue.py" ]

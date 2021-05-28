@@ -8,7 +8,7 @@ RUN pip3 install --upgrade pip
 
 RUN pip3 install --no-cache-dir -r requirements.txt
 
-COPY . .
+COPY /bubblemeter/backend/flask_backend/ .
 
 # start python with unbuffered output
-ENTRYPOINT ["python", "./app.py" ]
+CMD ["python", "./app.py" ]
