@@ -31,22 +31,14 @@ def get_analyzed_users():
     return users
 
 def is_twitterHandle_analyzed(twitterHandle):
-    allEntries = analyzedCol.find({})    
+    query = {"twitterHandle": twitterHandle}
+    allEntries = analyzedCol.find(query)    
+    return len(list(allEntries)) != 0
 
-    already_analyzed = []
-    for entry in allEntries:
-        if entry["currentUser"]["twitterHandle"] == twitterHandle:
-            already_analyzed.append(entry)
-    return already_analyzed != 0
-
-def get_analysis_of_user_analyzed(twitterID):
-    allEntries = analyzedCol.find({})
-
-    user = []
-    for entry in allEntries:
-        if entry["currentUser"]["twitterId"] == twitterID:
-            user.append(entry)
-    return user[0]
+def get_user_analyzed(twitterID):
+    query = {"twitterId": int(twitterID)}
+    allEntries = analyzedCol.find(query)    
+    return list(allEntries)[0]
 
 #-----REQUEST QUEUE-----
 
