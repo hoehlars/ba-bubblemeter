@@ -11,4 +11,4 @@ RUN pip3 install --no-cache-dir -r requirements.txt
 COPY . .
 
 # start python with unbuffered output
-CMD ["python", "./process_request_queue.py" ]
+CMD ["python", "/usr/src/process-friends/process_request_queue.py" ]
