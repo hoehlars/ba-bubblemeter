@@ -20,7 +20,7 @@ export default function Intro({ score, user }) {
   return (
     <article>
       <p className='prose max-w-prose'>
-        Das Twitter Netzwerk von {user?.name} erstreckt sich über{' '}
+        Das Twitter Netzwerk von {user?.twitterName} erstreckt sich über{' '}
         {score.size_of_whole_network} Knoten. Damit ist es im Vergleich zu den
         anderen von uns analysierten Netzwerken{' '}
         <span className='text-pink-600 font-medium'>
@@ -30,8 +30,9 @@ export default function Intro({ score, user }) {
         <br />
         Von den {score.amount_of_politicians_in_db} in unserem Netzwerk
         erfassten politisch aktivsten CH-Twitter Nutzer*innen finden sich{' '}
-        {score.amount_of_politicians_in_network} in {user.name}s Netzwerk. Damit
-        ist es im Vergleich zu den anderen von uns analysierten Netzwerken{' '}
+        {score.amount_of_politicians_in_network} in {user.twitterName}s
+        Netzwerk. Damit ist es im Vergleich zu den anderen von uns analysierten
+        Netzwerken{' '}
         <span className='text-pink-600 font-medium'>
           {scoreValue(score.polit_score)}
         </span>

@@ -26,7 +26,7 @@ function Resultspage() {
   return (
     <div className='flex-1 flex flex-col'>
       <Header />
-      {/* {isLoading ? (
+      {isLoading ? (
         <div className='h-full w-full flex-1 flex justify-center items-center'>
           <Loader
             type='Rings'
@@ -44,10 +44,16 @@ function Resultspage() {
             </section>
             <section className='mb-4'>
               <h1 className='text-pink-600 text-2xl'>
-                {userAnalysis.currentUser.name}s Twitter Bubble
+                {userAnalysis.currentUser.twitterName}s Twitter Bubble
               </h1>
               <Intro
-                score={userAnalysis.analysis.politScore}
+                score={{
+                  polit_score: userAnalysis.analysis.polit_score,
+                  size_of_whole_network:
+                    userAnalysis.analysis.size_of_whole_network,
+                  amount_of_politicians_in_db:
+                    userAnalysis.analysis.amount_of_politicians_in_db,
+                }}
                 user={userAnalysis.currentUser}
               />
             </section>
@@ -56,14 +62,14 @@ function Resultspage() {
             <div>
               <h2 className='text-pink-600 text-xl'>Politisches Profil</h2>
               <p className='prose max-w-prose'>
-                Wenn ein Twitterer aus {userAnalysis.currentUser.name}s Bubble
-                auf Smartvote.ch ein Profil angelegt hat, wird er hier gemäss
-                seiner politischen Ausrichtung angezeigt.
+                Wenn ein Twitterer aus {userAnalysis.currentUser.twitterName}s
+                Bubble auf Smartvote.ch ein Profil angelegt hat, wird er hier
+                gemäss seiner politischen Ausrichtung angezeigt.
               </p>
             </div>
             <div>
               <SmarterMap
-                politicians={userAnalysis.analysis.politicians}
+                politicians={userAnalysis.analysis.politicians_in_network.data}
                 myCoords={{
                   x: userAnalysis.analysis.centroid_x,
                   y: userAnalysis.analysis.centroid_y,
@@ -76,15 +82,24 @@ function Resultspage() {
             <div>
               <p className='mb-2 prose max-w-prose'>
                 Das sind die einsflussreichsten Nutzer*innen in{' '}
-                {userAnalysis.currentUser.name}s Bubble:
+                {userAnalysis.currentUser.twitterName}s Bubble:
               </p>
-              <TopTen topten={userAnalysis.analysis.topten} />
+              <TopTen
+                topten={userAnalysis.analysis.ten_most_influential.data.slice(
+                  0,
+                  10
+                )}
+              />
             </div>
             <div>
               <p className='mb-2'>
                 Und das sind die einsflussreichsten Parteien:
               </p>
-              <TopTen topten={userAnalysis.analysis.partyList.slice(0, 10)} />
+              <TopTen
+                topten={Object.entries(
+                  Object.entries(userAnalysis.analysis.parties).slice(0, 10)
+                )}
+              />
             </div>
           </section>
           <h2 className='text-pink-600 text-xl '>Bubble-Forming</h2>
@@ -92,23 +107,33 @@ function Resultspage() {
             <div className='mb-8'>
               <p className='prose max-w-prose'>
                 Um seine/ihre Bubble zu stärken, könnte{' '}
-                {userAnalysis.currentUser.name} diesen Twitter User*innen
+                {userAnalysis.currentUser.twitterName} diesen Twitter User*innen
                 folgen:
               </p>
-              <List list={userAnalysis.analysis.innerCircle.slice(0, 10)} />
+              <List
+                list={userAnalysis.analysis.politicians_inside.data.slice(
+                  0,
+                  10
+                )}
+              />
             </div>
             <hr className='w-64 m-auto border-pink-600 my-6' />
             <div>
               <p className='prose max-w-prose'>
                 Um die Bubble zum platzen zu bringen, könnte{' '}
-                {userAnalysis.currentUser.name} diesen Twitter User*innen
+                {userAnalysis.currentUser.twitterName} diesen Twitter User*innen
                 folgen:
               </p>
-              <List list={userAnalysis.analysis.outerCircle.slice(0, 10)} />
+              <List
+                list={userAnalysis.analysis.politicians_outside.data.slice(
+                  0,
+                  10
+                )}
+              />
             </div>
           </section>
         </main>
-      )} */}
+      )}
     </div>
   )
 }

@@ -66,7 +66,7 @@ function SmarterMap({ politicians, myCoords }) {
           </g>
 
           <g id='otherOnes'>
-            {politikerUpdate?.map((politician, i) => (
+            {politicians?.map((politician, i) => (
               <circle
                 key={politician[SMARTMAP_ID_IDX]}
                 cx={politician[X_IDX] || 160}

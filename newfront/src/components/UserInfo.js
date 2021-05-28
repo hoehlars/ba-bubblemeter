@@ -9,20 +9,24 @@ function UserInfo({ userData }) {
     <div className='flex justify-between md:justify-end gap-16 '>
       <ul>
         <li>
-          <span className='font-mono text-pink-600'>name:</span> {data.name}
+          <span className='font-mono text-pink-600'>name:</span>{' '}
+          {data.twitterName}
         </li>
         <li>
-          <span className='font-mono text-pink-600'>@handle:</span>{' '}
-          {data.handle}
+          <span className='font-mono text-pink-600'>Anzahl Friends:</span>{' '}
+          {data.friends}
         </li>
         <li>
-          <span className='font-mono text-pink-600'>id: </span> {data.id}
+          <span className='font-mono text-pink-600'>
+            Analyse durchgeführt am{' '}
+          </span>{' '}
+          {data.date}
         </li>
       </ul>
       <img
         className='w-20 h-20 rounded-full'
         src={data.twitterProfileImage}
-        alt={data.name}
+        alt={data.twitterName}
       />
     </div>
   )
