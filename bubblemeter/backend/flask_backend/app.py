@@ -18,7 +18,7 @@ CORS(app)
 #imports
 from flask_swagger_ui import get_swaggerui_blueprint
 
-from db import get_analysis_of_user_analyzed
+from db import get_user_analyzed
 from db import is_twitterHandle_analyzed
 from db import is_twitterHandle_in_queue
 from db import insert_request_in_queue
@@ -40,8 +40,8 @@ app.register_blueprint(swagger_ui_blueprint, url_prefix=SWAGGER_URL)
 
 @app.route('/get_analysis/<twitterID>')
 def get_analysis(twitterID):
-    analysis = get_analysis_of_user_analyzed(twitterID)
-    response = {"statusCode": 200, "body": {"analysis": analysis}}
+    entry = get_user_analyzed(twitterID)
+    response = {"statusCode": 200, "body": {"analysis": entry["analysis"], "currentUser": entry["currentUser",], "twitterId": entry["twitterId"], "twitterHandle": entry: ["twitterHandle"]}}
     return response
 
 @app.route('/request_analysis/<twitterHandleOrTwitterID>/<email>')
