@@ -35,7 +35,7 @@ def compute_centroid_top_k_percent(G_sorted_df, k):
     
     return {"x": x, "y": y}
 
-def compute_inside_outside_circle(G_sorted_df, k, radius):
+def compute_inside_outside_circle(G_sorted_df, twitterID, k, radius):
     
     politicians_in_network = get_all_politicians_in_network(G_sorted_df)
     
@@ -51,7 +51,9 @@ def compute_inside_outside_circle(G_sorted_df, k, radius):
         y = float(politician["y"])
         politicians_in_network.loc[index, "isInside"] = isInsideCircle(centroid_x, centroid_y, x, y, radius)
         politicians_in_network.loc[index, "distance"] = math.sqrt((centroid_x - x) ** 2 + (centroid_y - y) ** 2)
-    return politicians_in_network
+        
+    # dont return the user itself, if its a politician
+    return politicians_in_network[politicians_in_network["twitterId"] != twitterID]
         
         
 def isInsideCircle(circle_x, circle_y, x, y, radius):
