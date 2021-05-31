@@ -20,6 +20,9 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 12.x
+
+    - name: uninstall package lock 
+      run: cd newfront && rm package-lock.json
     
     - name: Install NPM packages
       run: cd newfront && npm install
