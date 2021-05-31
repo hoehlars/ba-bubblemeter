@@ -3,7 +3,7 @@ name: Frontend CD
 on:
   push:
     paths:
-    - 'bubblemeter/newfront/**'
+    - 'newfront/**'
     branches: 
     - main
 
