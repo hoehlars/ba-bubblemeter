@@ -5,7 +5,7 @@ on:
     paths:
     - 'bubblemeter/newfront/**'
     branches: 
-    - feature/frontend-deployment
+    - 'feature/frontend-deployment'
 
 jobs:
   build:
