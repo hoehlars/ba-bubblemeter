@@ -11,8 +11,6 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-
-    - uses: bubblemeter/newfront/
     
     steps:
     - name: Checkout code
@@ -24,10 +22,10 @@ jobs:
         node-version: 12.x
     
     - name: Install NPM packages
-      run: npm install
+      run: cd bubblemeter/newfront && npm install
     
     - name: Build project
-      run: npm run build
+      run: cd bubblemeter/newfront && npm run build
 
     - name: Upload production-ready build files
       uses: actions/upload-artifact@v2
