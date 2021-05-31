@@ -111,10 +111,9 @@ function Resultspage() {
                 folgen:
               </p>
               <List
-                list={userAnalysis.analysis.politicians_inside.data.slice(
-                  0,
-                  10
-                )}
+                list={userAnalysis.analysis.politicians_inside.data
+                  .sort((a, b) => b[17] - a[17])
+                  .slice(0, 10)}
               />
             </div>
             <hr className='w-64 m-auto border-pink-600 my-6' />
@@ -125,10 +124,9 @@ function Resultspage() {
                 folgen:
               </p>
               <List
-                list={userAnalysis.analysis.politicians_outside.data.slice(
-                  0,
-                  10
-                )}
+                list={userAnalysis.analysis.politicians_outside.data
+                  .sort((a, b) => b[17] - a[17])
+                  .slice(0, 10)}
               />
             </div>
           </section>

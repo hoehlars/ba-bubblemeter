@@ -6,7 +6,6 @@ function UserInfo({ userData }) {
   }
 
   const niceDate = data.date.split(' ')
-  console.log(niceDate)
 
   const user = (
     <div className='flex justify-between md:justify-end gap-16 '>

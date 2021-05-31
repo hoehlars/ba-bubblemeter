@@ -6,7 +6,12 @@ export default function List({ list }) {
       {list.map((user) => {
         return (
           <li key={user[0]} className='mb-2'>
-            <Link href={user[12]} className='hover:text-pink-600 text-center'>
+            <a
+              href={user[12]}
+              className='hover:text-pink-600 text-center'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
               <figure>
                 <img
                   className='rounded-full w-20 h-20 object-cover m-auto'
@@ -15,7 +20,7 @@ export default function List({ list }) {
                 />
                 <figcaption className='font-light'>@{user[3]}</figcaption>
               </figure>
-            </Link>
+            </a>
           </li>
         )
       })}
