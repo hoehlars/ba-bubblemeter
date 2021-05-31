@@ -22,16 +22,16 @@ jobs:
         node-version: 12.x
     
     - name: Install NPM packages
-      run: cd bubblemeter/newfront && npm install
+      run: cd newfront && npm install
     
     - name: Build project
-      run: cd bubblemeter/newfront && npm run build
+      run: cd newfront && npm run build
 
     - name: Upload production-ready build files
       uses: actions/upload-artifact@v2
       with:
         name: production-files
-        path: bubblemeter/newfront/build/
+        path: newfront/build/
 
 
   deploy:
@@ -44,4 +44,4 @@ jobs:
           vercel-args: '--prod' #Optional
           vercel-org-id: ${{ secrets.ORG_ID}}  #Required
           vercel-project-id: ${{ secrets.PROJECT_ID}} #Required 
-          working-directory: bubblemeter/newfront/build/
+          working-directory: newfront/build/
