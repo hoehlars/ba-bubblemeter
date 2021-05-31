@@ -53,6 +53,8 @@ function Resultspage() {
                     userAnalysis.analysis.size_of_whole_network,
                   amount_of_politicians_in_db:
                     userAnalysis.analysis.amount_of_politicians_in_db,
+                  amount_of_politicians_in_network:
+                    userAnalysis.analysis.amount_of_politicians_in_network,
                 }}
                 user={userAnalysis.currentUser}
               />
