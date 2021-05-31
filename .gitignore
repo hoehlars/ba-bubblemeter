@@ -4,3 +4,6 @@ networkviz/.vercel/project.json
 networkviz/.vercel/README.txt
 networkviz/node_modules
 nrKandidaten/node_modules
+
+.vercel
+newfront/.env
