@@ -59,8 +59,9 @@ def make_analysis(twitterID):
     analysis["centroid_y"] = coordinates["y"]
     
     # ------------ inner outer circle ----------------
-    politicians_in_network = compute_inside_outside_circle(G_sorted_df, CENTROID_TOP_K_PERCENT_POLIT, RADIUS_AROUND_CENTROID)
-
+    politicians_in_network = compute_inside_outside_circle(G_sorted_df, twitterID, CENTROID_TOP_K_PERCENT_POLIT, RADIUS_AROUND_CENTROID)
+    
+    
     politicians_inside = politicians_in_network[politicians_in_network["isInside"] == True]
     politicians_outside = politicians_in_network[politicians_in_network["isInside"] == False]
 
