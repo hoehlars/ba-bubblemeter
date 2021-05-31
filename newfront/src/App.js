@@ -59,13 +59,12 @@ function App() {
             ZHAW-Bachelorarbeit zum Thema "Online Bubbles" von Lars Höhener,
             Daniel Lerch und Ilbien Paul.
             <br />
-            <span className='text-pink-600'>Stand: </span> 23. Mai 2021
+            <span className='text-pink-600'>Stand: </span> 31. Mai 2021
           </p>
         </footer>
       </div>
     </Router>
   )
 }
-
 
 export default App
