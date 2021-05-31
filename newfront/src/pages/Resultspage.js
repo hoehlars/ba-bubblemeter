@@ -95,11 +95,7 @@ function Resultspage() {
               <p className='mb-2'>
                 Und das sind die einsflussreichsten Parteien:
               </p>
-              <TopTen
-                topten={Object.entries(
-                  Object.entries(userAnalysis.analysis.parties).slice(0, 10)
-                )}
-              />
+              <TopTen topten={Object.entries(userAnalysis.analysis.parties)} />
             </div>
           </section>
           <h2 className='text-pink-600 text-xl '>Bubble-Forming</h2>
