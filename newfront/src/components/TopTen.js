@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react'
-
 function TopTen({ topten = [] }) {
   const topTenList = (
     <table className='w-full mb-2'>
