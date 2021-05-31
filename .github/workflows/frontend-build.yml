@@ -1,0 +1,47 @@
+name: Frontend CD
+
+on:
+  push:
+    paths:
+    - 'bubblemeter/newfront/**'
+    branches: 
+    - main
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    
+    - name: Install Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+    
+    - name: Install NPM packages
+      run: cd bubblemeter/newfront && npm install
+    
+    - name: Build project
+      run: cd bubblemeter/newfront && npm run build
+
+    - name: Upload production-ready build files
+      uses: actions/upload-artifact@v2
+      with:
+        name: production-files
+        path: bubblemeter/newfront/build/
+
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: amondnet/vercel-action@v20
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
+          vercel-args: '--prod' #Optional
+          vercel-org-id: ${{ secrets.ORG_ID}}  #Required
+          vercel-project-id: ${{ secrets.PROJECT_ID}} #Required 
+          working-directory: bubblemeter/newfront/build/
