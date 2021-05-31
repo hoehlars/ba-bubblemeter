@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react'
-
 function TopTen({ topten = [] }) {
   const topTenList = (
     <table className='w-full mb-2'>
@@ -17,7 +15,7 @@ function TopTen({ topten = [] }) {
         </tr>
       </thead>
       <tbody className='border  py-1 text-left pl-2'>
-        {topten.map((scorer, i) => {
+        {topten.slice(0, 10).map((scorer, i) => {
           return (
             <tr className='border  py-1 text-left pl-2' key={scorer[0]}>
               <td className='border  py-1 text-left pl-2'>{i + 1}</td>

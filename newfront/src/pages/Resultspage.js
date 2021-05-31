@@ -96,8 +96,8 @@ function Resultspage() {
                 Und das sind die einsflussreichsten Parteien:
               </p>
               <TopTen
-                topten={Object.entries(
-                  Object.entries(userAnalysis.analysis.parties).slice(0, 10)
+                topten={Object.entries(userAnalysis.analysis.parties).sort(
+                  (a, b) => b[1] - a[1]
                 )}
               />
             </div>
