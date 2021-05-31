@@ -33,7 +33,7 @@ function UserInput() {
   const onSubmit = async (event) => {
     event.preventDefault()
     try {
-      const res = await saveFormData()
+      await saveFormData()
       setUserSubmitted(true)
     } catch (e) {
       console.log(`Request failed! ${e.message}`)

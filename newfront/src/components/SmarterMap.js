@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 function SmarterMap({ politicians, myCoords }) {
-  const [politikerUpdate, setPolitikerUpdate] = useState(politicians)
+  const [, setPolitikerUpdate] = useState(politicians)
   const [showCentroid, setshowCentroid] = useState(false)
 
   const FIRSTNAME_IDX = 1
