@@ -81,7 +81,7 @@ def get_amount_of_politicians_in_db():
 def insert_analyzed_user(twitterID, twitterHandle, twitterName, twitterProfileImage, friends_count, analysis):
     datetime_now = datetime.now()
     currentUser = {"date": datetime_now, "twitterName": twitterName, "twitterProfileImage": process_twitterProfileImage(twitterProfileImage), "friends": friends_count}
-    analyzed_user = {"currentUser": currentUser, "analysis": analysis, "twitterId": twitterID, "twitterHandle": twitterHandle}
+    analyzed_user = {"currentUser": currentUser, "analysis": analysis, "twitterId": str(twitterID), "twitterHandle": twitterHandle}
     analyzedCol.insert_one(analyzed_user)
 
 def process_twitterProfileImage(twitterProfileImage):

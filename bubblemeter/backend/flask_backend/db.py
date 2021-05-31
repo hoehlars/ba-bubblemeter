@@ -37,7 +37,7 @@ def is_twitterHandle_analyzed(twitterHandle):
     return len(list(allEntries)) != 0
 
 def get_user_analyzed(twitterID):
-    query = {"twitterId": int(twitterID)}
+    query = {"twitterId": str(twitterID)}
     allEntries = analyzedCol.find(query)    
     return list(allEntries)[0]
 
