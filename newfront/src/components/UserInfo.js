@@ -5,6 +5,8 @@ function UserInfo({ userData }) {
     id: 123123123,
   }
 
+  const niceDate = data.date.split(' ')
+
   const user = (
     <div className='flex justify-between md:justify-end gap-16 '>
       <ul>
@@ -20,7 +22,7 @@ function UserInfo({ userData }) {
           <span className='font-mono text-pink-600'>
             Analyse durchgeführt am{' '}
           </span>{' '}
-          {data.date}
+          {`${niceDate[1]}. ${niceDate[2]} ${niceDate[3]}`}{' '}
         </li>
       </ul>
       <img
