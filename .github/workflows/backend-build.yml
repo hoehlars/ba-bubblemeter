@@ -3,7 +3,7 @@ name: Backend Test CD
 on:
   push:
     paths:
-    - 'bubblemeter/backend/flask_backend/**'
+    - 'backend/flask_backend/**'
     branches: 
     - main
 
@@ -26,7 +26,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: ./
-          file: ./bubblemeter/backend/flask_backend/Dockerfile
+          file: ./backend/flask_backend/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/flask_backend:latest
 
@@ -48,6 +48,6 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: ./
-          file: ./bubblemeter/backend/process-friends/Dockerfile
+          file: ./backend/process-friends/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/process_friends:latest
