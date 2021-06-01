@@ -1,9 +1,10 @@
-textschleuder/archiv
-accounts
-networkviz/.vercel/project.json
-networkviz/.vercel/README.txt
-networkviz/node_modules
-nrKandidaten/node_modules
+archiv/textschleuder/archiv
+archiv/accounts
+archiv/networkviz/.vercel/project.json
+archiv/networkviz/.vercel/README.txt
+archiv/networkviz/node_modules
+archiv/nrKandidaten/node_modules
 
 .vercel
-newfront/.env
+archiv/newfront/.env
+frontend/.env
