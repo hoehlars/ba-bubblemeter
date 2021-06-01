@@ -10,7 +10,16 @@ export default function Navigation({ isOpen, setIsOpen }) {
             to='/'
             onClick={() => setIsOpen(() => !isOpen)}
           >
-            HOME
+            home
+          </NavLink>
+        </li>
+        <li className='mb-4'>
+          <NavLink
+            activeClassName=''
+            to='/userselection'
+            onClick={() => setIsOpen(() => !isOpen)}
+          >
+            erfassen
           </NavLink>
         </li>
 
@@ -20,17 +29,17 @@ export default function Navigation({ isOpen, setIsOpen }) {
             to='/userselection'
             onClick={() => setIsOpen(() => !isOpen)}
           >
-            USER LIST
+            datenbank
           </NavLink>
         </li>
-        <li className='mb-4'>
+        <li className='mt-8 mb-4 font-mono text-xs'>
           <a
             href='https://github.com/hoehlars/ba-bubblemeter'
             target='_blank'
             rel='noopener noreferrer'
             onClick={() => setIsOpen(() => !isOpen)}
           >
-            GITHUB
+            github
           </a>
         </li>
         {/* <li>

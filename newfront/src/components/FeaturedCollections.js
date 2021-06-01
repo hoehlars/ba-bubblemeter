@@ -9,7 +9,6 @@ export default function FeaturedCollections() {
     featuredCelebrities: featuredCollections[2],
     featuredZHAW: featuredCollections[3],
   })
-  console.log(featured)
   return (
     <section>
       <ul>
