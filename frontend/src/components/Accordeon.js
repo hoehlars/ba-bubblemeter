@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 export default function Accordeon({ feature }) {
   const [isOpen, setIsOpen] = useState(false)
@@ -20,11 +21,9 @@ export default function Accordeon({ feature }) {
             {feature.users.map((user) => {
               return (
                 <li key={user.twitterId} className='mb-2'>
-                  <a
-                    href={`results/${user.twitterId}`}
+                  <Link
+                    to={`/results/${user.twitterId}`}
                     className='text-center hover:text-pink-600'
-                    target='_blank'
-                    rel='noopener noreferrer'
                   >
                     <figure>
                       <img
@@ -36,7 +35,7 @@ export default function Accordeon({ feature }) {
                         {user.username}
                       </figcaption>
                     </figure>
-                  </a>
+                  </Link>
                 </li>
               )
             })}

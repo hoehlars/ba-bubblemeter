@@ -6,7 +6,7 @@ import {
 } from '../services/apiService'
 
 function UserInput() {
-  const [queueLength, setQueueLength] = useState('')
+  const [queueLength, setQueueLength] = useState('_')
   const [user, setUser] = useState()
   const [userSubmitted, setUserSubmitted] = useState(false)
 
