@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
-import Weiche from '../components/Weiche'
 import {
   fetchRequestQueueLength,
   requestAnalysis,
 } from '../services/apiService'
 
 function UserInput() {
-  const [queueLength, setQueueLength] = useState('')
+  const [queueLength, setQueueLength] = useState('_')
   const [user, setUser] = useState()
   const [userSubmitted, setUserSubmitted] = useState(false)
 
