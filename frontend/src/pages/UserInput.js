@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import Header from '../components/Header'
+import { NavLink } from 'react-router-dom'
 import Weiche from '../components/Weiche'
 import {
   fetchRequestQueueLength,
@@ -7,7 +7,7 @@ import {
 } from '../services/apiService'
 
 function UserInput() {
-  const [queueLength, setQueueLength] = useState('99')
+  const [queueLength, setQueueLength] = useState('')
   const [user, setUser] = useState()
   const [userSubmitted, setUserSubmitted] = useState(false)
 
@@ -17,7 +17,7 @@ function UserInput() {
       setQueueLength(qLen.queue_length)
     }
     fetchQlen()
-  }, [])
+  })
 
   const set = (event) => {
     return ({ target: { value } }) => {
@@ -42,9 +42,9 @@ function UserInput() {
   }
 
   const Submitted = () => (
-    <div className='md:text-center mb-8'>
+    <div className='mb-8 md:text-center'>
       <h1 className='text-2xl'>Vielen Dank!</h1>
-      <p className='prose max-w-prose m-auto'>
+      <p className='m-auto prose max-w-prose'>
         Wir haben {user.handle} erfolgreich in usere Request Queue aufgenommen.
         Du wirst benachrichtigt, sobald wir mit der Analyse durch sind.
       </p>
@@ -53,16 +53,15 @@ function UserInput() {
 
   return (
     <main className='flex-1'>
-      <Header />
       {userSubmitted ? (
         <Submitted />
       ) : (
         <div>
-          <p className='font-light mb-16 md:text-center prose md:w-1/2 lg:w-1/3 md:mx-auto'>
+          <p className='mb-16 font-light prose md:text-center md:w-1/2 lg:w-1/3 md:mx-auto'>
             Erfasse hier deine Twitter@handle oder deine TwitterId und wir
             werfen unsere Maschine an:
           </p>
-          <form onSubmit={onSubmit} className='md:w-1/2 md:mx-auto mb-16'>
+          <form onSubmit={onSubmit} className='mb-16 md:w-1/2 md:mx-auto'>
             <label className='block'>
               <span className='text-xs text-gray-700'>
                 Twitter@handle oder TwitterId
@@ -88,13 +87,13 @@ function UserInput() {
             <div className='text-right md:text-center'>
               <button
                 type='submit'
-                className='text-pink-600 border-2 border-pink-600 hover:text-white hover:bg-pink-600 transition-colors py-1 px-6 rounded-full'
+                className='px-6 py-1 text-pink-600 transition-colors border-2 border-pink-600 rounded-full hover:text-white hover:bg-pink-600'
               >
                 analysieren
               </button>
             </div>
           </form>
-          <p className='font-light mb-8 md:text-center prose md:w-1/2 lg:w-1/3 md:mx-auto'>
+          <p className='mb-8 font-light prose md:text-center md:w-1/2 lg:w-1/3 md:mx-auto'>
             Deine Email benötigen wir, damit wir dich informieren können, sobald
             unsere Analyse fertig ist. Aufgrund von Beschränkungen in der
             Twitter API kann das je nach grösse deines Netzwerks eine Stunde
@@ -102,13 +101,22 @@ function UserInput() {
           </p>
         </div>
       )}
-      <h2 className='md:text-center prose md:w-1/2 lg:w-1/3 md:mx-auto mb-8'>
+      <h2 className='mb-8 prose md:text-center md:w-1/2 lg:w-1/3 md:mx-auto'>
         Zur Zeit befinden sich{' '}
-        <span className='text-pink-600 text-2xl'>{queueLength}</span> Anfragen
+        <span className='text-2xl text-pink-600'>{queueLength}</span> Anfragen
         in unserer Pipeline.
       </h2>
 
-      {userSubmitted && <Weiche />}
+      {userSubmitted && (
+        <div className='mt-32 text-center'>
+          <NavLink
+            to='/userselection'
+            className='px-6 py-4 m-auto mb-6 font-semibold text-center text-pink-600 transition-colors border-2 border-pink-600 rounded-full md:w-96 hover:bg-pink-600 hover:text-white'
+          >
+            Liste bereits erfasster Nutzer*innen anzeigen
+          </NavLink>
+        </div>
+      )}
     </main>
   )
 }

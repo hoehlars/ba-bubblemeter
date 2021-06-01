@@ -5,11 +5,12 @@ import Home from './pages/Home'
 import Resultspage from './pages/Resultspage'
 import UserInput from './pages/UserInput'
 import Userselection from './pages/Userselection'
+import Header from './components/Header'
 
 function App() {
   return (
     <Router>
-      <div className='App min-h-screen flex flex-col p-2'>
+      <div className='flex flex-col min-h-screen p-2 App'>
         <title>Polit-o-Meter</title>
         <meta name='title' content='Polit-o-Meter' />
         <meta
@@ -40,6 +41,7 @@ function App() {
           property='twitter:image'
           content={`${process.env.FRONTEND_URL}SoMePic.png`}
         />
+        <Header />
         <Switch>
           <Route path='/userinput'>
             <UserInput />
@@ -54,18 +56,9 @@ function App() {
             <Home></Home>
           </Route>
         </Switch>
-        <footer className='text-xs mb-1 font-mono md:text-center mx-auto'>
-          <p>
-            ZHAW-Bachelorarbeit zum Thema "Online Bubbles" von Lars Höhener,
-            Daniel Lerch und Ilbien Paul.
-            <br />
-            <span className='text-pink-600'>Stand: </span> 23. Mai 2021
-          </p>
-        </footer>
       </div>
     </Router>
   )
 }
-
 
 export default App
