@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
-import Weiche from '../components/Weiche'
 import {
   fetchRequestQueueLength,
   requestAnalysis,
