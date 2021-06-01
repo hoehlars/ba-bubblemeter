@@ -1,0 +1,31 @@
+{
+  "featuredCollections": [
+    {
+      "title": "Medien",
+      "users": [
+        {
+          "username": "Blick",
+          "profilePic": "https://pbs.twimg.com/profile_images/1385670662199693314/yL199BGI.jpg",
+          "twitterId": "22781017"
+        },
+        {
+          "username": "Republik",
+          "profilePic": "https://pbs.twimg.com/profile_images/946926085152952323/QoqcM5v9.jpg",
+          "twitterId": "786282996223598592"
+        }
+      ]
+    },
+    {
+      "title": "Politiker*Innen",
+      "users": []
+    },
+    {
+      "title": "Celebrities",
+      "users": []
+    },
+    {
+      "title": "Dozierende ZHAW SOE",
+      "users": []
+    }
+  ]
+}

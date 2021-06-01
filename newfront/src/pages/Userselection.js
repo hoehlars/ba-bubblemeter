@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import Loader from 'react-loader-spinner'
 import { Link } from 'react-router-dom'
+import FeaturedCollections from '../components/FeaturedCollections'
 import Header from '../components/Header'
 import { fetchAnalizedUsers } from '../services/apiService'
 
@@ -38,16 +39,20 @@ function Userselection() {
         ) : (
           <>
             <section className='mb-4'>
-              <p className='font-light mb-4 md:text-center prose md:w-1/2 lg:w-1/3 md:mx-auto'></p>
+              <p className='mb-4 font-light prose md:text-center md:w-1/2 lg:w-1/3 md:mx-auto'>
+                Wir haben für dich die in unserer Datenbank erfassten
+                Nutzer*innen in ein paar Kategorien zusammengefasst:
+              </p>
+              <FeaturedCollections />
             </section>
             <section className='mb-4'>
-              <p className='font-light mb-4 md:text-center prose md:w-1/2 lg:w-1/3 md:mx-auto'>
+              <p className='mb-4 font-light prose md:text-center md:w-1/2 lg:w-1/3 md:mx-auto'>
                 Hier kannst du nach allen in der Datenbank vorhandenen
                 Nutzer*innen suchen:
               </p>
 
               {/* suche */}
-              <label className='block md:w-1/2 md:mx-auto mb-16'>
+              <label className='block mb-16 md:w-1/2 md:mx-auto'>
                 <span className='text-xs text-pink-600'>Suche in der DB:</span>
                 <input
                   type='text'
@@ -58,7 +63,7 @@ function Userselection() {
                 />
               </label>
               {/* liste */}
-              <ul className='grid grid-cols-2 md:w-1/2 xl:grid-cols-4 gap-8 md:mx-auto'>
+              <ul className='grid grid-cols-2 gap-8 md:w-1/2 lg:grid-cols-4 lg:w-2/3 md:mx-auto'>
                 {userList &&
                   userList
                     .filter((user) =>
@@ -71,13 +76,13 @@ function Userselection() {
                       return (
                         <li
                           key={user.twitterId}
-                          className='text-center hover:text-pink-600 transition-colors'
+                          className='text-center transition-colors hover:text-pink-600'
                         >
                           <Link to={`/results/${user.twitterId}`}>
                             <img
                               src={user.currentUser.twitterProfileImage}
                               alt={`${user.currentUser.twitterName}s Profile Pic`}
-                              className='rounded-full w-16 m-auto'
+                              className='w-16 m-auto rounded-full'
                             />
                             <p>{user.currentUser.twitterName}</p>
                           </Link>
