@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import Header from '../components/Header'
 import Intro from '../components/Intro'
 import List from '../components/List'
 import SmarterMap from '../components/SmarterMap'
@@ -25,7 +24,6 @@ function Resultspage() {
 
   return (
     <div className='flex flex-col flex-1'>
-      <Header />
       <main
         className={`flex-1 max-w-screen-xl md:mx-auto ${
           isLoading ? 'flex items-center justify-center' : ''

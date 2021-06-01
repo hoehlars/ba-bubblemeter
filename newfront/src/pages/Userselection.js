@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import Loader from 'react-loader-spinner'
 import { Link } from 'react-router-dom'
 import FeaturedCollections from '../components/FeaturedCollections'
-import Header from '../components/Header'
 import { fetchAnalizedUsers } from '../services/apiService'
 
 function Userselection() {
@@ -22,7 +21,6 @@ function Userselection() {
 
   return (
     <>
-      <Header />
       <main
         className={`flex-1 ${
           isLoading ? 'flex items-center justify-center' : ''

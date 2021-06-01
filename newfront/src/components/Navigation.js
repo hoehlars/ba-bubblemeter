@@ -1,17 +1,37 @@
-export default function Navigation() {
+import { NavLink } from 'react-router-dom'
+export default function Navigation({ isOpen, setIsOpen }) {
   return (
-    <nav>
-      <ul className='flex justify-center gap-4'>
-        <li>
-          <NavLink exact activeClassName='text-pink-600' to='/'>
-            home
+    <nav className='flex flex-col items-center justify-center w-full h-full p-2 bg-pink-600'>
+      <ul className='flex flex-col items-center justify-center flex-1 text-4xl text-center text-white text-semibold'>
+        <li className='mb-4'>
+          <NavLink
+            exact
+            activeClassName=''
+            to='/'
+            onClick={() => setIsOpen(() => !isOpen)}
+          >
+            HOME
           </NavLink>
         </li>
-        <li>|</li>
-        <li>
-          <NavLink activeClassName='text-pink-600' to='/userselection'>
-            user
+
+        <li className='mb-4'>
+          <NavLink
+            activeClassName=''
+            to='/userselection'
+            onClick={() => setIsOpen(() => !isOpen)}
+          >
+            USER LIST
           </NavLink>
+        </li>
+        <li className='mb-4'>
+          <a
+            href='https://github.com/hoehlars/ba-bubblemeter'
+            target='_blank'
+            rel='noopener noreferrer'
+            onClick={() => setIsOpen(() => !isOpen)}
+          >
+            GITHUB
+          </a>
         </li>
         {/* <li>
             <NavLink activeClassName='text-pink-600' to={`/results/${userId}`}>
@@ -19,6 +39,14 @@ export default function Navigation() {
             </NavLink>
           </li> */}
       </ul>
+      <footer className='mx-auto mb-1 font-mono text-xs text-white md:text-center'>
+        <p>
+          ZHAW-Bachelorarbeit zum Thema "Online Bubbles" von Lars Höhener,
+          Daniel Lerch und Ilbien Paul.
+          <br />
+          Stand: 1. Juni 2021
+        </p>
+      </footer>
     </nav>
   )
 }
