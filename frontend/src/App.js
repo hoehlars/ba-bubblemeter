@@ -11,36 +11,6 @@ function App() {
   return (
     <Router>
       <div className='flex flex-col min-h-screen p-2 App'>
-        <title>Polit-o-Meter</title>
-        <meta name='title' content='Polit-o-Meter' />
-        <meta
-          name='description'
-          content='Visualisiert die politische Ausrichtung von deinem Twitter Netzwerk.'
-        />
-
-        <meta property='og:type' content='website' />
-        <meta property='og:url' content={`${process.env.FRONTEND_URL}`} />
-        <meta property='og:title' content='Polit-o-Meter' />
-        <meta
-          property='og:description'
-          content='Visualisiert die politische Ausrichtung von deinem Twitter Netzwerk.'
-        />
-        <meta
-          property='og:image'
-          content={`${process.env.FRONTEND_URL}SoMePic.png`}
-        />
-
-        <meta property='twitter:card' content='summary_large_image' />
-        <meta property='twitter:url' content={`${process.env.FRONTEND_URL}`} />
-        <meta property='twitter:title' content='Polit-o-Meter' />
-        <meta
-          property='twitter:description'
-          content='Visualisiert die politische Ausrichtung von deinem Twitter Netzwerk.'
-        />
-        <meta
-          property='twitter:image'
-          content={`${process.env.FRONTEND_URL}SoMePic.png`}
-        />
         <Header />
         <Switch>
           <Route path='/userinput'>
