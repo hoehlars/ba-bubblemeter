@@ -1,31 +1,15 @@
 import { NavLink } from 'react-router-dom'
+import Hamburger from 'hamburger-react'
+import { useState } from 'react'
 
 const Header = () => {
+  const [isOpen, setOpen] = useState(false)
   return (
-    <header className='mb-4 mt-4 text-center'>
-      <h1 className='text-4xl mb-2'>
+    <header className='flex flex-row justify-between mt-4 mb-4 md:w-1/2 md:mx-auto lg:w-1/3 xl:w-1/4'>
+      <h1 className='mb-2 text-4xl'>
         Polit-<span className='text-pink-600'>o</span>-Meter
       </h1>
-      <nav>
-        <ul className='flex gap-4 justify-center'>
-          <li>
-            <NavLink exact activeClassName='text-pink-600' to='/'>
-              home
-            </NavLink>
-          </li>
-          <li>|</li>
-          <li>
-            <NavLink activeClassName='text-pink-600' to='/userselection'>
-              user
-            </NavLink>
-          </li>
-          {/* <li>
-            <NavLink activeClassName='text-pink-600' to={`/results/${userId}`}>
-              results
-            </NavLink>
-          </li> */}
-        </ul>
-      </nav>
+      <Hamburger toggled={isOpen} toggle={setOpen} color='#db2777' />
     </header>
   )
 }
