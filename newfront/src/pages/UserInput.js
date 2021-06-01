@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { NavLink } from 'react-router-dom'
 import Weiche from '../components/Weiche'
 import {
   fetchRequestQueueLength,
@@ -6,7 +7,7 @@ import {
 } from '../services/apiService'
 
 function UserInput() {
-  const [queueLength, setQueueLength] = useState('99')
+  const [queueLength, setQueueLength] = useState('')
   const [user, setUser] = useState()
   const [userSubmitted, setUserSubmitted] = useState(false)
 
@@ -16,7 +17,7 @@ function UserInput() {
       setQueueLength(qLen.queue_length)
     }
     fetchQlen()
-  }, [])
+  })
 
   const set = (event) => {
     return ({ target: { value } }) => {
@@ -106,7 +107,16 @@ function UserInput() {
         in unserer Pipeline.
       </h2>
 
-      {userSubmitted && <Weiche />}
+      {userSubmitted && (
+        <div className='mt-32 text-center'>
+          <NavLink
+            to='/userselection'
+            className='px-6 py-4 m-auto mb-6 font-semibold text-center text-pink-600 transition-colors border-2 border-pink-600 rounded-full md:w-96 hover:bg-pink-600 hover:text-white'
+          >
+            Liste bereits erfasster Nutzer*innen anzeigen
+          </NavLink>
+        </div>
+      )}
     </main>
   )
 }
