@@ -61,28 +61,33 @@ def request_analysis(twitterHandleOrTwitterID, email):
     try:
         userStart = api.get_user(screen_name = twitterHandleOrTwitterID)
     except:
-        errorMsg = "Account does not exist."
-        response = {"statusCode": 200, "body": {"msg": errorMsg}}
+        errorMsg = "Account does not exist or can't be found."
+        response = {"statusCode": 500, "body": {"msg": errorMsg}}
         return response
     
     if userStart.protected:
         errorMsg = "Protected accounts can't be analysed."
-        response = {"statusCode": 200, "body": {"msg": errorMsg}}
+        response = {"statusCode": 500, "body": {"msg": errorMsg}}
         return response
     
-    if userStart.friends_count > 0:
+    if userStart.friends_count == 0:
         errorMsg = "The account you requested has no friends."
-        response = {"statusCode": 200, "body": {"msg": errorMsg}}
+        response = {"statusCode": 500, "body": {"msg": errorMsg}}
+        return response
+    
+    if userStart.friends_count > 1000:
+        errorMsg = "Accounts with more than 1000 friends can't be analyzed."
+        response = {"statusCode": 500, "body": {"msg": errorMsg}}
         return response
     
     if is_twitterHandle_analyzed(twitterHandleOrTwitterID):
-        errorMsg = "User has already been analyzed."
-        response = {"statusCode": 200, "body": {"msg": errorMsg}}
+        errorMsg = "Account has already been analyzed."
+        response = {"statusCode": 500, "body": {"msg": errorMsg}}
         return response
     
     if is_twitterHandle_in_queue(twitterHandleOrTwitterID):
-        errorMsg = "User has already been requested and is still in the queue."
-        response = {"statusCode": 200, "body": {"msg": errorMsg}}
+        errorMsg = "Account has already been requested and is still in the queue."
+        response = {"statusCode": 500, "body": {"msg": errorMsg}}
         return response
     
     #inserts user request in queue
@@ -98,7 +103,7 @@ def request_analysed_users():
     analyzed_users = get_analyzed_users()
     
     if len(analyzed_users) == 0:
-        response = {"statusCode": 200, "body": {"msg": "No user has been analyzed yet."}}
+        response = {"statusCode": 500, "body": {"msg": "No user has been analyzed yet."}}
         return response
     
     response = {"statusCode": 200, "body": {"analyzed_users": analyzed_users }}
