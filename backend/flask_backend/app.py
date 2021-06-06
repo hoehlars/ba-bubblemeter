@@ -44,7 +44,7 @@ def get_analysis(twitterID):
     
     if user_analyzed == None:
         error_msg = "Analyzed users not found."
-        response = {"statusCode": 200, "body": {"msg": error_msg}}
+        response = {"statusCode": 500, "body": {"msg": error_msg}}
         return response
     
     response = {"statusCode": 200, "body": {"analysis": user_analyzed["analysis"], "currentUser": user_analyzed["currentUser"], "twitterId": user_analyzed["twitterId"], "twitterHandle": user_analyzed["twitterHandle"]}}
