@@ -38,8 +38,15 @@ def is_twitterHandle_analyzed(twitterHandle):
 
 def get_user_analyzed(twitterID):
     query = {"twitterId": str(twitterID)}
-    allEntries = analyzedCol.find(query)    
-    return list(allEntries)[0]
+    allEntries = analyzedCol.find(query)  
+    
+    allEntriesList = list(allEntries)
+    
+    if len(allEntriesList) == 0:
+        return None
+    
+    entry_analyzed = list(allEntries)[0]
+    return entry_analyzed
 
 #-----REQUEST QUEUE-----
 
