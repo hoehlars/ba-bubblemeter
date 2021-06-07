@@ -53,7 +53,7 @@ export default function Navigation({ isOpen, setIsOpen }) {
           ZHAW-Bachelorarbeit zum Thema "Online Bubbles" von Lars Höhener,
           Daniel Lerch und Ilbien Paul.
           <br />
-          Stand: 1. Juni 2021
+          Stand: 7. Juni 2021
         </p>
       </footer>
     </nav>

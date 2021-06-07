@@ -7,7 +7,7 @@ function Home() {
     <main className='flex-1'>
       <header className='mt-4 text-center'>
         <h2 className='mb-4 text-2xl'>
-          visualisiert die politische Ausrichtung von deinem Twitter Netzwerk.
+          Visualisiert die politische Ausrichtung von deinem Twitter Netzwerk.
         </h2>
       </header>
       <p className='mb-16 font-light prose md:text-center md:w-1/2 md:mx-auto'>
