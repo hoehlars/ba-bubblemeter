@@ -96,8 +96,9 @@ def request_analysis(twitterHandleOrTwitterID, email):
         response = {"statusCode": 500, "body": {"msg": errorMsg}}
         return response
     
-    #inserts user request in queue
-    insert_request_in_queue(twitterHandleOrTwitterID, email)
+    #inserts user request in queue, without @s
+    newTwitterHandleOrTwitterID = twitterHandleOrTwitterID.replace("@","")
+    insert_request_in_queue(newTwitterHandleOrTwitterID, email)
     
     successMsg = "User analysis of " + twitterHandleOrTwitterID + " has been requestet"
     response = {"statusCode": 200, "body": {"msg": successMsg}}
