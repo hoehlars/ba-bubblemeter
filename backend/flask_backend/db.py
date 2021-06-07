@@ -45,7 +45,7 @@ def get_user_analyzed(twitterID):
     if len(allEntriesList) == 0:
         return None
     
-    entry_analyzed = list(allEntries)[0]
+    entry_analyzed = allEntriesList[0]
     return entry_analyzed
 
 #-----REQUEST QUEUE-----
