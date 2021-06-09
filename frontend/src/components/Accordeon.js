@@ -11,7 +11,7 @@ export default function Accordeon({ feature }) {
             isOpen ? 'rotate-90' : ''
           }`}
         >
-          🡒
+          &#8594;
         </span>
         <h2
           className={`text-2xl text-left font-light text-pink-600 `}
