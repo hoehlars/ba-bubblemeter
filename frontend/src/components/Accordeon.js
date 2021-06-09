@@ -26,27 +26,29 @@ export default function Accordeon({ feature }) {
             <ul
               className={`col-start-1 col-span-4 grid grid-cols-2 gap-8 md:w-1/2 lg:grid-cols-4 lg:w-2/3 md:mx-auto`}
             >
-              {feature.users.map((user) => {
-                return (
-                  <li key={user.twitterId} className='mb-2'>
-                    <Link
-                      to={`/results/${user.twitterId}`}
-                      className='text-center hover:text-pink-600'
-                    >
-                      <figure>
-                        <img
-                          className='object-cover w-20 h-20 m-auto rounded-full'
-                          src={user.profilePic}
-                          alt={`${user.username}s Profile Pic`}
-                        />
-                        <figcaption className='font-light'>
-                          {user.username}
-                        </figcaption>
-                      </figure>
-                    </Link>
-                  </li>
-                )
-              })}
+              {feature.users
+                .sort(() => Math.random() - 0.5) // shuffle array
+                .map((user) => {
+                  return (
+                    <li key={user.twitterId} className='mb-2'>
+                      <Link
+                        to={`/results/${user.twitterId}`}
+                        className='text-center hover:text-pink-600'
+                      >
+                        <figure>
+                          <img
+                            className='object-cover w-20 h-20 m-auto rounded-full'
+                            src={user.profilePic}
+                            alt={`${user.username}s Profile Pic`}
+                          />
+                          <figcaption className='font-light'>
+                            {user.username}
+                          </figcaption>
+                        </figure>
+                      </Link>
+                    </li>
+                  )
+                })}
             </ul>
           ) : (
             <h2 className='col-start-1 font-light md:col-start-2 md:col-span-2'>
