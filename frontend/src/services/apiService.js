@@ -19,7 +19,7 @@ export const requestAnalysis = async (handleOrId, email) => {
     FETCH_OPTIONS
   )
   const analysisJson = await analysis.json()
-  return analysisJson.body.msg
+  return analysisJson
 }
 
 export const fetchAnalizedUsers = async () => {
