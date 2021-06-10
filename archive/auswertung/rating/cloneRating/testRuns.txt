@@ -1,0 +1,69 @@
+Test Runs
+
+testPerfectClone
+{
+  score: 256,
+  nrOfHits: 15,
+  nrOfCloseOnes: 0,
+  nrOfMatches: 15,
+  comparison: {
+    hits: [
+       0,  1,  2, 3,  4,  5,
+       6,  7,  8, 9, 10, 11,
+      12, 13, 14
+    ],
+    matches: [
+       0,  1,  2, 3,  4,  5,
+       6,  7,  8, 9, 10, 11,
+      12, 13, 14
+    ],
+    closeOnes: []
+  }
+}
+
+testGoodClone
+{
+  score: 232,
+  nrOfHits: 15,
+  nrOfCloseOnes: 4,
+  nrOfMatches: 11,
+  comparison: {
+    hits: [
+       3,  2,  1, 0,  4,  5,
+       6,  7,  8, 9, 10, 11,
+      12, 13, 14
+    ],
+    matches: [
+       4,  5,  6,  7,  8,
+       9, 10, 11, 12, 13,
+      14
+    ],
+    closeOnes: [ 3, 2, 1, 0 ]
+  }
+}
+
+testMediocreClone
+{
+  score: 116,
+  nrOfHits: 11,
+  nrOfCloseOnes: 5,
+  nrOfMatches: 1,
+  comparison: {
+    hits: [
+       4, 5,  3, 2,  1,
+      10, 7, 14, 9, 13,
+       8
+    ],
+    matches: [ 13 ],
+    closeOnes: [ 4, 5, 3, 2, 1 ]
+  }
+}
+
+testBadClone
+{
+  score: 38,
+  nrOfHits: 3,
+  nrOfCloseOnes: 1,
+  nrOfMatches: 1,
+  comparison: { hits: [ 10, 1, 10 ], matches: [ 10 ], closeOnes: [ 1 ] }
+}
