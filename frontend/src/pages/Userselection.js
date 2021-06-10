@@ -44,14 +44,16 @@ function Userselection() {
               <FeaturedCollections />
             </section>
             <section className='mb-4'>
-              <p className='mb-4 font-light prose md:text-center md:w-1/2 lg:w-1/3 md:mx-auto'>
-                Hier kannst du nach allen in der Datenbank vorhandenen
-                Nutzer*innen suchen:
-              </p>
+              {/* <p className='mb-4 font-light prose md:text-center md:w-1/2 lg:w-1/3 md:mx-auto'>
+                
+              </p> */}
 
               {/* suche */}
               <label className='block mb-16 md:w-1/2 md:mx-auto'>
-                <span className='text-xs text-pink-600'>Suche in der DB:</span>
+                <span className='font-sans text-lg font-light text-pink-600'>
+                  Hier kannst du nach allen in der Datenbank vorhandenen
+                  Nutzer*innen suchen:
+                </span>
                 <input
                   type='text'
                   required
