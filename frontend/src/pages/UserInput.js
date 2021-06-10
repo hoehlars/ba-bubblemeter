@@ -24,19 +24,18 @@ function UserInput() {
     }
   }
 
-  const saveFormData = async () => {
-    const response = await requestAnalysis(user.handle, user.email)
-    return response
-  }
-
   const onSubmit = async (event) => {
     event.preventDefault()
     try {
-      await saveFormData()
-      setUserSubmitted(true)
+      let response = await requestAnalysis(user.handle, user.email)
+      console.log(response)
+      if (response.statusCode === 200) {
+        setUserSubmitted(true)
+      } else {
+        alert(`Auftrag fehlgeschlagen. Der Server meldet: ${response.body.msg}`)
+      }
     } catch (e) {
       console.log(`Request failed! ${e.message}`)
-      alert('upsi')
     }
   }
 
