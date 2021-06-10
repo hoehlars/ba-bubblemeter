@@ -124,7 +124,7 @@ def get_next_request_from_queue():
     return nextUser['twitterHandleOrTwitterID']
 
 def get_email_from_twitterHandleOrTwitterID(twitterHandleOrTwitterID):
-    query = {"twitterHandleOrTwitterID": twitterHandleOrTwitterID}
+    query = {"twitterHandleOrTwitterID": str(twitterHandleOrTwitterID)}
     user = requestQueueCol.find_one(query)
     return user['email']
 
@@ -134,7 +134,7 @@ def get_request_queue_length():
     return len(list(allEntries))
 
 def remove_user_from_queue(twitterHandle):
-    query = {"twitterHandleOrTwitterID": twitterHandle}
+    query = {"twitterHandleOrTwitterID": str(twitterHandle)}
     requestQueueCol.delete_one(query)
 
 def is_twitterHandle_in_queue(twitterHandle):
