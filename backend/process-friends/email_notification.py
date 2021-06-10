@@ -13,10 +13,13 @@ email_pw = os.environ['EMAIL_PW']
 
 yag = yagmail.SMTP(email, email_pw)
 
-subject = 'Bubblemeter results'
-body = 'Your bubblemeter analysis is finished and ready to be viewed!'
-html = '<a href="www.google.com">Click me!</a>'
 
-def send_notification(receiver):
+
+
+
+def send_notification(receiver, screen_name, twitterID):
+    subject = 'Bubblemeter results for {}'.format(screen_name)
+    frontend_url = 'https://bubblemeter-ba.vercel.app/results/{}'.format(twitterID)
+    html = '<h3>Hallo {}</h3><p>Dein Auftrag wurde abgearbeitet und du kannst das analysierte Profil hier einsehen:</p><a href="{}">Hier findest du deine Resultate!</a><p>Vielen Dank dafür, dass du mit uns gebubbelt hast!</p>'.format(screen_name, frontend_url)
     to = receiver
-    yag.send(to = to, subject = subject, contents = [body, html])
+    yag.send(to = to, subject = subject, contents = html)
