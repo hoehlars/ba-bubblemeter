@@ -24,19 +24,18 @@ function UserInput() {
     }
   }
 
-  const saveFormData = async () => {
-    const response = await requestAnalysis(user.handle, user.email)
-    return response
-  }
-
   const onSubmit = async (event) => {
     event.preventDefault()
     try {
-      await saveFormData()
-      setUserSubmitted(true)
+      let response = await requestAnalysis(user.handle, user.email)
+      console.log(response)
+      if (response.statusCode === 200) {
+        setUserSubmitted(true)
+      } else {
+        alert(`Auftrag fehlgeschlagen. Der Server meldet: ${response.body.msg}`)
+      }
     } catch (e) {
       console.log(`Request failed! ${e.message}`)
-      alert('upsi')
     }
   }
 
@@ -62,19 +61,19 @@ function UserInput() {
           </p>
           <form onSubmit={onSubmit} className='mb-16 md:w-1/2 md:mx-auto'>
             <label className='block'>
-              <span className='text-xs text-gray-700'>
+              <span className='text-xs text-pink-600'>
                 Twitter@handle oder TwitterId
               </span>
               <input
                 type='text'
                 required
                 className='mb-6 block w-full px-0.5 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black'
-                placeholder='@example'
+                placeholder='exampleId'
                 onChange={set('handle')}
               />
             </label>
             <label className='block'>
-              <span className='text-xs text-gray-700'>Email</span>
+              <span className='text-xs text-pink-600'>Email</span>
               <input
                 type='email'
                 required
@@ -96,7 +95,7 @@ function UserInput() {
             Deine Email benötigen wir, damit wir dich informieren können, sobald
             unsere Analyse fertig ist. Aufgrund von Beschränkungen in der
             Twitter API kann das je nach grösse deines Netzwerks eine Stunde
-            oder auch mal ein-zwei Tage dauern.
+            oder auch mal ein paar Tage dauern.
           </p>
         </div>
       )}

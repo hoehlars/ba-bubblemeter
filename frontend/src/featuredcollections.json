@@ -12,20 +12,128 @@
           "username": "Republik",
           "profilePic": "https://pbs.twimg.com/profile_images/946926085152952323/QoqcM5v9.jpg",
           "twitterId": "786282996223598592"
+        },
+        {
+          "username": "20 Minuten",
+          "profilePic": "https://pbs.twimg.com/profile_images/875610214560546817/6ws1QH3k.jpg",
+          "twitterId": "15786941"
         }
       ]
     },
     {
       "title": "Politiker*Innen",
-      "users": []
+      "users": [
+        {
+          "username": "Erich Hess",
+          "profilePic": "https://pbs.twimg.com/profile_images/959113156038725632/zzHQOFcS.jpg",
+          "twitterId": "62798697"
+        },
+        {
+          "username": "Alain Berset",
+          "profilePic": "https://pbs.twimg.com/profile_images/954729053398949890/8NVlCS91.jpg",
+          "twitterId": "214032204"
+        },
+        {
+          "username": "Guy Parmelin",
+          "profilePic": "https://pbs.twimg.com/profile_images/1207611718857318400/6NIRytwB.jpg",
+          "twitterId": "1072443638930726913"
+        },
+        {
+          "username": "Ignazio Cassis",
+          "profilePic": "https://pbs.twimg.com/profile_images/942492090004623367/TY5M5aT2.jpg",
+          "twitterId": "270609583"
+        },
+        {
+          "username": "Viola Amherd",
+          "profilePic": "https://pbs.twimg.com/profile_images/1085554819149021189/PKfsgCoB.jpg",
+          "twitterId": "72560162"
+        },
+        {
+          "username": "Simonetta Sommaruga",
+          "profilePic": "https://pbs.twimg.com/profile_images/1139083655895244800/3OOB0LcR.jpg",
+          "twitterId": "1139082610033008640"
+        },
+        {
+          "username": "Gerhard Pfister",
+          "profilePic": "https://pbs.twimg.com/profile_images/1355998454875639808/CHtji9jd.jpg",
+          "twitterId": "3291242279"
+        },
+        {
+          "username": "Petra Gössi",
+          "profilePic": "https://pbs.twimg.com/profile_images/966410132677627904/YhXwL3n4.jpg",
+          "twitterId": "365423665"
+        },
+        {
+          "username": "Regula Rytz",
+          "profilePic": "https://pbs.twimg.com/profile_images/1084143606099857410/OZZzQ6dk.jpg",
+          "twitterId": "1530247224"
+        },
+        {
+          "username": "Marco Chiesa",
+          "profilePic": "https://pbs.twimg.com/profile_images/1336689880886341633/K__kGMs6.jpg",
+          "twitterId": "289393019"
+        }
+      ]
     },
     {
       "title": "Celebrities",
-      "users": []
+      "users": [
+        {
+          "username": "Roger Federer",
+          "profilePic": "https://pbs.twimg.com/profile_images/1181229626284265472/Rh8wrrvO.jpg",
+          "twitterId": "1337785291"
+        },
+        {
+          "username": "Michelle Hunziker",
+          "profilePic": "https://pbs.twimg.com/profile_images/922108237541007360/W1zNrWB6.jpg",
+          "twitterId": "378611487"
+        },
+        {
+          "username": "Beat Feuz",
+          "profilePic": "https://pbs.twimg.com/profile_images/558128591297597440/UCOLskhr.jpeg",
+          "twitterId": "348383020"
+        },
+        {
+          "username": "Roman Kilchsperger",
+          "profilePic": "https://pbs.twimg.com/profile_images/1014369406175141889/O72xBayc.jpg",
+          "twitterId": "868370990975393792"
+        },
+        {
+          "username": "Mike Müller",
+          "profilePic": "https://pbs.twimg.com/profile_images/1877998035/Burrihanspeter.jpg",
+          "twitterId": "140515934"
+        },
+        {
+          "username": "Hazel Brugger",
+          "profilePic": "https://pbs.twimg.com/profile_images/1398346468201803777/fJ9w-_k3.jpg",
+          "twitterId": "613552206"
+        },
+        {
+          "username": "Beatrice Egli",
+          "profilePic": "https://pbs.twimg.com/profile_images/724349933667663872/63LRaqFz.jpg",
+          "twitterId": "1527194126"
+        },
+        {
+          "username": "Milo Moiré",
+          "profilePic": "https://pbs.twimg.com/profile_images/1037684230111879168/XHS8i0wy.jpg",
+          "twitterId": "2439882552"
+        }
+      ]
     },
     {
       "title": "Dozierende ZHAW SOE",
-      "users": []
+      "users": [
+        {
+          "username": "Thilo Stadelmann",
+          "profilePic": "https://pbs.twimg.com/profile_images/1210277644832399360/0lHDt7Bh.jpg",
+          "twitterId": "1376558149"
+        },
+        {
+          "username": "Juergen Spielberger",
+          "profilePic": "https://pbs.twimg.com/profile_images/1360000375756115970/a5k9UE8a.jpg",
+          "twitterId": "595346116"
+        }
+      ]
     }
   ]
 }
