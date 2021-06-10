@@ -8,7 +8,7 @@ function Userselection() {
   const [userList, setUserList] = useState()
   const [isLoading, setIsLoading] = useState(true)
 
-  const [query, setQuery] = useState('*')
+  const [query, setQuery] = useState('')
 
   useEffect(() => {
     const fetchData = async () => {
@@ -66,6 +66,7 @@ function Userselection() {
               <ul className='grid grid-cols-2 gap-8 md:w-1/2 lg:grid-cols-4 lg:w-2/3 md:mx-auto'>
                 {userList &&
                   userList
+                    .sort(() => Math.random() - 0.5) // shuffle array
                     .filter((user) =>
                       user.currentUser.twitterName
                         .toString()
