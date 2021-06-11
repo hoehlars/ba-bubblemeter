@@ -142,7 +142,7 @@ def process_friends_of_friends(user, friends):
     delete_all_edges_from_db()
 
     # send email
-    send_notification(get_email_from_twitterHandleOrTwitterID(user.screen_name), user.screen_name)
+    send_notification(get_email_from_twitterHandleOrTwitterID(user.screen_name))
 
     print("finished")
             
