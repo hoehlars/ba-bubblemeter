@@ -16,7 +16,7 @@ export default function Navigation({ isOpen, setIsOpen }) {
         <li className='mb-4'>
           <NavLink
             activeClassName=''
-            to='/userselection'
+            to='/userinput'
             onClick={() => setIsOpen(() => !isOpen)}
           >
             erfassen
