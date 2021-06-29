@@ -1,2 +1,2 @@
 # Bachelorarbeit Bubblemeter
-ZHAW-Bachelorarbeit zum Thema "Online Bubbles" von Daniel Lerch, Ilbien Paul und Lars Höhener.
+ZHAW-Bachelorarbeit zum Thema "Online Bubbles" von Lars Höhener, Daniel Lerch und Ilbien Paul.
